@@ -1,0 +1,132 @@
+
+.login_section {
+    max-width: 500px;
+    margin: 80px auto; 
+    max-height: 700px;
+    width: 500px;
+    height: 700px;
+    background-color: rgb(240, 240, 240);
+    padding: 2rem;
+    border-radius: 25px;
+}
+
+.login_section .login_title_container {
+    margin-bottom: 20px;
+}
+
+.login_section .login_title_container .login_image_box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.login_section .login_title_container .login_title_box {
+    display: flex;
+    justify-content: center;
+}
+
+.login_section .login_title_container .login_title_text {
+    font-size: 30px;
+}
+
+
+.login_detail_wrapper {
+    background-color: white;
+    border-radius: 25px;
+    padding: 24px 16px 24px 16px;
+    margin-bottom: 12px;
+}
+
+
+/* 아이디 비밀번호 입력칸 */
+.login_section .login_form_box {
+    margin-bottom: 1rem;
+    padding-left: 24px;
+
+}
+
+.login_section .login_form_box .input_login:first-child {
+    margin-bottom: 1rem;
+}
+
+.login_section .login_form_box .input_login p {
+    padding-left: 6px;
+    margin-bottom: 6px;
+    font-weight: 480;
+}
+
+.login_section .login_form_box .input_login input {
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid rgb(202, 202, 202);
+    width: 358px;
+}
+
+/* 아이디 비밀번호 입력칸 F */
+
+
+
+/* 로그인 버튼 */
+.login_section .login_button_container .login_button_box button {
+    max-width: 210px;
+    max-height: 60px;
+    width: 210px;
+    height: 60px;
+    background-color: rgb(226, 195, 255);
+    border: none;
+    font-size: 22px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+}
+
+.login_section .login_button_container .login_button_box {
+    display: flex;
+    justify-content: space-around;
+
+}
+
+/* 로그인 버튼 F */
+
+
+
+/* 비번 찾기, 회원가입*/
+.login_section .forgot-signup_container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 12px 0 12px;
+    font-size: 18px;
+}
+
+.login_section .forgot-signup_container .forgot_pw_box {
+    cursor: pointer;
+
+}
+
+.login_section .forgot-signup_container .signup_button_box {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* 비번 찾기, 회원가입 F*/
+
+
+
+
+
+
+
+
+
+
+/* 버튼요소 공통 */
+
+
+
+/* 버튼요소 공통 F */
+
+/* 버튼 요소 hover */
+.login_section .forgot-signup_container:hover {}
+
+.login_section .login_detail_wrapper .login_button_container button {}
