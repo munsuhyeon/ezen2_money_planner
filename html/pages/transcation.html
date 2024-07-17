@@ -5,9 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가계부 목록</title>
     <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/transcation.css">
+    <script type="text/javascript" src="/../js/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-    
+        <header>
+            <h2>My Self</h2>
+            <nav>
+                <ul>
+                    <li><a href="#">Food</a></li>
+                    <li><a href="">Hobby</a></li>
+                    <li><a href="">Game</a></li>
+                    <li><a href="">Dream</a></li>
+                </ul>
+            </nav>
+        </header>
+    <div class="container">
+        <section class="side-area">
+            <div class="side-content">
+                <nav>
+                    <div class="nav-border-container">
+                        <div>
+                            <div></div>
+                            <ul>
+                                <li>대시보드</li>
+                                <li>수입/지출 내역</li>
+                                <li>달력</li>
+                                <li>
+                                    <span>보고서</span>
+                                    <div>
+                                        <ul>
+                                            <li>월간</li>
+                                            <li>주간</li>
+                                            <li>예산</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>예산 설정</li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </section>
+        <section class="transcation-content">
+            <div class="content-header">
+                <h2 class="date-button">
+                    07월 2024
+                    <img src="../images/arrow-down-2-svgrepo-com.svg" class="arrow-down">
+                </h2>
+            </div>
+            <div>
+                <section class="transcation-content">
+                    <div class="tabs">
+                        <button class="tab total active" onclick="showTab('전체')">전체 (1)<br><span class="tab_total">-1,000 원</span></button>
+                        <button class="tab" onclick="showTab('수입')">수입 (0)<br><span class="tab_income">0 원</span></button>
+                        <button class="tab" onclick="showTab('지출')">지출 (1)<br><span class="tab_expense">1,000 원</span></button>
+                        <button class="tab" onclick="showTab('이체')">이체 (0)<br><span class="amount">0 원</span></button>
+                    </div>
+                    <div class="transcation-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"></th>
+                                    <th>날짜</th>
+                                    <th>자산</th>
+                                    <th>분류</th>
+                                    <th>금액</th>
+                                    <th>내용</th>
+                                </tr>
+                            </thead>
+                            <tbody id="전체" class="tab-content">
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>24.7.15 (월) 18:04</td>
+                                    <td>현금</td>
+                                    <td>🚗 교통/차량</td>
+                                    <td class="amount">1,000 원</td>
+                                    <td>fds</td>
+                                </tr>
+                            </tbody>
+                            <tbody id="수입" class="tab-content" style="display: none;">
+                                <tr>
+                                    <td colspan="6" class="no-data">
+                                        <div class="no-data-text">
+                                            데이터가 없습니다.
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody id="지출" class="tab-content" style="display: none;">
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>24.7.15 (월) 18:04</td>
+                                    <td>현금</td>
+                                    <td>🚗 교통/차량</td>
+                                    <td class="amount">1,000 원</td>
+                                    <td>fds</td>
+                                </tr>
+                            </tbody>
+                            <tbody id="이체" class="tab-content" style="display: none;">
+                                <tr>
+                                    <td colspan="6" class="no-data">
+                                        <div class="no-data-text">
+                                            데이터가 없습니다.
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>    
+            </div>
+        </section>
+    </div>
     <script src="../scripts/script.js"></script>
 </body>
 </html>
