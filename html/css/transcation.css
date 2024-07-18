@@ -38,6 +38,7 @@ header ul > li {
     height: 100vh;
     display: flex;
     justify-content: space-between;
+    font-family: "Noto Sans KR", sans-serif;
 }
 
 
@@ -76,6 +77,9 @@ header ul > li {
     background: #fff;
     margin-bottom: 10px;
     margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .date-button{
     display: inline-block;
@@ -86,6 +90,34 @@ header ul > li {
     cursor: pointer;
 }
 .arrow-down{
+    width: 20px;
+}
+.btn-wrap{
+    display: flex;
+}
+.add-data{
+    width: 30px;
+    height: 30px;
+    background: #af9adf;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    margin: 0 5px;
+}
+.add-data img{
+    width: 20px;
+}
+.circle-btn{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    margin: 0 5px;
+}
+.circle-btn img{
     width: 20px;
 }
 .transcation-content{
@@ -107,16 +139,20 @@ header ul > li {
     padding: 10px 20px;
     font-size: 16px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .tab_total {
-    color: red;
+    color: #FF616A;
 }
 .tab_income{
-    color: blue;
+    color: #4A74FB;
 }
 .tab_expense{
-    color: red;
+    color: #FF616A;
 }
 
 .tab.active::after {
@@ -126,7 +162,7 @@ header ul > li {
     bottom: -1px;
     width: 100%;
     height: 3px;
-    background-color: purple;
+    background-color: #603693;
 }
 .transcation-table{
     padding: 13px;
@@ -138,8 +174,9 @@ header ul > li {
 }
 
 .transcation-content thead tr th {
-    background-color: #f0f0f0;
+    background-color: #F5F5F7;
     padding: 10px;
+    color: #222;
 }
 
 .transcation-content tbody tr td {
@@ -148,7 +185,7 @@ header ul > li {
 }
 
 .amount {
-    color: red;
+    color: #FF616A;
 }
 
 .no-data {
