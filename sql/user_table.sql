@@ -10,7 +10,7 @@ date_time datetime,
 user_image varchar(200)
 
 primary key (`user_id`),
-
+)
 ;
 
 
