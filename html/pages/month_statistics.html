@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/month_statistics.css" />
+    <link rel="stylesheet" href="../css/Header.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>월간</title>
+  </head>
+  <body>
+    <!-- --------------------------------Header-------------------------------- -->
+    <header>
+      <div class="Header_div">
+        <div>
+          <a href="">
+            <img src="../images/logo.png" />
+          </a>
+        </div>
+        <div>
+          <ul class="Header_Right">
+            <li>닉네임</li>
+            <li>로그아웃</li>
+            <li><i class="fa-regular fa-bell"></i></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <!-- --------------------------------Header-------------------------------- -->
+
+    <!-- -------------------------------Section1-------------------------------- -->
+    <section id="Main-1">
+      <nav class="Side_Nav">
+        <ul>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img src="../images/document-svgrepo-com.svg"
+              /></span>
+              대시보드
+            </li>
+          </a>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img src="../images/table-of-contents-svgrepo-com.svg"
+              /></span>
+              수입/지출 내역
+            </li>
+          </a>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img src="../images/date-svgrepo-com.svg"
+              /></span>
+              달력
+            </li>
+          </a>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img src="../images/histogram-svgrepo-com.svg"
+              /></span>
+              주간 보고서
+            </li>
+          </a>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img src="../images/line-graph-svgrepo-com.svg"
+              /></span>
+              월간 보고서
+            </li>
+          </a>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img src="../images/user-svgrepo-com.svg"
+              /></span>
+              예산 설정
+            </li>
+          </a>
+        </ul>
+      </nav>
+    </section>
+    <!-- -------------------------------Section1-------------------------------- -->
+
+    <section class="category_chart_container">
+      <div class="content-header">
+        <h2 class="date-button">
+          07월 2024
+          <img
+            src="../images/arrow-down-2-svgrepo-com.svg"
+            class="arrow-down"
+          />
+        </h2>
+      </div>
+      <div class="flex_area">
+        <div class="category_chart_area">
+          <h2 class="category_chart_title">카테고리별 지출</h2>
+          <canvas id="category_chart"></canvas>
+          <ul class="chart_text">
+            <li class="chart_text_category">최대 지출 카테고리</li>
+            <li class="chart_text_category_detail">식비</li>
+            <li class="chart_text_exprese">352,000원</li>
+          </ul>
+        </div>
+        <div class="payment_method_area">
+          <h2 class="payment_method_title">결제수단별 지출</h2>
+          <canvas id="payment_method"></canvas>
+          <ul class="chart_text">
+            <li class="chart_text_category">최대 지출 결제수단</li>
+            <li class="chart_text_category_detail">신용카드</li>
+            <li class="chart_text_exprese">520,000원</li>
+          </ul>
+        </div>
+        <div class="last_3_month_area">
+          <h2 class="last_3_month_title">최근 3개월 지출</h2>
+          <canvas id="last_3_month"></canvas>
+        </div>
+        <div class="top_3_pay_area">
+          <h2 class="top_3_pay_title">주요 소비 항목</h2>
+          <canvas id="top_3_pay"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <script type="module">
+      import {
+        createCategoryChart,
+        createPaymentMethodChart,
+        createLast3MonthsChart,
+        createTop3PayChart,
+      } from "../scripts/month_chart.js";
+      createCategoryChart();
+      createPaymentMethodChart();
+      createLast3MonthsChart();
+      createTop3PayChart();
+    </script>
+    <script src="../scripts/Header.js"></script>
+  </body>
+</html>
