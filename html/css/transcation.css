@@ -57,12 +57,17 @@ header ul > li {
     padding-top: 7px;
 }
 .side-content ul li{
-    padding: 0 23px;
+    padding: 10px 23px;
     line-height: 42px;
     cursor: pointer;
     color: #777;
     background: #fff;
     border-bottom: 1px solid #fff;
+}
+.nav-img img{
+    width: 23px;
+    vertical-align: middle;
+    margin-right: 5px;
 }
 /* 본문 */
 
@@ -135,10 +140,6 @@ header ul > li {
 .transcation-content thead tr th {
     background-color: #f0f0f0;
     padding: 10px;
-}
-
-.transcation-content tbody tr {
-    text-align: center;
 }
 
 .transcation-content tbody tr td {

@@ -29,20 +29,30 @@
                         <div>
                             <div></div>
                             <ul>
-                                <li>대시보드</li>
-                                <li>수입/지출 내역</li>
-                                <li>달력</li>
                                 <li>
-                                    <span>보고서</span>
-                                    <div>
-                                        <ul>
-                                            <li>월간</li>
-                                            <li>주간</li>
-                                            <li>예산</li>
-                                        </ul>
-                                    </div>
+                                    <span class="nav-img"><img src="../images/document-svgrepo-com.svg"/></span>
+                                    대시보드
                                 </li>
-                                <li>예산 설정</li>
+                                <li>
+                                    <span class="nav-img"><img src="../images/table-of-contents-svgrepo-com.svg"/></span>
+                                    수입/지출 내역
+                                </li>
+                                <li>
+                                    <span class="nav-img"><img src="../images/date-svgrepo-com.svg"/></span>
+                                    달력
+                                </li>
+                                <li>
+                                    <span class="nav-img"><img src="../images/histogram-svgrepo-com.svg"/></span>
+                                    주간 보고서
+                                </li>
+                                <li>
+                                    <span class="nav-img"><img src="../images/line-graph-svgrepo-com.svg"/></span>
+                                    월간 보고서
+                                </li>
+                                <li>
+                                    <span class="nav-img"><img src="../images/user-svgrepo-com.svg"/></span>
+                                    예산 설정
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -62,7 +72,7 @@
                         <button class="tab total active" onclick="showTab('전체')">전체 (1)<br><span class="tab_total">-1,000 원</span></button>
                         <button class="tab" onclick="showTab('수입')">수입 (0)<br><span class="tab_income">0 원</span></button>
                         <button class="tab" onclick="showTab('지출')">지출 (1)<br><span class="tab_expense">1,000 원</span></button>
-                        <button class="tab" onclick="showTab('이체')">이체 (0)<br><span class="amount">0 원</span></button>
+                        <!--<button class="tab" onclick="showTab('이체')">이체 (0)<br><span class="amount">0 원</span></button>-->
                     </div>
                     <div class="transcation-table">
                         <table>
@@ -79,11 +89,11 @@
                             <tbody id="전체" class="tab-content">
                                 <tr>
                                     <td><input type="checkbox"></td>
-                                    <td>24.7.15 (월) 18:04</td>
+                                    <td>07/15 (월) 18:04</td>
                                     <td>현금</td>
-                                    <td>🚗 교통/차량</td>
-                                    <td class="amount">1,000 원</td>
-                                    <td>fds</td>
+                                    <td>교통/차량</td>
+                                    <td class="amount">1,300 원</td>
+                                    <td>버스 교통비</td>
                                 </tr>
                             </tbody>
                             <tbody id="수입" class="tab-content" style="display: none;">
@@ -98,11 +108,11 @@
                             <tbody id="지출" class="tab-content" style="display: none;">
                                 <tr>
                                     <td><input type="checkbox"></td>
-                                    <td>24.7.15 (월) 18:04</td>
+                                    <td>07/15 (월) 18:04</td>
                                     <td>현금</td>
-                                    <td>🚗 교통/차량</td>
-                                    <td class="amount">1,000 원</td>
-                                    <td>fds</td>
+                                    <td>교통/차량</td>
+                                    <td class="amount">1,300 원</td>
+                                    <td>버스 교통비</td>
                                 </tr>
                             </tbody>
                             <tbody id="이체" class="tab-content" style="display: none;">
