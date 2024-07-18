@@ -1,0 +1,129 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* --------------------------------Header-------------------------------- */
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  height: 60px;
+  z-index: 2;
+  /* 요소의 상태 변화를 부드럽게 처리하는 속성 */
+  transition: background-color 0.3s ease;
+}
+
+header.active {
+  background-color: white;
+}
+
+img {
+  width: 110px;
+  height: auto;
+}
+
+.Header_div {
+  width: 1750px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 5px 0;
+  align-items: center;
+}
+
+.Header_Right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-weight: 540;
+  font-size: 15px;
+}
+
+.Header_Right li:nth-child(2) {
+  background-color: #896ccb;
+  border-radius: 5px;
+  padding: 4px 10px;
+  color: white;
+}
+
+.Header_Right li:nth-child(3) {
+  font-size: 25px;
+  padding-bottom: 5px;
+}
+/* --------------------------------Header-------------------------------- */
+
+/* -------------------------------Section1-------------------------------- */
+
+/* SideNav */
+.Side_Nav {
+  position: absolute;
+  z-index: 1;
+  width: 250px;
+  height: calc(98vh - 60px);
+  top: 60px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #fdfdfe;
+  padding-top: 35px;
+  border-top: 2px solid #896ccb;
+  position: fixed;
+}
+
+.nav-img img {
+  width: 23px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.Side_Nav ul {
+  display: flex;
+  flex-direction: column; /* 수직 방향으로 정렬 */
+  align-items: flex-start; /* 수평 중앙 정렬 */
+  gap: 40px;
+}
+
+.Side_Nav a {
+  color: #777;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+/* 사이트네비게이션 밑줄 그어지는 효과 */
+.Side_Nav a::after {
+  content: "";
+  position: absolute;
+  /* 초기 너비를 0으로 설정 */
+  width: 0;
+  /* 밑줄의 두께 */
+  height: 2px;
+  display: block;
+  margin-top: 5px;
+  /* 가상 요소의 오른쪽 끝을 기준으로 정렬 */
+  right: 0;
+  background: #603693;
+  /* 애니메이션 전환 효과 */
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.Side_Nav a:hover::after {
+  width: 100%;
+  left: 0;
+}
+/* -------------------------------Section1-------------------------------- */
+
+/* fixed 확인용 섹션입니다. 사용시 삭제해주세요. */
+.section2 {
+  height: 1300px;
+}
