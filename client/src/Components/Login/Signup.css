@@ -1,0 +1,60 @@
+.signup_section {
+    margin: 80px auto;
+    max-width: 500px;
+    width: 500px;
+    /* max-height: 500px; */
+    /* height: 500px; */
+    background-color: rgb(240, 240, 240);
+    padding: 2rem;
+    border-radius: 25px;
+}
+
+/* 회원가입 텍스트 */
+.signup_section .signup_title_text {
+    text-align: center;
+    padding-bottom: 3rem;
+    font-size: 22px;
+    font-weight: bold;
+}
+/* 회원가입 텍스트 F */
+
+
+/* 가입 정보 기재 박스 */
+.signup_section .signup_input_container .input_box {
+    padding-bottom: 1rem;
+}
+
+.signup_section .signup_input_container .input_box input {
+    background-color: white;
+    width: 436px;
+    border-radius: 6px;
+    padding: 8px 4px 8px 4px;
+}
+
+.signup_section .signup_input_container .input_box .input_title {
+    padding: 0 0 8px 4px;
+    font-size: 18px;
+}
+
+/* 가입 정보 기재 박스 F */
+
+
+/* 가입하기 버튼 */
+.signup_section .signup_button_container .signup_button_box {
+    display: grid;
+    justify-content: end;
+    padding: 0 4px 0 0;
+}
+
+.signup_section .signup_button_container .signup_button_box .signup_button {
+    background-color: #603693;
+    color: white;
+    width: 135px;
+    height: 55px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+/* 가입하기 버튼 F*/
