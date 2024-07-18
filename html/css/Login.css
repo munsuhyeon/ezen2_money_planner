@@ -2,9 +2,9 @@
 .login_section {
     max-width: 500px;
     margin: 80px auto; 
-    max-height: 770px;
+    max-height: 800px;
     width: 500px;
-    height: 770px;
+    height: 800px;
     background-color: rgb(240, 240, 240);
     padding: 2rem;
     border-radius: 25px;
@@ -72,7 +72,7 @@
     max-height: 50px;
     width: 250px;
     height: 50px;
-    background-color: rgb(226, 195, 255);
+    background-color:#603693;
     border: none;
     font-size: 20px;
     font-weight: 600;
@@ -94,7 +94,43 @@
 
 /* 로그인 버튼 F */
 
+/* 소셜 로그인 */
+.social_login_container{
+    border: 2px solid #896ccb;
+    border-radius: 24px;
+    margin-bottom: 1rem;
+}
 
+.social_login_container .social_login_title_box .social_login_title{
+    padding: 12px 12px 0 12px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.social_login_container .social_login_button_box{
+    padding: 12px;
+
+}
+
+.social_login_container .social_login_button_box .social_login_button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FEE500;
+    width: 48px;
+    height: 48px;    
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.social_login_container .social_login_button_box .social_login_button .social_login_img{
+    width: 32px;
+    height: 32px;
+}
+
+
+/* 소셜 로그인 F */
 
 /* 비번 찾기, 회원가입*/
 .login_section .forgot-signup_container {
