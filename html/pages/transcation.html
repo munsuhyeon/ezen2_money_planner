@@ -4,72 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가계부 목록</title>
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/common.css">
+    <!--<link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/common.css">-->
     <link rel="stylesheet" href="../css/transcation.css">
+    <link rel="stylesheet" href="../css/Header.css" />
     <!-- 구글 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-        <header>
-            <h2>My Self</h2>
-            <nav>
-                <ul>
-                    <li><a href="#">Food</a></li>
-                    <li><a href="">Hobby</a></li>
-                    <li><a href="">Game</a></li>
-                    <li><a href="">Dream</a></li>
-                </ul>
-            </nav>
-        </header>
+    <header>
+        <div class="Header_div">
+          <div>
+            <a href="">
+              <img src="../images/logo.png" />
+            </a>
+          </div>
+          <div>
+            <ul class="Header_Right">
+              <li>닉네임</li>
+              <li>로그아웃</li>
+              <li><i class="fa-regular fa-bell"></i></li>
+            </ul>
+          </div>
+        </div>
+    </header>
     <div class="container">
-        <section class="side-area">
-            <div class="side-content">
-                <nav>
-                    <div class="nav-border-container">
-                        <div>
-                            <div></div>
-                            <ul>
-                                <li>
-                                    <span class="nav-img"><img src="../images/document-svgrepo-com.svg"/></span>
-                                    대시보드
-                                </li>
-                                <li>
-                                    <span class="nav-img"><img src="../images/table-of-contents-svgrepo-com.svg"/></span>
-                                    수입/지출 내역
-                                </li>
-                                <li>
-                                    <span class="nav-img"><img src="../images/date-svgrepo-com.svg"/></span>
-                                    달력
-                                </li>
-                                <li>
-                                    <span class="nav-img"><img src="../images/histogram-svgrepo-com.svg"/></span>
-                                    주간 보고서
-                                </li>
-                                <li>
-                                    <span class="nav-img"><img src="../images/line-graph-svgrepo-com.svg"/></span>
-                                    월간 보고서
-                                </li>
-                                <li>
-                                    <span class="nav-img"><img src="../images/user-svgrepo-com.svg"/></span>
-                                    예산 설정
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </section>
-        <section class="transcation-content">
+        <nav class="Side_Nav">
+            <ul>
+            <a href="">
+                <li>
+                <span class="nav-img"
+                    ><img src="../images/document-svgrepo-com.svg"
+                /></span>
+                대시보드
+                </li>
+            </a>
+            <a href="">
+                <li>
+                <span class="nav-img"
+                    ><img src="../images/table-of-contents-svgrepo-com.svg"
+                /></span>
+                수입/지출 내역
+                </li>
+            </a>
+            <a href="">
+                <li>
+                <span class="nav-img"
+                    ><img src="../images/date-svgrepo-com.svg"
+                /></span>
+                달력
+                </li>
+            </a>
+            <a href="">
+                <li>
+                <span class="nav-img"
+                    ><img src="../images/histogram-svgrepo-com.svg"
+                /></span>
+                주간 보고서
+                </li>
+            </a>
+            <a href="">
+                <li>
+                <span class="nav-img"
+                    ><img src="../images/line-graph-svgrepo-com.svg"
+                /></span>
+                월간 보고서
+                </li>
+            </a>
+            <a href="">
+                <li>
+                <span class="nav-img"
+                    ><img src="../images/user-svgrepo-com.svg"
+                /></span>
+                예산 설정
+                </li>
+            </a>
+            </ul>
+        </nav>
+        <section class="transcation">
             <div class="content-header">
                 <h2 class="date-button">
                     07월 2024
                     <img src="../images/arrow-down-2-svgrepo-com.svg" class="arrow-down">
                 </h2>
                 <div class="btn-wrap">
-                    <div class="add-data">
+                    <div class="add-data" id="add-data">
                         <img src="../images/plus-svgrepo-com.svg" />
                     </div>
                     <div class="circle-btn">
@@ -80,67 +101,70 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <section class="transcation-content">
-                    <div class="tabs">
-                        <button class="tab active" onclick="showTab('전체')">전체 (1)<br><span class="tab_total">-1,000 원</span></button>
-                        <button class="tab" onclick="showTab('수입')">수입 (0)<br><span class="tab_income">0 원</span></button>
-                        <button class="tab" onclick="showTab('지출')"><span>지출 (1)</span><span class="tab_expense">1,000,000 원</span></button>
-                        <!--<button class="tab" onclick="showTab('이체')">이체 (0)<br><span class="amount">0 원</span></button>-->
-                    </div>
-                    <div class="transcation-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th><input type="checkbox"></th>
-                                    <th>날짜</th>
-                                    <th>자산</th>
-                                    <th>분류</th>
-                                    <th>금액</th>
-                                    <th>내용</th>
-                                </tr>
-                            </thead>
-                            <tbody id="전체" class="tab-content">
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>07/15 (월) 18:04</td>
-                                    <td>현금</td>
-                                    <td>교통/차량</td>
-                                    <td class="amount">1,300 원</td>
-                                    <td>버스 교통비</td>
-                                </tr>
-                            </tbody>
-                            <tbody id="수입" class="tab-content" style="display: none;">
-                                <tr>
-                                    <td colspan="6" class="no-data">
-                                        <div class="no-data-text">
-                                            데이터가 없습니다.
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tbody id="지출" class="tab-content" style="display: none;">
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>07/15 (월) 18:04</td>
-                                    <td>현금</td>
-                                    <td>교통/차량</td>
-                                    <td class="amount">1,300 원</td>
-                                    <td>버스 교통비</td>
-                                </tr>
-                            </tbody>
-                            <tbody id="이체" class="tab-content" style="display: none;">
-                                <tr>
-                                    <td colspan="6" class="no-data">
-                                        <div class="no-data-text">
-                                            데이터가 없습니다.
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>    
+            <div class="table-content">
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('전체')">전체 (1)<br><span class="tab_total">-1,000 원</span></button>
+                    <button class="tab" onclick="showTab('수입')">수입 (0)<br><span class="tab_income">0 원</span></button>
+                    <button class="tab" onclick="showTab('지출')"><span>지출 (1)</span><span class="tab_expense">1,000,000 원</span></button>
+                </div>
+                <div>
+                    <table class="transcation-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox"></th>
+                                <th>날짜</th>
+                                <th>자산</th>
+                                <th>분류</th>
+                                <th>금액</th>
+                                <th>내용</th>
+                            </tr>
+                        </thead>
+                        <tbody id="전체" class="tab-content">
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>07/15 (월) 18:04</td>
+                                <td>현금</td>
+                                <td>교통/차량</td>
+                                <td class="amount">1,300 원</td>
+                                <td>버스 교통비</td>
+                            </tr>
+                        </tbody>
+                        <tbody id="수입" class="tab-content" style="display: none;">
+                            <tr>
+                                <td colspan="6" class="no-data">
+                                    <div class="no-data-text">
+                                        데이터가 없습니다.
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="지출" class="tab-content" style="display: none;">
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>07/15 (월) 18:04</td>
+                                <td>현금</td>
+                                <td>교통/차량</td>
+                                <td class="amount">1,300 원</td>
+                                <td>버스 교통비</td>
+                            </tr>
+                        </tbody>
+                        <tbody id="이체" class="tab-content" style="display: none;">
+                            <tr>
+                                <td colspan="6" class="no-data">
+                                    <div class="no-data-text">
+                                        데이터가 없습니다.
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--<div class="add-data-slidebar" id="add-data-slidebar">
+                <p id="closeButton" class="close-button"><img src="../images//close-svgrepo-com.svg"></p>
+            </div>-->
+            <div class="add-data-slidebar" id="add-data-slidebar">
+                <p id="closeButton" class="close-button"><img src="../images//close-svgrepo-com.svg"></p>
             </div>
         </section>
     </div>

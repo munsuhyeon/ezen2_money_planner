@@ -1,77 +1,13 @@
-/*임시 헤더*/
-header {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid black;
-    background: #fff;
-}
 
-header > h2 {
-	margin-left:20px;
-}
-
-header > nav {
-	width:600px;
-	height:100%;
-}
-
-header ul {
-	width:100%;
-	height: 100%;
-	display: flex;
-	justify-content: space-between;
-}
-
-header ul > li {
-	font-size:20px;
-	height: 100%;
-	display: flex;
-	align-items: center;
-}
-/*=======================================*/
-/* side-navbar */
-.container{
+.transcation{
+    width: calc(100% - 250px);
+    height: calc(98vh - 60px);
+    position: absolute;
+    top:60px;
+    margin-left: 250px;
     background: #FDFDFE;
-    height: 100vh;
-    display: flex;
-    justify-content: space-between;
     font-family: "Noto Sans KR", sans-serif;
 }
-
-
-.side-area{
-    flex-basis: 265px;
-    border-right: 1px solid #e6e6e6;
-}
-.side-content{
-    position: relative;
-    min-height: 100%;
-    background-color: #fff;
-}
-.nav-border-container{
-    padding-bottom: 89px;
-}
-.side-content ul{
-    padding-top: 7px;
-}
-.side-content ul li{
-    padding: 10px 23px;
-    line-height: 42px;
-    cursor: pointer;
-    color: #777;
-    background: #fff;
-    border-bottom: 1px solid #fff;
-}
-.nav-img img{
-    width: 23px;
-    vertical-align: middle;
-    margin-right: 5px;
-}
-/* 본문 */
-
 .content-header{
     border-bottom: 1px solid #ddd;
     background: #fff;
@@ -94,15 +30,17 @@ header ul > li {
 }
 .btn-wrap{
     display: flex;
+    padding-right: 23px;
 }
 .add-data{
     width: 30px;
     height: 30px;
-    background: #af9adf;
+    background: #896ccb;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     margin: 0 5px;
+    cursor: pointer;
 }
 .add-data img{
     width: 20px;
@@ -116,13 +54,10 @@ header ul > li {
     display: flex;
     justify-content: center;
     margin: 0 5px;
+    cursor: pointer;
 }
 .circle-btn img{
     width: 20px;
-}
-.transcation-content{
-    flex-basis: 1015px;
-    background: #fff;
 }
 
 .tabs {
@@ -131,7 +66,6 @@ header ul > li {
     margin-bottom: 10px;
     
 }
-
 .tab {
     background-color: #fff;
     border: none;
@@ -144,7 +78,6 @@ header ul > li {
     align-items: center;
     justify-content: center;
 }
-
 .tab_total {
     color: #FF616A;
 }
@@ -154,7 +87,6 @@ header ul > li {
 .tab_expense{
     color: #FF616A;
 }
-
 .tab.active::after {
     content: '';
     position: absolute;
@@ -164,22 +96,19 @@ header ul > li {
     height: 3px;
     background-color: #603693;
 }
-.transcation-table{
-    padding: 13px;
-}
-.transcation-content table {
+
+.transcation table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
 }
-
-.transcation-content thead tr th {
+.transcation thead tr th {
     background-color: #F5F5F7;
     padding: 10px;
     color: #222;
+    text-align: left;
 }
 
-.transcation-content tbody tr td {
+.transcation tbody tr td {
     padding: 10px;
     border-bottom: 1px solid #e0e0e0;
 }
@@ -197,4 +126,48 @@ header ul > li {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+/*
+.add-data-slidebar{
+    position: fixed;
+    right: -300px;
+    top: 114px;
+    width: 300px;
+    height: 100%;
+    background-color: #F5F5F7;
+    color:white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+    transition: right 0.5s ease;
+    padding: 20px;
+}
+.add-data-slidebar.open{
+    right: 0;
+}
+.close-button {
+    padding: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    cursor: pointer;
+}
+.close-button img{
+    width: 25px;
+}*/
+.popup-menu{
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+.popup-menu.open, .overlay.open {
+    display: block;
 }

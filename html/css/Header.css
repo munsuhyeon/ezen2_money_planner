@@ -66,7 +66,6 @@ img {
 
 /* SideNav */
 .Side_Nav {
-  position: absolute;
   z-index: 1;
   width: 250px;
   height: calc(98vh - 60px);
@@ -121,9 +120,4 @@ img {
   width: 100%;
   left: 0;
 }
-/* -------------------------------Section1-------------------------------- */
 
-/* fixed 확인용 섹션입니다. 사용시 삭제해주세요. */
-.section2 {
-  height: 1300px;
-}
