@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/month_statistics.css" />
     <link rel="stylesheet" href="../css/Header.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>월간</title>
+    <title>월간 보고서</title>
   </head>
   <body>
     <!-- --------------------------------Header-------------------------------- -->
@@ -86,7 +86,7 @@
     </section>
     <!-- -------------------------------Section1-------------------------------- -->
 
-    <section class="category_chart_container">
+    <section class="month_chart_container">
       <div class="content-header">
         <h2 class="date-button">
           07월 2024
@@ -106,6 +106,13 @@
             <li class="chart_text_exprese">352,000원</li>
           </ul>
         </div>
+        <div class="top_5_pay_area">
+          <h2 class="top_5_pay_title">주요 소비 항목</h2>
+          <div class="top_5_pay_comment">
+            이번달은 <span>독서</span>에 가장 많이 소비하셨어요!
+          </div>
+          <canvas id="top_5_pay"></canvas>
+        </div>
         <div class="payment_method_area">
           <h2 class="payment_method_title">결제수단별 지출</h2>
           <canvas id="payment_method"></canvas>
@@ -117,11 +124,22 @@
         </div>
         <div class="last_3_month_area">
           <h2 class="last_3_month_title">최근 3개월 지출</h2>
+          <div class="last_3_month_comment">
+            <!-- 지난달 보다 <span>20%</span> 많이 지출하셨어요... -->
+            지난달 보다 <span>20%</span> 적게 지출하셨어요!
+          </div>
           <canvas id="last_3_month"></canvas>
         </div>
-        <div class="top_3_pay_area">
-          <h2 class="top_3_pay_title">주요 소비 항목</h2>
-          <canvas id="top_3_pay"></canvas>
+        <div class="earnings_expenses_area">
+          <h2 class="earnings_expenses_title">수입 지출 비교</h2>
+          <div class="earnings_expenses_comment">
+            수입보다 <span>50%</span> 많이 소비하셨어요...
+            <!-- 수입보다 <span>10%</span> 적게 소비하셨어요!              -->
+          </div>
+          <canvas id="earnings_expenses"></canvas>
+        </div>
+        <div class="general_comment_area">
+          <h2 class="general_comment_title">종합 평가</h2>
         </div>
       </div>
     </section>
@@ -131,12 +149,14 @@
         createCategoryChart,
         createPaymentMethodChart,
         createLast3MonthsChart,
-        createTop3PayChart,
+        createTop5PayChart,
+        createEarningsExpenses,
       } from "../scripts/month_chart.js";
       createCategoryChart();
       createPaymentMethodChart();
       createLast3MonthsChart();
-      createTop3PayChart();
+      createTop5PayChart();
+      createEarningsExpenses();
     </script>
     <script src="../scripts/Header.js"></script>
   </body>

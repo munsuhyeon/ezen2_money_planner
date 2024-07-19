@@ -18,14 +18,23 @@
   width: 20px;
 }
 
-.category_chart_container {
+.flex_area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: rgba(221, 221, 221, 0.1);
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.month_chart_container {
   margin: 70px 200px 70px 300px;
 }
 
 .category_chart_area,
 .payment_method_area {
-  width: 650px;
-  height: 660px;
+  width: 700px;
+  height: 455px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   position: relative;
   margin: 10px;
@@ -34,25 +43,27 @@
 .category_chart_title,
 .payment_method_title,
 .last_3_month_title,
-.top_3_pay_title {
-  font-size: 22px;
-  font-weight: 700;
+.top_5_pay_title,
+.earnings_expenses_title,
+.general_comment_title {
+  font-size: 18px;
+  font-weight: 500;
   padding: 16px;
 }
 
 #category_chart,
 #payment_method {
-  width: 600px;
-  height: 600px;
+  width: 400px;
   margin: 0 auto;
 }
 
 .chart_text {
   position: absolute;
-  top: 320px;
-  left: 195px;
+  top: 210px;
+  left: 225px;
   text-align: center;
   line-height: 30px;
+  z-index: -1;
 }
 
 .chart_text_category,
@@ -62,27 +73,54 @@
 }
 
 .chart_text_category_detail {
-  font-size: 30px;
+  font-size: 22px;
   font-weight: bold;
 }
 
 .last_3_month_area,
-.top_3_pay_area {
-  width: 650px;
-  height: 400px;
+.top_5_pay_area {
+  width: 550px;
+  height: 455px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 10px;
 }
 
 #last_3_month,
-#top_3_pay {
-  width: 600px;
-  height: 400px;
+#top_5_pay {
+  width: 500px;
   margin: 0 auto;
 }
 
-.flex_area {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.top_5_pay_comment,
+.last_3_month_comment,
+.earnings_expenses_comment {
+  padding: 32px 16px 50px;
+}
+
+.top_5_pay_comment span,
+.last_3_month_comment span,
+.earnings_expenses_comment span {
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(255, 0, 0, 0.5);
+}
+
+
+.earnings_expenses_area {
+  width: 500px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px;
+}
+
+#earnings_expenses {
+  width: 450px;
+  margin: 0 auto;
+}
+
+.general_comment_area {
+  width: 750px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px;
 }

@@ -11,18 +11,22 @@ export function createCategoryChart() {
       ],
     },
     options: {
-      cutout: "70%",
+      cutout: "80%",
       responsive: false,
       plugins: {
         legend: {
           position: "right",
           labels: {
-            padding: 30,
+            padding: 20,
           },
         },
         tooltip: {
           displayColors: false,
+          zindex: 10,
           callbacks: {
+            title: function (tooltipItem, data) {
+              return "";
+            },
             label: function (tooltipItem) {
               return (
                 tooltipItem.label + ": " + Math.round(tooltipItem.raw) + "%"
@@ -31,6 +35,61 @@ export function createCategoryChart() {
           },
         },
       },
+    },
+  });
+}
+
+export function createTop5PayChart() {
+  const t5mctx = document.getElementById("top_5_pay");
+  return new Chart(t5mctx, {
+    type: "bar",
+    data: {
+      labels: ["영화", "게임", "독서", "의류", "치킨"],
+      datasets: [
+        {
+          data: [30, 70, 80, 30, 50],
+          borderWidth: 0,
+        },
+      ],
+    },
+    options: {
+      indexAxis: "y",
+      elements: {
+        bar: {
+          borderWidth: 2,
+        },
+      },
+      responsive: false,
+      plugins: {
+        legend: {
+          position: "none",
+        },
+        tooltip: {
+          displayColors: false,
+          zindex: 10,
+          callbacks: {
+            title: function (tooltipItem, data) {
+              return "";
+            },
+            label: function (tooltipItem) {
+              return (
+                tooltipItem.label + ": " + Math.round(tooltipItem.raw) + "만원"
+              );
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            callback: function (value) {
+              return value.toLocaleString() + "만원";
+            },
+            maxTicksLimit: 10,
+          },
+        },
+      },
+      barThickness: 25,
     },
   });
 }
@@ -48,18 +107,22 @@ export function createPaymentMethodChart() {
       ],
     },
     options: {
-      cutout: "70%",
+      cutout: "80%",
       responsive: false,
       plugins: {
         legend: {
           position: "right",
           labels: {
-            padding: 30,
+            padding: 20,
           },
         },
         tooltip: {
           displayColors: false,
+          zindex: 10,
           callbacks: {
+            title: function (tooltipItem, data) {
+              return "";
+            },
             label: function (tooltipItem) {
               return (
                 tooltipItem.label + ": " + Math.round(tooltipItem.raw) + "%"
@@ -93,7 +156,11 @@ export function createLast3MonthsChart() {
         },
         tooltip: {
           displayColors: false,
+          zindex: 10,
           callbacks: {
+            title: function (tooltipItem, data) {
+              return "";
+            },
             label: function (tooltipItem) {
               return (
                 tooltipItem.label + ": " + Math.round(tooltipItem.raw) + "만원"
@@ -112,31 +179,28 @@ export function createLast3MonthsChart() {
           },
         },
       },
-      barThickness: 40,
+      barThickness: 25,
     },
   });
 }
 
-export function createTop3PayChart() {
-  const t3mctx = document.getElementById("top_3_pay");
-  return new Chart(t3mctx, {
+
+export function createEarningsExpenses() {
+  const eectx = document.getElementById("earnings_expenses");
+  return new Chart(eectx, {
     type: "bar",
     data: {
-      labels: ["영화", "게임", "독서"],
+      labels: ["수입", "지출"],
       datasets: [
         {
-          data: [150, 120, 100],
-          borderWidth: 0,
+          data: [80, 120],
+          backgroundColor: [
+            "rgba(0, 0, 255, 0.5)",
+            "rgba(255, 0, 0, 0.4)"],
         },
       ],
     },
     options: {
-      indexAxis: "y",
-      elements: {
-        bar: {
-          borderWidth: 2,
-        },
-      },
       responsive: false,
       plugins: {
         legend: {
@@ -144,7 +208,11 @@ export function createTop3PayChart() {
         },
         tooltip: {
           displayColors: false,
+          zindex: 10,
           callbacks: {
+            title: function (tooltipItem, data) {
+              return "";
+            },
             label: function (tooltipItem) {
               return (
                 tooltipItem.label + ": " + Math.round(tooltipItem.raw) + "만원"
@@ -154,16 +222,16 @@ export function createTop3PayChart() {
         },
       },
       scales: {
-        x: {
+        y: {
           ticks: {
             callback: function (value) {
               return value.toLocaleString() + "만원";
             },
-            maxTicksLimit: 8,
+            maxTicksLimit: 10,
           },
         },
       },
-      barThickness: 40,
+      barThickness: 25,
     },
   });
 }
