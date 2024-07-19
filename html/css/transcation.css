@@ -1,4 +1,3 @@
-
 .transcation{
     width: calc(100% - 250px);
     height: calc(98vh - 60px);
@@ -127,47 +126,177 @@
     flex-direction: column;
     align-items: center;
 }
-/*
-.add-data-slidebar{
-    position: fixed;
-    right: -300px;
-    top: 114px;
-    width: 300px;
-    height: 100%;
-    background-color: #F5F5F7;
-    color:white;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-    transition: right 0.5s ease;
-    padding: 20px;
-}
-.add-data-slidebar.open{
-    right: 0;
-}
-.close-button {
-    padding: 10px;
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    right: 15px;
-    cursor: pointer;
-}
-.close-button img{
-    width: 25px;
-}*/
+/* 입력 팝업 화면 */
 .popup-menu{
     display: none;
     position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
+    width: 500px;
+    padding:  20px 30px 60px 30px;
     background-color: #fff;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 2;
-    padding: 20px;
+    z-index: 1000;
     box-sizing: border-box;
-    border-radius: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.07), 
+    0 2px 4px rgba(0,0,0,0.07), 
+    0 4px 8px rgba(0,0,0,0.07), 
+    0 8px 16px rgba(0,0,0,0.07),
+    0 16px 32px rgba(0,0,0,0.07), 
+    0 32px 64px rgba(0,0,0,0.07);
 }
-.popup-menu.open, .overlay.open {
+.popup-menu.open, .container.open {
     display: block;
+}
+
+.pop-menu-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.pop-menu-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.close-button {
+    cursor: pointer;
+}
+.close-button img {
+    width: 20px;
+}
+.input-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.tab-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.pop-up-tab {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    text-align: center;
+}
+
+.pop-up-tab.incomeTab.active {
+    background-color: #ff6b6b;
+    color: #fff;
+}
+.pop-up-tab.expenseTab.active {
+    background-color: #4A74FB;
+    color: #fff;
+}
+.date-time {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.date-time div {
+    flex: 1;
+}
+
+.date-time label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.date-time input {
+    width: calc(100% - 10px);
+    padding: 5px;
+}
+
+.repeat-button {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    cursor: pointer;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.input-group label {
+    flex: 1;
+}
+
+.input-group input, .input-group select {
+    flex: 3;
+    padding: 5px;
+    margin-right: 10px;
+    height:2.2em;
+}
+
+.input-group span {
+    flex: 1;
+}
+
+.memo-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.save-button,.search-button, .continue-button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.save-button {
+    background-color: #4A74FB;
+    color: #fff;
+    margin-right: 10px;
+}
+.save-button.expense-active {
+    background-color: #4A74FB;
+    color: #fff;
+    margin-right: 10px;
+}
+
+.save-button.income-active {
+    background-color: #ff6b6b;
+    color: #fff;
+    margin-right: 10px;
+}
+.continue-button {
+    background-color: #f1f1f1;
+}
+.input-form.expense input:focus, .input-form.expense select:focus{
+    border: 2px solid #4A74FB;
+    outline: none;
+    border-radius: 2px;
+}
+.input-form.income input:focus, .input-form.income select:focus{
+    border: 2px solid #ff6b6b;
+    outline: none;
+    border-radius: 2px;
+}
+.search-button{
+    background-color: #896ccb;
+    color: #fff;
+    margin-right: 10px;
 }
