@@ -140,6 +140,15 @@
         </div>
         <div class="general_comment_area">
           <h2 class="general_comment_title">종합 평가</h2>
+          <canvas id="general_comment"></canvas>
+          <div class="general_comment_score">75점</div>
+          <div class="general_comment_text">
+            한달 가계부 보고서에서 75점을 받은 것은 재정 관리가 일반적으로 잘
+            되고 있음을 나타냅니다. 지출과 수입이 균형을 이루고 있으며, 금융
+            목표를 달성하기 위한 노력이 인정받았습니다. 추가로 개선할 사항이
+            있을 수 있지만, 현재 상태는 긍정적이고 지속 가능한 재정 건강을
+            유지하고 있다고 평가됩니다.
+          </div>
         </div>
       </div>
     </section>
@@ -151,12 +160,14 @@
         createLast3MonthsChart,
         createTop5PayChart,
         createEarningsExpenses,
+        createGeneralComment,
       } from "../scripts/month_chart.js";
       createCategoryChart();
       createPaymentMethodChart();
       createLast3MonthsChart();
       createTop5PayChart();
       createEarningsExpenses();
+      createGeneralComment();
     </script>
     <script src="../scripts/Header.js"></script>
   </body>

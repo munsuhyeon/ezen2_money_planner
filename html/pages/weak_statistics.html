@@ -97,6 +97,15 @@
         </h2>
       </div>
       <div class="flex_area">
+        <div class="category_chart_area">
+          <h2 class="category_chart_title">카테고리별 지출</h2>
+          <canvas id="category_chart"></canvas>
+          <ul class="chart_text">
+            <li class="chart_text_category">최대 지출 카테고리</li>
+            <li class="chart_text_category_detail">식비</li>
+            <li class="chart_text_exprese">352,000원</li>
+          </ul>
+        </div>
         <div class="weak_pay_area">
           <h2 class="weak_pay_title">주간별 지출</h2>
           <canvas id="weak_pay"></canvas>
@@ -105,11 +114,21 @@
           <h2 class="day_pay_title">요일별 지출</h2>
           <canvas id="day_pay"></canvas>
         </div>
+        <div class="day_pay_detail_area">
+          <h2 class="day_pay__detail_main_title">주간 분석</h2>
+          <h3 class="day_pay_detail_title">이번주 지출 금액</h3>
+          <div class="day_pay_detail_text">300,000원</div>
+          <h3 class="day_pay_detail_title">최대 지출 요일 & 금액</h3>
+          <div class="day_pay_detail_text">수요일 <span>/</span> 200,000원</div>
+        </div>
       </div>
       <script type="module">
-        import { 
+        import {
+          createCategoryChart,
           createWeakPayChart,
-          createDayPayChart, } from "../scripts/weak_chart.js";
+          createDayPayChart,
+        } from "../scripts/weak_chart.js";
+        createCategoryChart();
         createWeakPayChart();
         createDayPayChart();
       </script>

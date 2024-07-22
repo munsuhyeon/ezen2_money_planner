@@ -22,7 +22,7 @@ export function createCategoryChart() {
         },
         tooltip: {
           displayColors: false,
-          zindex: 10,
+          zindex: 100,
           callbacks: {
             title: function (tooltipItem, data) {
               return "";
@@ -66,7 +66,7 @@ export function createTop5PayChart() {
         },
         tooltip: {
           displayColors: false,
-          zindex: 10,
+          zindex: 100,
           callbacks: {
             title: function (tooltipItem, data) {
               return "";
@@ -118,7 +118,7 @@ export function createPaymentMethodChart() {
         },
         tooltip: {
           displayColors: false,
-          zindex: 10,
+          zindex: 100,
           callbacks: {
             title: function (tooltipItem, data) {
               return "";
@@ -156,7 +156,7 @@ export function createLast3MonthsChart() {
         },
         tooltip: {
           displayColors: false,
-          zindex: 10,
+          zindex: 100,
           callbacks: {
             title: function (tooltipItem, data) {
               return "";
@@ -184,7 +184,6 @@ export function createLast3MonthsChart() {
   });
 }
 
-
 export function createEarningsExpenses() {
   const eectx = document.getElementById("earnings_expenses");
   return new Chart(eectx, {
@@ -194,9 +193,7 @@ export function createEarningsExpenses() {
       datasets: [
         {
           data: [80, 120],
-          backgroundColor: [
-            "rgba(0, 0, 255, 0.5)",
-            "rgba(255, 0, 0, 0.4)"],
+          backgroundColor: ["rgba(0, 0, 255, 0.5)", "rgba(255, 0, 0, 0.4)"],
         },
       ],
     },
@@ -208,7 +205,7 @@ export function createEarningsExpenses() {
         },
         tooltip: {
           displayColors: false,
-          zindex: 10,
+          zindex: 100,
           callbacks: {
             title: function (tooltipItem, data) {
               return "";
@@ -232,6 +229,37 @@ export function createEarningsExpenses() {
         },
       },
       barThickness: 25,
+    },
+  });
+}
+
+export function createGeneralComment() {
+  const gcctx = document.getElementById("general_comment").getContext("2d");
+  return new Chart(gcctx, {
+    type: "doughnut",
+    data: {
+      labels: ["여유", "나머지"],
+      datasets: [
+        {
+          data: [75, 25],
+          backgroundColor: ["#4A90E2", "#E0E0E0"],
+          borderWidth: 0,
+        },
+      ],
+    },
+    options: {
+      responsive: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          enabled: false,
+        },
+      },
+      cutout: "80%",
+      rotation: -90,
+      circumference: 180,
     },
   });
 }

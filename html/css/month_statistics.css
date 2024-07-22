@@ -22,7 +22,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: rgba(221, 221, 221, 0.1);
+  background-color: rgba(221, 221, 221, 0.05);
   padding: 30px;
   border-radius: 10px;
 }
@@ -33,11 +33,13 @@
 
 .category_chart_area,
 .payment_method_area {
-  width: 700px;
+  width: 745px;
   height: 455px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   position: relative;
   margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
 }
 
 .category_chart_title,
@@ -60,7 +62,7 @@
 .chart_text {
   position: absolute;
   top: 210px;
-  left: 225px;
+  left: 248px;
   text-align: center;
   line-height: 30px;
   z-index: -1;
@@ -83,6 +85,8 @@
   height: 455px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
 }
 
 #last_3_month,
@@ -107,10 +111,12 @@
 
 
 .earnings_expenses_area {
-  width: 500px;
+  width: 545px;
   height: 455px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
 }
 
 #earnings_expenses {
@@ -119,8 +125,29 @@
 }
 
 .general_comment_area {
+  position: relative;
   width: 750px;
   height: 455px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+#general_comment {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.general_comment_score {
+  position: absolute;
+  top: 230px;
+  left: 340px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.general_comment_text {
+  font-size: 15px;
+  padding: 16px;
 }
