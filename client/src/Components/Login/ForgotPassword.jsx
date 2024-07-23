@@ -7,7 +7,7 @@ function ForgotPassword () {
 
     const [inputEmail, setInputEmail] = useState("");
 
-    const Server_URL = "localhost:8080"
+    const Server_URL = "http://localhost:8080"
 
    async function sendEmail() {
         // call("/user", "get", item).then((response) => setItems(response.data));
