@@ -1,7 +1,26 @@
+import {useState} from "react";
+
 
 import "./ForgotPassword.css";
 
 function ForgotPassword () {
+
+    const [inputEmail, setInputEmail] = useState("");
+
+    const Server_URL = "localhost:8080"
+
+   async function sendEmail() {
+        // call("/user", "get", item).then((response) => setItems(response.data));
+        const responses = await axios.get(`${Server_URL}/forgotpassword`, {});
+        const inputData = await responses.data.filter((email) => it.email == id);
+
+        if(inputEmail == email){
+        }
+        else{
+            
+        }
+
+    }
 
     return (        
     <div className="forgot_password_section">
@@ -10,10 +29,10 @@ function ForgotPassword () {
     </div>
     <div className="email_input_box">
         <h4>이메일 인증</h4>
-        <input type="text" className="email_text" placeholder="가입할때 사용한 이메일을 입력해주세요"/>
+        <input type="text" className="email_text" value={inputEmail} onChange={(e) => setInputEmail(e.target.value)} placeholder="가입할때 사용한 이메일을 입력해주세요"/>
     </div>
     <div className="email_send_box">
-        <button>
+        <button onClick={sendEmail}>
             Send Email
         </button>
     </div>
