@@ -1,0 +1,153 @@
+.content-header {
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.date-button {
+  display: inline-block;
+  color: #222;
+  font-size: 16px;
+  padding: 15px 0 13px 23px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.arrow-down {
+  width: 20px;
+}
+
+.flex_area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: rgba(221, 221, 221, 0.05);
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.month_chart_container {
+  margin: 70px 200px 70px 300px;
+}
+
+.category_chart_area,
+.payment_method_area {
+  width: 745px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+.category_chart_title,
+.payment_method_title,
+.last_3_month_title,
+.top_5_pay_title,
+.earnings_expenses_title,
+.general_comment_title {
+  font-size: 18px;
+  font-weight: 500;
+  padding: 16px;
+}
+
+#category_chart,
+#payment_method {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.chart_text {
+  position: absolute;
+  top: 210px;
+  left: 248px;
+  text-align: center;
+  line-height: 30px;
+  z-index: -1;
+}
+
+.chart_text_category,
+.chart_text_exprese {
+  font-size: 15px;
+  font-weight: 100;
+}
+
+.chart_text_category_detail {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.last_3_month_area,
+.top_5_pay_area {
+  width: 550px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+#last_3_month,
+#top_5_pay {
+  width: 500px;
+  margin: 0 auto;
+}
+
+.top_5_pay_comment,
+.last_3_month_comment,
+.earnings_expenses_comment {
+  padding: 32px 16px 50px;
+}
+
+.top_5_pay_comment span,
+.last_3_month_comment span,
+.earnings_expenses_comment span {
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(255, 0, 0, 0.5);
+}
+
+
+.earnings_expenses_area {
+  width: 545px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+#earnings_expenses {
+  width: 450px;
+  margin: 0 auto;
+}
+
+.general_comment_area {
+  position: relative;
+  width: 750px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+#general_comment {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.general_comment_score {
+  position: absolute;
+  top: 230px;
+  left: 340px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.general_comment_text {
+  font-size: 15px;
+  padding: 16px;
+}
