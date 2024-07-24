@@ -1,15 +1,13 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import TransactionList from './View/transcation/TransactionList';
 function App() {
   return (
-    <div>
       <BrowserRouter>
         <Routes>
-          {/*<Route path="/" element={}/>*/}
+        <Route path="/transcationList" element={<TransactionList />} />
         </Routes>
       </BrowserRouter>
-    </div>
   );
 }
 

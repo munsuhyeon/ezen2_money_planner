@@ -18,7 +18,7 @@ export function call(api, method, request) {
   
     let options = {
       headers: headers, 
-      url: `${process.env.REACT_APP_HOST}` + api, 
+      url: `${process.env.REACT_APP_backend_HOST}` + api, 
       method: method, 
     };
     
