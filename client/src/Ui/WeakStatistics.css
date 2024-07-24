@@ -1,22 +1,22 @@
 /* content-header */
-.content-header {
+.weak_content-header {
+  width: 1315px;
+  margin-left: 45px;
   border-bottom: 1px solid #ddd;
   background: #fff;
   margin-bottom: 10px;
   margin-top: 5px;
 }
 
-.date-button {
-  display: inline-block;
-  color: #222;
-  font-size: 16px;
-  padding: 15px 0 13px 23px;
-  font-weight: 500;
+.weak_date_area input {
+  width: 350px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: 400;
   cursor: pointer;
-}
-
-.arrow-down {
-  width: 20px;
+  border: rgba(0, 0, 0, 0.2) 1px solid;
+  caret-color: transparent;
+  padding: 5px;
 }
 /* content-header */
 
@@ -35,7 +35,7 @@
 }
 
 .weak_category_chart_area {
-  width: 550px;
+  width: 545px;
   height: 455px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   position: relative;
@@ -99,7 +99,7 @@
 
 /* day_pay */
 .day_pay_area {
-  width: 900px;
+  width: 895px;
   height: 455px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 10px;

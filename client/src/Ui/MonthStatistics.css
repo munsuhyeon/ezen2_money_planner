@@ -1,5 +1,5 @@
 /* content-header */
-.content-header {
+.month_content-header {
   width: 1315px;
   margin-left: 45px;
   border-bottom: 1px solid #ddd;
@@ -8,7 +8,7 @@
   margin-top: 5px;
 }
 
-.date_area input {
+.month_date_area input {
   width: 350px;
   margin-bottom: 30px;
   font-size: 20px;

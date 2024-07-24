@@ -10,7 +10,7 @@ import {
 } from "../Components/chart/MonthChart.js";
 import "./reset.css";
 import "./MonthStatistics.css";
-import DatePick from "../Components/chart/DatePick.js";
+import MonthDatePick from "../Components/chart/MonthDatePick.js";
 
 const MonthStatistics = () => {
   const [startDate, setStartDate] = useState(null);
@@ -33,9 +33,9 @@ const MonthStatistics = () => {
 
   return (
     <section className="month_chart_container">
-      <div className="content-header">
-        <div className="date_area">
-          <DatePick onChangeDate={handleDateChange} />
+      <div className="month_content-header">
+        <div className="month_date_area">
+          <MonthDatePick onChangeDate={handleDateChange} />
         </div>
       </div>
 

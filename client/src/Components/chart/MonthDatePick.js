@@ -4,7 +4,7 @@ import { startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
 import { ko } from "date-fns/locale/ko";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default class DatePick extends Component {
+export default class MonthDatePick extends Component {
   constructor(props) {
     super(props);
     const today = new Date();
