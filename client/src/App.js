@@ -2,6 +2,8 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TransactionList from "./View/transcation/TransactionList";
 import Main from "./View/Main/Main.js";
+import MonthStatistics from "./Ui/MonthStatistics.js";
+import WeakStatistics from "./Ui/WeakStatistics.js";
 function App() {
   return (
     <div>
@@ -10,8 +12,8 @@ function App() {
           {/*<Route path="/" element={}/>*/}
           <Route path="/" element={<Main />} />
           <Route path="/transcationList" element={<TransactionList />} />
-          <Route path="/monthstatistics" element={<MonthStatistics />} />
-          <Route path="/weakstatistics" element={<WeakStatistics />} />
+          <Route path="/monthly-report" element={<MonthStatistics />} />
+          <Route path="/weekly-report" element={<WeakStatistics />} />
         </Routes>
       </BrowserRouter>
     </div>
