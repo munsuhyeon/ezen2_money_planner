@@ -1,0 +1,176 @@
+
+.login_section {
+    max-width: 500px;
+    margin: 80px auto; 
+    max-height: 750px;
+    width: 500px;
+    height: 750px;
+    background-color: rgb(240, 240, 240);
+    padding: 2rem;
+    border-radius: 25px;
+}
+
+/* 로그인화면 로고 이미지 */
+.login_section .login_title_container .login_image_box .login_img{
+    width: 349px;
+    height: 159px;
+}
+/* 로그인화면 로고 이미지 F */
+
+.login_section .login_title_container {
+    margin-bottom: 20px;
+}
+
+.login_section .login_title_container .login_image_box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.login_section .login_title_container .login_title_box {
+    display: flex;
+    justify-content: center;
+}
+
+.login_section .login_title_container .login_title_text {
+    font-size: 30px;
+}
+
+
+.login_detail_wrapper {
+    background-color: white;
+    border-radius: 25px;
+    padding: 24px 16px 24px 16px;
+    margin-bottom: 12px;
+}
+
+
+/* 아이디 비밀번호 입력칸 */
+.login_section .login_form_box {
+    margin-bottom: 1rem;
+    padding-left: 24px;
+
+}
+
+.login_section .login_form_box .input_login:first-child {
+    margin-bottom: 1rem;
+}
+
+.login_section .login_form_box .input_login p {
+    padding-left: 6px;
+    margin-bottom: 6px;
+    font-weight: 480;
+}
+
+.login_section .login_form_box .input_login input {
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid rgb(202, 202, 202);
+    width: 358px;
+}
+
+/* 아이디 비밀번호 입력칸 F */
+
+
+
+/* 로그인 버튼 */
+.login_section .login_button_container .login_button_box button {
+    max-width: 250px;
+    max-height: 50px;
+    width: 250px;
+    height: 50px;
+    background-color:#603693;
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+}
+
+.login_section .login_button_container .login_button_box button:first-child{
+    margin-bottom: 8px;
+}
+
+.login_section .login_button_container .login_button_box {
+ 
+    display: grid;
+    justify-content: space-around;
+
+}
+
+/* 로그인 버튼 F */
+
+/* 소셜 로그인 */
+.social_login_container{
+    border: 2px solid #896ccb;
+    border-radius: 24px;
+    margin-bottom: 1rem;
+}
+
+.social_login_container .social_login_title_box .social_login_title{
+    padding: 12px 12px 0 12px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.social_login_container .social_login_button_box{
+    padding: 12px;
+
+}
+
+.social_login_container .social_login_button_box .social_login_button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FEE500;
+    width: 48px;
+    height: 48px;    
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.social_login_container .social_login_button_box .social_login_button .social_login_img{
+    width: 32px;
+    height: 32px;
+}
+
+
+/* 소셜 로그인 F */
+
+/* 비번 찾기, 회원가입*/
+.login_section .forgot-signup_container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 12px 0 12px;
+    font-size: 18px;
+}
+
+.login_section .forgot-signup_container .forgot_pw_box {
+    cursor: pointer;
+
+}
+
+.login_section .forgot-signup_container .signup_button_box {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* 비번 찾기, 회원가입 F*/
+
+
+
+
+
+
+
+
+
+
+/* 버튼요소 공통 */
+
+
+
+/* 버튼요소 공통 F */
+

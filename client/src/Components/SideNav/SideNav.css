@@ -1,0 +1,63 @@
+/* SideNav */
+.Side_Nav {
+  z-index: 1;
+  width: 250px;
+  height: calc(100vh - 60px);
+  top: 60px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #fdfdfe;
+  padding-top: 35px;
+  position: fixed;
+}
+
+.nav-img img {
+  width: 23px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.Side_Nav ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.Side_Nav a {
+  width: auto;
+  color: #777;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+/* 사이트네비게이션 밑줄 그어지는 효과 */
+.Side_Nav a::after {
+  content: "";
+  position: absolute;
+  /* 초기 너비를 0으로 설정 */
+  width: 0;
+  /* 밑줄의 두께 */
+  height: 2px;
+  display: block;
+  margin-top: 5px;
+  /* 가상 요소의 오른쪽 끝을 기준으로 정렬 */
+  right: 0;
+  background: #603693;
+  /* 애니메이션 전환 효과 */
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.Side_Nav a:hover::after,
+.Side_Nav a.active::after {
+  width: 100%;
+  left: 0;
+}
+
+.Side_Nav a:hover,
+.Side_Nav a.active {
+  color: black;
+  font-weight: 600;
+}

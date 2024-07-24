@@ -1,0 +1,274 @@
+/* -------------------------------Section3-------------------------------- */
+#Main-3 {
+  width: calc(100% - 250px);
+  height: calc(100vh - 50px);
+  margin-left: 250px;
+}
+
+.Main3-CheckBox {
+  background-color: #af9adf;
+  height: 150px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.Main3-CheckBox p:nth-child(1) {
+  font-size: 25px;
+}
+
+.Main3-CheckBox p:nth-child(2) {
+  font-size: 16px;
+  line-height: 25px;
+}
+
+.Main3-CheckBox button {
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 15px 45px;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.Main3-Graph1 {
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+}
+
+.Graph1-Info {
+  width: 600px;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 2px solid #ececec;
+  background-color: white;
+  padding: 20px;
+  opacity: 0;
+  transform: translateX(100px);
+  transition: opacity 0.3s ease-out, transform 0.5s ease-out;
+  z-index: 10;
+}
+
+.Main3Graph1 {
+  width: 600px;
+  height: 600px;
+  border: 2px solid #ececec;
+  box-shadow: 5px 5px 5px rgba(212, 212, 212, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: opacity 0.3s ease-out, transform 0.5s ease-out;
+}
+
+.Graph1-scale {
+  width: 500px;
+  height: 500px;
+}
+
+.Main3-Graph1.fade-in .Main3Graph1 {
+  opacity: 1;
+  transform: translate(0);
+}
+
+.Main3-Graph1.fade-in .Graph1-Info {
+  opacity: 1;
+  transform: translate(-15%);
+}
+
+.Graph1-Info h2 {
+  font-size: 25px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.Graph1-Info p {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.Graph1-Info p:nth-child(3) {
+  font-size: 16px;
+  color: #777;
+}
+
+/* -------------------------------Section3-------------------------------- */
+/* -------------------------------Section4-------------------------------- */
+#Main-4 {
+  width: calc(100% - 250px);
+  height: calc(100vh - 50px);
+  margin-left: 250px;
+}
+.Main4-CheckBox {
+  background-color: #896ccb;
+  height: 180px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.Main4-CheckBox p:nth-child(1) {
+  font-size: 25px;
+}
+
+.Main4-CheckBox p:nth-child(2) {
+  font-size: 16px;
+  line-height: 25px;
+}
+
+.Main4-CheckBox button {
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 15px 45px;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.Main4-Graph2 {
+  display: flex;
+  justify-content: right;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+}
+.Main4Graph2 {
+  width: 600px;
+  height: 600px;
+  border: 2px solid #ececec;
+  box-shadow: 5px 5px 5px rgba(212, 212, 212, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: translateX(100px);
+  transition: opacity 0.3s ease-out, transform 0.5s ease-out;
+}
+
+.Graph2-Info {
+  width: 600px;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  border: 2px solid #ececec;
+  background-color: white;
+  padding: 20px;
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: opacity 0.3s ease-out, transform 0.5s ease-out;
+  z-index: 10;
+}
+
+.Graph2-scale {
+  width: 500px;
+  height: 500px;
+}
+
+.Main4-Graph2.fade-in .Main4Graph2 {
+  opacity: 1;
+  transform: translate(0);
+}
+
+.Main4-Graph2.fade-in .Graph2-Info {
+  opacity: 1;
+  transform: translate(10%);
+}
+
+.Graph2-Info h2 {
+  font-size: 25px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.Graph2-Info p {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.Graph2-Info p:nth-child(3) {
+  font-size: 16px;
+  color: #777;
+}
+
+/* -------------------------------Section4-------------------------------- */
+/* -------------------------------Section5-------------------------------- */
+#Main-5 {
+  width: calc(100% - 250px);
+  height: calc(100vh - 150px);
+  margin-left: 250px;
+}
+
+.Main5-CheckBox {
+  background-color: #603693;
+  height: 220px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.Main5-CheckBox p {
+  margin-bottom: 20px;
+}
+
+.Main5-CheckBox p:nth-child(1) {
+  font-size: 25px;
+}
+.Main5-CheckBox p:nth-child(2) {
+  margin-bottom: 10px;
+}
+.Main5-Buttton {
+  display: flex;
+}
+
+.Main5-CheckBox button {
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 15px 45px;
+  margin: 0 20px;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.Main5-Graph3 {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 150px;
+  align-items: center;
+  margin: 0 auto;
+  width: 60%;
+}
+
+.Main5Graph3 #pieChart,
+.Main5Graph3 #pieChart2 {
+  width: 400px;
+  height: auto;
+}
+
+.Main5Graph3 h2 {
+  padding-bottom: 50px;
+  font-size: 25px;
+  font-weight: 600;
+}
+/* -------------------------------Section5-------------------------------- */
