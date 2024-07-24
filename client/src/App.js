@@ -4,12 +4,17 @@ import TransactionList from "./View/transcation/TransactionList";
 import Main from "./View/Main/Main.js";
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/transcationList" element={<TransactionList />} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          {/*<Route path="/" element={}/>*/}
+          <Route path="/" element={<Main />} />
+          <Route path="/transcationList" element={<TransactionList />} />
+          <Route path="/monthstatistics" element={<MonthStatistics />} />
+          <Route path="/weakstatistics" element={<WeakStatistics />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
