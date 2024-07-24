@@ -1,0 +1,88 @@
+/* 무한 롤링 배너 CSS */
+#Main-6 {
+  width: calc(100% - 250px);
+  height: calc(100vh - 250px);
+  margin-left: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 수직 가운데 정렬 */
+}
+
+.Main6-Title {
+  display: flex;
+  align-items: center;
+  padding-bottom: 60px;
+  padding-left: 20px;
+}
+
+.AllTipCard {
+  display: flex;
+  overflow: hidden;
+}
+
+.rolling-list {
+  display: flex;
+  position: relative;
+}
+
+.rolling-list ul {
+  display: flex;
+}
+
+.rolling-list ul li {
+  width: 350px;
+  height: 220px;
+  border: 2px solid #603693;
+  margin: 0 16px;
+  padding: 46px 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 수평 가운데 정렬 */
+  flex-shrink: 0;
+}
+
+.Main6-Title img {
+  width: 150px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.Main6-Title h2 {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.Main6-Info h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.Main6-Info p {
+  font-size: 16px;
+  line-height: 25px;
+}
+.rolling-list.original {
+  animation: rollingleft1 200s linear infinite;
+}
+.rolling-list.clone {
+  animation: rollingleft2 200s linear infinite;
+}
+
+@keyframes rollingleft1 {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes rollingleft2 {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

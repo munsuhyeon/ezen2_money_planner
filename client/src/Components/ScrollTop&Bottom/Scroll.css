@@ -1,0 +1,50 @@
+/* 스크롤탑 */
+/* 맨 위로 스크롤 */
+#scroll-top,
+#scroll-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #af9adf;
+  width: 50px;
+  height: 40px;
+  border-radius: 5px;
+  position: fixed;
+  transition: background-color 0.3s, opacity 0.5s, visibility 0.5s;
+  opacity: 0;
+  z-index: 1000;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  /* 화면에 보이지 않을 때는 사용하지 않도록 설정해줍니다. */
+  pointer-events: none;
+}
+
+#scroll-top {
+  bottom: 70px;
+  right: 20px;
+  margin-bottom: 10px;
+}
+
+#scroll-bottom {
+  bottom: 30px;
+  right: 20px;
+}
+#scroll-top:hover,
+#scroll-bottom:hover {
+  cursor: pointer;
+  background-color: #896ccb;
+}
+
+#scroll-top:active,
+#scroll-bottom:active {
+  background-color: #603693;
+}
+
+#scroll-top.show,
+#scroll-bottom.show {
+  opacity: 1;
+  visibility: visible;
+  /* 화면에 보이기 시작하면 버튼 이벤트를 켜줍니다. */
+  pointer-events: auto;
+}
