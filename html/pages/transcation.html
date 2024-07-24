@@ -6,7 +6,14 @@
     <title>가계부 목록</title>
     <!--<link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/common.css">-->
+    <!--<link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/common.css">-->
     <link rel="stylesheet" href="../css/transcation.css">
+    <link rel="stylesheet" href="../css/Header.css" />
+    <!-- 구글 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/Header.css" />
     <!-- 구글 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +48,7 @@
                 대시보드
                 </li>
             </a>
-            <a href="">
+            <a href="transcation.html">
                 <li>
                 <span class="nav-img"
                     ><img src="../images/table-of-contents-svgrepo-com.svg"
@@ -49,7 +56,7 @@
                 수입/지출 내역
                 </li>
             </a>
-            <a href="">
+            <a href="calendar.html">
                 <li>
                 <span class="nav-img"
                     ><img src="../images/date-svgrepo-com.svg"
@@ -57,7 +64,7 @@
                 달력
                 </li>
             </a>
-            <a href="">
+            <a href="weak_statistics.html">
                 <li>
                 <span class="nav-img"
                     ><img src="../images/histogram-svgrepo-com.svg"
@@ -65,7 +72,7 @@
                 주간 보고서
                 </li>
             </a>
-            <a href="">
+            <a href="month_statistics.html">
                 <li>
                 <span class="nav-img"
                     ><img src="../images/line-graph-svgrepo-com.svg"
@@ -89,6 +96,17 @@
                     07월 2024
                     <img src="../images/arrow-down-2-svgrepo-com.svg" class="arrow-down">
                 </h2>
+                <div class="btn-wrap">
+                    <div class="add-data" id="add-data">
+                        <img src="../images/plus-svgrepo-com.svg" />
+                    </div>
+                    <div class="circle-btn" id="search-btn">
+                        <img src="../images/search-svgrepo-com.svg"/>
+                    </div>
+                    <div class="circle-btn">
+                        <img src="../images/excel2-svgrepo-com.svg"/>
+                    </div>
+                </div>
                 <div class="btn-wrap">
                     <div class="add-data" id="add-data">
                         <img src="../images/plus-svgrepo-com.svg" />
@@ -160,6 +178,7 @@
                     </table>
                 </div>
             </div>
+            <!-- 데이터 입력 팝업 -->
             <div class="popup-menu" id="popup-menu">
                 <div class="pop-menu-head">
                     <h1 class="pop-menu-title">입력</h1>
@@ -248,13 +267,200 @@
                     <h1 class="pop-menu-title">검색</h1>
                     <p id="closeButton" class="close-button"><img src="../images//close-svgrepo-com.svg"></p>
                 </div>
+                <div class="check-wrap">
+                    <div class="expense-checkbox">
+                        <p class="filter-title">카테고리(지출)</p>
+                        <ul>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box">
+                                    </span>
+                                    <p class="filter-binding">식사</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">카페/간식</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">술/유흥</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">생활/마트</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">온라인 쇼핑</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">백화점/패션</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">금융/보험</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">의료/건강</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">뷰티/미용</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">주거/통신</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">학습/교육</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">문화/예술</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">교통/차량</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">스포츠/레저</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">여행/숙박</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">경조사/회비</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">출금</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">자산이동</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">기타지출</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                   
+                    <div class="income-checkbox">
+                        <p class="filter-title">카테고리(수입)</p>
+                        <ul>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">주수입</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">부수입</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">금융/대출</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">자산이동</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">기타수입</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="property-checkbox">
+                        <p class="filter-title">자산</p>
+                        <ul>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">카드</p>
+                                </div>
+                            </li>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">현금</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="installment-checkbox">
+                        <p class="filter-title">할부</p>
+                        <ul>
+                            <li class="categoryList">
+                                <div>
+                                    <span class="filter-check-box"></span>
+                                    <p class="filter-binding">할부</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="button-group">
                     <button class="search-button">검색</button>
                 </div>
             </div>
-                </div>
-                
-            </div>
+
         </section>
     </div>
     <script src="../scripts/script.js"></script>

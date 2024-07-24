@@ -1,4 +1,5 @@
 // 테이블 수입/목록 탭 전환
+// 테이블 수입/목록 탭 전환
 function showTab(tabName) {
     var tabs = document.getElementsByClassName('tab-content');
     for (var i = 0; i < tabs.length; i++) {
@@ -54,8 +55,22 @@ document.addEventListener('DOMContentLoaded', function() {
         popupMenu.classList.remove('open');
         popupSearch.classList.remove('open');
     });
+
+     // 모든 체크박스 요소들을 선택
+     const checkBoxes = document.querySelectorAll('.filter-check-box');
+        
+     checkBoxes.forEach(checkBox => {
+         checkBox.addEventListener('click', function() {
+             // 체크박스 상태 토글
+             checkBox.classList.toggle('checked');
+             // 이벤트 전파 막기
+            event.stopPropagation();
+         });
+     });
+
 });
 function pop_up_tab(element) {
+    console.log(element)
     let buttons = document.querySelectorAll('.pop-up-tab');
     buttons.forEach(function(button) {
         button.classList.remove('active');
