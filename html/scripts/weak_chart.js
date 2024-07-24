@@ -1,3 +1,44 @@
+export function createCategoryChart() {
+  const ctx = document.getElementById("category_chart");
+  return new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["식비", "주거비", "교통비", "의료비", "여가비", "기타"],
+      datasets: [
+        {
+          data: [25, 25, 10, 15, 15, 10],
+        },
+      ],
+    },
+    options: {
+      cutout: "80%",
+      responsive: false,
+      plugins: {
+        legend: {
+          position: "right",
+          labels: {
+            padding: 20,
+          },
+        },
+        tooltip: {
+          displayColors: false,
+          zindex: 10,
+          callbacks: {
+            title: function (tooltipItem, data) {
+              return "";
+            },
+            label: function (tooltipItem) {
+              return (
+                tooltipItem.label + ": " + Math.round(tooltipItem.raw) + "%"
+              );
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
 export function createWeakPayChart() {
   const wpctx = document.getElementById("weak_pay");
   return new Chart(wpctx, {
@@ -58,7 +99,15 @@ export function createDayPayChart() {
   return new Chart(wpctx, {
     type: "line",
     data: {
-      labels: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
+      labels: [
+        "일요일",
+        "월요일",
+        "화요일",
+        "수요일",
+        "목요일",
+        "금요일",
+        "토요일",
+      ],
       datasets: [
         {
           data: [15, 5, 2, 20, 7, 9, 6],
@@ -66,7 +115,7 @@ export function createDayPayChart() {
         },
       ],
     },
-    options: {  
+    options: {
       responsive: false,
       plugins: {
         legend: {

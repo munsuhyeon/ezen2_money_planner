@@ -4,7 +4,14 @@
     position: absolute;
     top:60px;
     margin-left: 250px;
+.transcation{
+    width: calc(100% - 250px);
+    height: calc(98vh - 60px);
+    position: absolute;
+    top:60px;
+    margin-left: 250px;
     background: #FDFDFE;
+    font-family: "Noto Sans KR", sans-serif;
     font-family: "Noto Sans KR", sans-serif;
 }
 .content-header{
@@ -12,6 +19,9 @@
     background: #fff;
     margin-bottom: 10px;
     margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -27,6 +37,36 @@
 .arrow-down{
     width: 20px;
 }
+.btn-wrap{
+    display: flex;
+    padding-right: 23px;
+}
+.add-data{
+    width: 30px;
+    height: 30px;
+    background: #896ccb;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.add-data img{
+    width: 20px;
+}
+.circle-btn{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.circle-btn img{
+    width: 20px;
 .btn-wrap{
     display: flex;
     padding-right: 23px;
@@ -76,14 +116,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .tab_total {
+    color: #FF616A;
     color: #FF616A;
 }
 .tab_income{
     color: #4A74FB;
+    color: #4A74FB;
 }
 .tab_expense{
+    color: #FF616A;
     color: #FF616A;
 }
 .tab.active::after {
@@ -94,7 +141,10 @@
     width: 100%;
     height: 3px;
     background-color: #603693;
+    background-color: #603693;
 }
+
+.transcation table {
 
 .transcation table {
     width: 100%;
@@ -102,17 +152,23 @@
 }
 .transcation thead tr th {
     background-color: #F5F5F7;
+.transcation thead tr th {
+    background-color: #F5F5F7;
     padding: 10px;
+    color: #222;
+    text-align: left;
     color: #222;
     text-align: left;
 }
 
+.transcation tbody tr td {
 .transcation tbody tr td {
     padding: 10px;
     border-bottom: 1px solid #e0e0e0;
 }
 
 .amount {
+    color: #FF616A;
     color: #FF616A;
 }
 
