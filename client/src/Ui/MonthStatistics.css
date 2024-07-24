@@ -1,0 +1,214 @@
+/* content-header */
+.content-header {
+  width: 1315px;
+  margin-left: 45px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.date_area input {
+  width: 350px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  border: rgba(0, 0, 0, 0.2) 1px solid;
+  caret-color: transparent;
+  padding: 5px;
+}
+/* content-header */
+
+/* category_chart */
+.flex_area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: rgba(221, 221, 221, 0.05);
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.month_chart_container {
+  margin: 70px 200px 70px 300px;
+}
+
+.category_chart_area {
+  width: 750px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+.category_chart_title,
+.payment_method_title,
+.last_3_month_title,
+.top_5_pay_title,
+.earnings_expenses_title,
+.general_comment_title,
+.average_comparison_title {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 16px;
+}
+
+.category_chart_wrap {
+  width: 500px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.chart_text {
+  position: absolute;
+  top: 215px;
+  left: 205px;
+  text-align: center;
+  line-height: 30px;
+  z-index: -1;
+}
+
+.chart_text_category,
+.payment_method_chart_text,
+.chart_text_exprese,
+.payment_method_chart_text_exprese {
+  font-size: 15px;
+  font-weight: 100;
+}
+
+.chart_text_category_detail,
+.payment_method_chart_text_detail {
+  font-size: 22px;
+  font-weight: bold;
+}
+/* category_chart */
+
+/* top_5_pay */
+.top_5_pay_area {
+  width: 545px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+.top_5_pay_comment,
+.last_3_month_comment,
+.earnings_expenses_comment,
+.average_comparison_comment {
+  padding: 32px 16px;
+}
+
+.top_5_pay_wrap {
+  width: 500px;
+  height: 280px;
+  margin: 0 auto;
+}
+/* top_5_pay */
+
+/* payment_method */
+.payment_method_area,
+.last_3_month_area,
+.average_comparison_area {
+  width: 425px;
+  height: 400px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+.payment_method_wrap {
+  width: 390px;
+  height: 340px;
+  margin: 0 auto;
+}
+
+.payment_method_chart_text_wrap {
+  position: absolute;
+  top: 185px;
+  left: 74px;
+  text-align: center;
+  line-height: 30px;
+  z-index: -1;
+}
+/* payment_method */
+
+/* last_3_month */
+.top_5_pay_comment span,
+.last_3_month_comment span,
+.earnings_expenses_comment span,
+.average_comparison_comment span {
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(255, 0, 0, 0.5);
+}
+
+.last_3_month_wrap {
+  width: 390px;
+  height: 250px;
+  margin: 0 auto;
+}
+/* last_3_month */
+
+/* average_comparison */
+.average_comparison_wrap {
+  width: 390px;
+  height: 250px;
+  margin: 0 auto;
+}
+/* average_comparison */
+
+/* earnings_expenses */
+.earnings_expenses_area {
+  width: 545px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+.earnings_expenses_wrap {
+  width: 500px;
+  height: 305px;
+  margin: 0 auto;
+}
+/* earnings_expenses */
+
+/* general_comment */
+.general_comment_area {
+  position: relative;
+  width: 750px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+.general_comment_wrap {
+  width: 400px;
+  height: 280px;
+  margin: 0 auto;
+}
+
+.general_comment_score {
+  position: absolute;
+  top: 230px;
+  left: 335px;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.general_comment_text {
+  font-size: 15px;
+  padding: 16px 32px;
+  line-height: 24px;
+}
+/* general_comment */

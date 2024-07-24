@@ -1,0 +1,141 @@
+/* content-header */
+.content-header {
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.date-button {
+  display: inline-block;
+  color: #222;
+  font-size: 16px;
+  padding: 15px 0 13px 23px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.arrow-down {
+  width: 20px;
+}
+/* content-header */
+
+/* weak_category_chart */
+.weak_chart_container {
+  margin: 70px 200px 70px 300px;
+}
+
+.flex_area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: rgba(221, 221, 221, 0.05);
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.weak_category_chart_area {
+  width: 550px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+.weak_category_chart_title,
+.weak_pay_title,
+.day_pay_title,
+.day_pay__detail_main_title {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 16px;
+}
+
+.weak_category_chart_wrap {
+  width: 500px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.weak_chart_text {
+  position: absolute;
+  top: 210px;
+  left: 110px;
+  text-align: center;
+  line-height: 30px;
+  z-index: -1;
+}
+
+.weak_chart_text_category,
+.weak_chart_text_exprese {
+  font-size: 15px;
+  font-weight: 100;
+}
+
+.weak_chart_text_category_detail {
+  font-size: 22px;
+  font-weight: bold;
+}
+/* weak_category_chart */
+
+/* .weak_pay */
+.weak_pay_area {
+  width: 750px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+.weak_pay_wrap {
+  width: 700px;
+  height: 380px;
+  margin: 0 auto;
+}
+/* .weak_pay */
+
+/* day_pay */
+.day_pay_area {
+  width: 900px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+#day_pay {
+  width: 750px;
+  margin: 0 auto;
+}
+/* day_pay */
+
+/* day_pay_detail */
+.day_pay_detail_area {
+  width: 400px;
+  height: 455px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin: 10px;
+  background-color: rgb(255, 255, 255);
+  z-index: 0;
+}
+
+.day_pay_detail_title {
+  font-size: 18px;
+  padding: 22px 16px 5px 16px;
+}
+
+.day_pay_detail_text {
+  font-size: 30px;
+  color: rgba(255, 0, 0, 0.5);
+  padding: 5px 16px;
+}
+
+.day_pay_detail_text span {
+  color: rgba(0, 0, 0, 0.5);
+}
+/* day_pay_detail */
