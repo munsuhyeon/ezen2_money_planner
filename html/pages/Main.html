@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/Main.css" />
+    <!-- 알림 아이콘 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <!-- 차트 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <!-- --------------------------------Header-------------------------------- -->
+    <header>
+      <div class="Header_div">
+        <div>
+          <a href="#">
+            <img src="../images/logo.png" alt="모으냥로고" />
+          </a>
+        </div>
+        <div>
+          <ul class="Header_Right">
+            <li>닉네임</li>
+            <li><button class="Header_logout">로그아웃</button></li>
+            <li>
+              <i class="fa-regular fa-bell" id="notification-icon"></i>
+              <!-- 알림 개수 표시 -->
+              <div class="notification-badge" id="notification-badge">3</div>
+              <div class="notification" id="notification">
+                <div class="notification-header">
+                  <h2>알림</h2>
+                  <button id="close-notification">&times;</button>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-item">
+                    <div class="notification-item-info">
+                      <p class="notification-item-title">예산위험</p>
+                      <p class="notification-item-time">7월 22일</p>
+                      <p class="notification-item-detail">
+                        설정하신 예산까지 얼마 안 남았습니다.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-item-info">
+                      <p class="notification-item-title">예산초과</p>
+                      <p class="notification-item-time">7월 22일</p>
+                      <p class="notification-item-detail">
+                        설정하신 예산을 초과하였습니다.
+                      </p>
+                    </div>
+                  </div>
+                  <!-- 추가 알림 항목 여기에 추가 -->
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <!-- --------------------------------Header-------------------------------- -->
+
+    <!-- -------------------------------Section1-------------------------------- -->
+    <section id="Main-1">
+      <nav class="Side_Nav">
+        <ul>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img
+                  src="../images/document-svgrepo-com.svg"
+                  alt="대시보드아이콘"
+              /></span>
+              대시보드
+            </li>
+          </a>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img
+                  src="../images/table-of-contents-svgrepo-com.svg"
+                  alt="수입/지출아이콘"
+              /></span>
+              수입/지출 내역
+            </li>
+          </a>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img src="../images/date-svgrepo-com.svg" alt="달력아이콘"
+              /></span>
+              달력
+            </li>
+          </a>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img
+                  src="../images/histogram-svgrepo-com.svg"
+                  alt="보고서아이콘"
+              /></span>
+              주간 보고서
+            </li>
+          </a>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img
+                  src="../images/line-graph-svgrepo-com.svg"
+                  alt="보고서아이콘"
+              /></span>
+              월간 보고서
+            </li>
+          </a>
+          <a href="">
+            <li>
+              <span class="nav-img"
+                ><img src="../images/user-svgrepo-com.svg" alt="예산설정아이콘"
+              /></span>
+              예산 설정
+            </li>
+          </a>
+        </ul>
+      </nav>
+      <div class="Main_Img"></div>
+      <a id="scroll-top" href="#">↑</a>
+      <a id="scroll-bottom" href="#">↓</a>
+    </section>
+    <!-- -------------------------------Section1-------------------------------- -->
+    <!-- -------------------------------Section2-------------------------------- -->
+    <section id="Main-2">
+      <div class="Main-Allcard">
+        <div class="Main2_card">
+          <img src="../images/ttest.jpg" />
+          <h5>수입/지출내역을 한 눈에 알아볼 수 있습니다.</h5>
+          <p>
+            수입 / 지출내역을 그래프로 정리하여 한 눈에 알아볼 수 있어 지출을
+            줄일 수 있습니다.
+          </p>
+        </div>
+        <div class="Main2_card">
+          <img src="../images/ttest.jpg" />
+          <h5>달력으로도 편하게 확인할 수 있습니다.</h5>
+          <p>날짜 별로 보기 쉬워 일별 지출을 한 눈에 확인할 수 있습니다.</p>
+        </div>
+        <div class="Main2_card">
+          <img src="../images/ttest.jpg" />
+          <h5>보고서를 보고 지출을 줄일 수 있습니다.</h5>
+          <p>주간 / 월간 그래프를 보며 소비 패턴을 확인할 수 있습니다.</p>
+        </div>
+        <div class="Main2_card">
+          <img src="../images/ttest.jpg" />
+          <h5>예산설정을 간편하게 할 수 있습니다.</h5>
+          <p>예산을 설정하여 한달, 카테고리간의 지출을 줄여나갈 수 있습니다.</p>
+        </div>
+      </div>
+    </section>
+    <!-- -------------------------------Section2-------------------------------- -->
+    <!-- -------------------------------Section3-------------------------------- -->
+    <section id="Main-3">
+      <nav class="Main3_Nav">
+        <ul>
+          <li><a href="#Main-3">최신거래내역</a></li>
+          <li><a href="#Main-4">지출통계</a></li>
+          <li><a href="#Main-5">월간지출/월간예산</a></li>
+          <li><a href="#Main-6">정보</a></li>
+        </ul>
+      </nav>
+      <div class="Main3-Graph1">
+        <div class="Graph1-Info">
+          <h2>최신 거래내역</h2>
+          <p>가장 최근에 지출이 많이 발생한 곳은<br />스터티 카페예요.</p>
+          <p>총 20,000원을 사용하셨어요.</p>
+        </div>
+        <div class="Main3Graph1">
+          <div class="Graph1-scale">
+            <canvas id="barChart1"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- -------------------------------Section3-------------------------------- -->
+    <!-- -------------------------------Section4-------------------------------- -->
+    <section id="Main-4">
+      <div class="Main4-Graph2">
+        <div class="Main4Graph2">
+          <div class="Graph2-scale">
+            <canvas id="barChart2"></canvas>
+          </div>
+        </div>
+        <div class="Graph2-Info">
+          <h2>자주 지출되는 내역</h2>
+          <p>
+            카페에서 자주 지출이 발생했어요!<br />총 30,000원을 사용하셨어요 :)
+          </p>
+          <p>지정하신 예산까지의 금액이 2,000원 밖에 <br />남지 않았어요.</p>
+          <p>
+            카페인을 줄이는 것도 지출을 줄이는데 큰 도움을 <br />줄 수 있어요.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- -------------------------------Section4-------------------------------- -->
+    <!-- -------------------------------Section5-------------------------------- -->
+    <section id="Main-5">
+      <div class="Main5-Graph3">
+        <div class="Main5Graph3">
+          <h2>월간 지출</h2>
+          <canvas id="pieChart"></canvas>
+        </div>
+        <div class="Main5Graph3">
+          <h2>월간 예산</h2>
+          <canvas id="pieChart2"></canvas>
+        </div>
+      </div>
+    </section>
+    <!-- -------------------------------Section5-------------------------------- -->
+    <!-- -------------------------------Section6-------------------------------- -->
+    <section id="Main-6">
+      <div class="Main6-Title">
+        <img src="../images/smartcat.png" />
+        <h2>관리 TIP</h2>
+      </div>
+      <div class="Main6-TipCard">
+        <div class="AllTipCard">
+          <div class="rolling-list">
+            <ul>
+              <li>
+                <div class="Main6-Info">
+                  <h2>관리 Tip</h2>
+                  <p>
+                    지출을 줄이기 위해서는 계획을 세우는 일이 필요합니다. 계획은
+                    구체적으로 세울수록 좋습니다.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="Main6-Info">
+                  <h2>관리 Tip</h2>
+                  <p>
+                    지출을 줄이기 위해서는 계획을 세우는 일이 필요합니다. 계획은
+                    구체적으로 세울수록 좋습니다.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="Main6-Info">
+                  <h2>관리 Tip</h2>
+                  <p>
+                    지출을 줄이기 위해서는 계획을 세우는 일이 필요합니다. 계획은
+                    구체적으로 세울수록 좋습니다.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="Main6-Info">
+                  <h2>관리 Tip</h2>
+                  <p>
+                    지출을 줄이기 위해서는 계획을 세우는 일이 필요합니다. 계획은
+                    구체적으로 세울수록 좋습니다.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="Main6-Info">
+                  <h2>관리 Tip</h2>
+                  <p>
+                    지출을 줄이기 위해서는 계획을 세우는 일이 필요합니다. 계획은
+                    구체적으로 세울수록 좋습니다.
+                  </p>
+                </div>
+              </li>
+              <li>
+                <div class="Main6-Info">
+                  <h2>관리 Tip</h2>
+                  <p>
+                    지출을 줄이기 위해서는 계획을 세우는 일이 필요합니다. 계획은
+                    구체적으로 세울수록 좋습니다.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- -------------------------------Section6-------------------------------- -->
+    <!-- -------------------------------Footer-------------------------------- -->
+    <footer>
+      <div class="Footer-content">
+        <p>
+          본사 <span>인천 남동구 인주대로 593 12층</span> | 대표이사
+          <span>TEAM2</span> | 사업자등록번호 <span>2024-07-15</span>
+        </p>
+        <p>ⓒ 2024 ㈜모으냥</p>
+        <p>
+          서비스 이용약관 | 개인정보 처리방침 | 민원센터 | 제휴문의
+          <span>TEAM2@모으냥.com</span>
+        </p>
+      </div>
+    </footer>
+
+    <!-- -------------------------------Footer-------------------------------- -->
+    <script src="../scripts/Main.js"></script>
+  </body>
+</html>
