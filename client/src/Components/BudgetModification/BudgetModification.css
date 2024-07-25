@@ -1,0 +1,73 @@
+#budget_modification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+.budget_modification_container {
+  text-align: center;
+}
+
+.budget_page_title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.logo_image {
+  width: 200px;
+  height: auto;
+}
+
+.cat_image {
+  width: 300px;
+  height: auto;
+}
+
+.budget_page_sub_title {
+  font-size: 35px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.input_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+#budget_input {
+  width: 100%;
+  max-width: 200px;
+  padding: 10px;
+  border: 2px solid #896ccb;
+  border-radius: 5px;
+  font-size: 20px;
+  margin-right: 5px;
+  box-sizing: border-box;
+  text-align: right;
+}
+
+span {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  line-height: 1;
+}
+
+.confirm_button {
+  background-color: #af9adf;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.confirm_button:hover {
+  background-color: #603693;
+}

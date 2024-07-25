@@ -1,0 +1,183 @@
+/* 삭제필요 */
+
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Noto+Serif+KR:wght@200..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* 스크롤바 색깔 */
+*::-webkit-scrollbar {
+  background: #efefef;
+  width: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #af9adf;
+  border-radius: 5px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #603693;
+}
+
+/* --------------------------------Header-------------------------------- */
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  height: 60px;
+  z-index: 2;
+  /* 요소의 상태 변화를 부드럽게 처리하는 속성 */
+  transition: background-color 0.3s ease;
+}
+
+header.active {
+  border-bottom: 1px solid #e4e4e4;
+  background-color: white;
+}
+
+img {
+  width: 110px;
+  height: auto;
+}
+
+.Header_div {
+  width: 1750px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 5px 0;
+  align-items: center;
+}
+
+.Header_Right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-weight: 540;
+  font-size: 15px;
+  position: relative;
+}
+
+.Header_Right .Header_logout {
+  font-size: 16px;
+  padding: 4px 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  background-color: #896ccb;
+  cursor: pointer;
+}
+
+.Header_Right li:nth-child(3) {
+  font-size: 25px;
+  padding-bottom: 5px;
+  position: relative;
+}
+
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
+/* --------------------------------알림창-------------------------------- */
+#notification-icon {
+  cursor: pointer;
+}
+.notification {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 300px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.notification.active {
+  display: block;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+
+.notification-header h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.notification-header button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #333;
+}
+
+.notification-content {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+  padding-bottom: 30px;
+}
+
+.notification-item-info {
+  flex: 1;
+}
+
+.notification-item-title {
+  font-size: 14px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.notification-item-time {
+  font-size: 12px;
+  color: #888;
+}
+
+.notification-item-detail {
+  font-size: 16px;
+  color: black;
+}
+/* --------------------------------알림뱃지-------------------------------- */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  z-index: 5;
+}
+/* --------------------------------Header-------------------------------- */

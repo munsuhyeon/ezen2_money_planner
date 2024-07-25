@@ -1,0 +1,39 @@
+input[type='checkbox']{
+    display: none;
+}
+.filter-check-box{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #bfbfbf;
+    border-radius: 4px;
+    transition: all 0.4s ease 0s;
+    margin: 3px 13px 0 0;
+    float: left;
+    position: relative;
+ }
+.filter-check-box.checked {
+    background-color: #896ccb;
+    border-color: #896ccb;
+}
+.filter-check-box.checked::after{
+    content: '✔';
+    color:white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+}
+/*
+ input:checked + label::after{
+    content: '✔';
+    color:white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+}*/
