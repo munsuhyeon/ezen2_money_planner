@@ -9,6 +9,14 @@ export const createCategoryChart = () => {
       datasets: [
         {
           data: [352000, 250000, 10000, 150000, 15000, 100000],
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.6)",
+            "rgba(54, 162, 235, 0.6)", 
+            "rgba(255, 206, 86, 0.6)",
+            "rgba(75, 192, 192, 0.6)",
+            "rgba(153, 102, 255, 0.6)",
+            "rgba(255, 159, 64, 0.6)",
+          ],
         },
       ],
     },
@@ -36,10 +44,12 @@ export const createCategoryChart = () => {
                   return {
                     text: `${label}: ${percentage}% (${valueWon})`,
                     fillStyle: fillColor,
+                    borderColor: "transparent",
                     hidden:
                       isNaN(data.datasets[0].data[i]) ||
                       data.datasets[0].data[i] === 0,
                     index: i,
+                    strokeStyle: 'rgba(0, 0, 0, 0)'
                   };
                 });
               }
@@ -130,6 +140,14 @@ export const createPaymentMethodChart = () => {
       datasets: [
         {
           data: [520000, 50000, 250000, 200000],
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.6)",
+            "rgba(54, 162, 235, 0.6)", 
+            "rgba(255, 206, 86, 0.6)",
+            "rgba(75, 192, 192, 0.6)",
+            "rgba(153, 102, 255, 0.6)",
+            "rgba(255, 159, 64, 0.6)",
+          ],
         },
       ],
     },
@@ -161,6 +179,7 @@ export const createPaymentMethodChart = () => {
                       isNaN(data.datasets[0].data[i]) ||
                       data.datasets[0].data[i] === 0,
                     index: i,
+                    strokeStyle: 'rgba(0, 0, 0, 0)'
                   };
                 });
               }

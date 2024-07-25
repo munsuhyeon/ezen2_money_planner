@@ -1,59 +1,33 @@
 import React, { Component } from "react";
 import DatePicker from "react-datepicker";
-import { startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { ko } from "date-fns/locale/ko";
 import "react-datepicker/dist/react-datepicker.css";
+import ko from "date-fns/locale/ko";
 
-export default class MonthDatePick extends Component {
+export default class YearMonthPicker extends Component {
   constructor(props) {
     super(props);
     const today = new Date();
-    const startOfMonthDate = startOfMonth(today);
-    const endOfMonthDate = endOfMonth(today);
-    
+
     this.state = {
-      startDate: startOfMonthDate,
-      endDate: endOfMonthDate,
+      selectedDate: today,
     };
   }
 
-  setChangeDate = (dates) => {
-    const [start, end] = dates;
-    if (start && !end) {
-      const startOfMonthDate = startOfMonth(start);
-      const endOfMonthDate = endOfMonth(start);
-      const daysOfMonth = eachDayOfInterval({
-        start: startOfMonthDate,
-        end: endOfMonthDate,
-      });
-
-      this.setState({
-        startDate: start,
-        endDate: endOfMonthDate,
-        highlightDates: daysOfMonth,
-      });
-    } else {
-      this.setState({ startDate: start, endDate: end, highlightDates: [] });
-    }
+  handleChange = (date) => {
+    this.setState({
+      selectedDate: date,
+    });
   };
 
   render() {
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setDate(oneMonthAgo.getDate() - 31);
-
     return (
       <div>
         <DatePicker
-          selectsRange={true}
-          className="datepicker"
+          selected={this.state.selectedDate}
+          onChange={this.handleChange}
+          dateFormat="yyyy년 MM월"
+          showMonthYearPicker
           locale={ko}
-          dateFormat="yyyy년 MM월 dd일"
-          selected={this.state.startDate}
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
-          maxDate={new Date()}
-          onChange={(dates) => this.setChangeDate(dates)}
-          highlightDates={this.state.highlightDates}
         />
       </div>
     );

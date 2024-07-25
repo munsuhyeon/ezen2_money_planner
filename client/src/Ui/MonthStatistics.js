@@ -39,7 +39,7 @@ const MonthStatistics = () => {
         </div>
       </div>
 
-      <div className="flex_area">
+      <div className="month_flex_area">
         <div className="category_chart_area">
           <h2 className="category_chart_title">카테고리별 지출</h2>
           <div className="category_chart_wrap">
