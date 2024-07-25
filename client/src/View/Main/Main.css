@@ -18,6 +18,11 @@
   height: calc(100vh - 60px);
   margin-left: 250px;
   padding: 200px 0 0;
+  background-image: url(../../../public/assets/Main/background1.jpg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center; /* 수직, 수평 중앙 */
+  background-position: 50% 50%; /* 퍼센트로 위치 지정 */
 }
 
 .Main-Allcard {

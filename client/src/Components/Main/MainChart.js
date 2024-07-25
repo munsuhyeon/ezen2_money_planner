@@ -119,7 +119,7 @@ const MainChart = () => {
             <Link to="">
               <button>월간지출 확인하기</button>
             </Link>
-            <Link to="">
+            <Link to="/budgetpage">
               <button>월간예산 확인하기</button>
             </Link>
           </div>

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
-
+import {useState} from "react"
 
 import "../../assets/css/reset.css";
 import "./Login.css";
@@ -10,7 +10,12 @@ import "./Login.css";
 
 function Login() {
 
+    const [inputId, setInputId] = useState("");
+    const [inputPw, setInputPw] = useState("");
 
+    function reqLogin (){
+        // call("/login", "POST", item).then((response) => setItems(response.data));
+    }
     return (
         <div className="login_section">
             <div className="login_title_container">
@@ -27,17 +32,17 @@ function Login() {
                     <form action="" className="login_form_box">
                         <div className="input_login">
                             <p>아이디</p>
-                            <input type="text" placeholder="아이디를 입력하세요"/>
+                            <input type="text" value={inputId} onChange={(e) => setInputId(e.target.value)} placeholder="아이디를 입력하세요"/>
                         </div>
                         <div className="input_login">
                             <p>비밀번호</p>
-                            <input type="text" placeholder="비밀번호를 입력하세요"/>
+                            <input type="password" value={inputPw} onChange={(e) => setInputPw(e.target.value)} placeholder="비밀번호를 입력하세요"/>
                         </div>
                     </form>
                 </div>
                 <div className="login_button_container">
                     <div className="login_button_box">
-                        <button>
+                        <button onClick={reqLogin}>
                             로그인
                         </button>
                     </div>

@@ -202,7 +202,8 @@
   background-color: #af9adf;
 }
 
-button:hover {
+.edit-button:hover,
+.confirm-button:hover {
   background-color: #896ccb;
 }
 

@@ -1,36 +1,43 @@
 import React, { Component } from "react";
 import DatePicker from "react-datepicker";
-import { startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { ko } from "date-fns/locale/ko";
+import { startOfWeek, endOfWeek, eachDayOfInterval } from "date-fns";
+import { ko } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default class WeakDatePick extends Component {
+export default class WeekDatePicker extends Component {
   constructor(props) {
     super(props);
     const today = new Date();
-    const startOfMonthDate = startOfMonth(today);
-    const endOfMonthDate = endOfMonth(today);
-    
+    const startOfThisWeek = startOfWeek(today, { weekStartsOn: 1, locale: ko });
+    const endOfThisWeek = endOfWeek(today, { weekStartsOn: 1, locale: ko });
+
     this.state = {
-      startDate: startOfMonthDate,
-      endDate: endOfMonthDate,
+      startDate: startOfThisWeek,
+      endDate: endOfThisWeek,
+      highlightDates: [],
     };
   }
 
   setChangeDate = (dates) => {
     const [start, end] = dates;
     if (start && !end) {
-      const startOfMonthDate = startOfMonth(start);
-      const endOfMonthDate = endOfMonth(start);
-      const daysOfMonth = eachDayOfInterval({
-        start: startOfMonthDate,
-        end: endOfMonthDate,
+      const startOfSelectedWeek = startOfWeek(start, {
+        weekStartsOn: 1,
+        locale: ko,
+      });
+      const endOfSelectedWeek = endOfWeek(start, {
+        weekStartsOn: 1,
+        locale: ko,
+      });
+      const daysOfWeek = eachDayOfInterval({
+        start: startOfSelectedWeek,
+        end: endOfSelectedWeek,
       });
 
       this.setState({
-        startDate: start,
-        endDate: endOfMonthDate,
-        highlightDates: daysOfMonth,
+        startDate: startOfSelectedWeek,
+        endDate: endOfSelectedWeek,
+        highlightDates: daysOfWeek,
       });
     } else {
       this.setState({ startDate: start, endDate: end, highlightDates: [] });
@@ -38,13 +45,10 @@ export default class WeakDatePick extends Component {
   };
 
   render() {
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setDate(oneMonthAgo.getDate() - 31);
-
     return (
       <div>
         <DatePicker
-          selectsRange={true}
+          selectsRange
           className="datepicker"
           locale={ko}
           dateFormat="yyyy년 MM월 dd일"

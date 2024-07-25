@@ -2,9 +2,9 @@
 .login_section {
     max-width: 500px;
     margin: 80px auto; 
-    max-height: 700px;
+    max-height: 800px;
     width: 500px;
-    height: 700px;
+    height: 800px;
     background-color: rgb(240, 240, 240);
     padding: 2rem;
     border-radius: 25px;
@@ -68,28 +68,69 @@
 
 /* 로그인 버튼 */
 .login_section .login_button_container .login_button_box button {
-    max-width: 210px;
-    max-height: 60px;
-    width: 210px;
-    height: 60px;
-    background-color: rgb(226, 195, 255);
+    max-width: 250px;
+    max-height: 50px;
+    width: 250px;
+    height: 50px;
+    background-color:#603693;
     border: none;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
     color: white;
     cursor: pointer;
     text-align: center;
 }
 
+.login_section .login_button_container .login_button_box button:first-child{
+    margin-bottom: 8px;
+}
+
 .login_section .login_button_container .login_button_box {
-    display: flex;
+ 
+    display: grid;
     justify-content: space-around;
 
 }
 
 /* 로그인 버튼 F */
 
+/* 소셜 로그인 */
+.social_login_container{
+    border: 2px solid #896ccb;
+    border-radius: 24px;
+    margin-bottom: 1rem;
+}
 
+.social_login_container .social_login_title_box .social_login_title{
+    padding: 12px 12px 0 12px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.social_login_container .social_login_button_box{
+    padding: 12px;
+
+}
+
+.social_login_container .social_login_button_box .social_login_button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FEE500;
+    width: 48px;
+    height: 48px;    
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.social_login_container .social_login_button_box .social_login_button .social_login_img{
+    width: 32px;
+    height: 32px;
+}
+
+
+/* 소셜 로그인 F */
 
 /* 비번 찾기, 회원가입*/
 .login_section .forgot-signup_container {
@@ -126,7 +167,3 @@
 
 /* 버튼요소 공통 F */
 
-/* 버튼 요소 hover */
-.login_section .forgot-signup_container:hover {}
-
-.login_section .login_detail_wrapper .login_button_container button {}
