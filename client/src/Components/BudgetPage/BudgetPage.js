@@ -169,7 +169,7 @@ const BudgetPage = () => {
               <div className="section-title">설정한 예산 데이터</div>
               <div className="budget-setting">
                 <img
-                  src="../images/고양이 그림.png"
+                  src="/assets/logo/pocketcat.png"
                   alt="프로필 이미지"
                   className="profile-image-left"
                 />

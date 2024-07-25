@@ -51,7 +51,7 @@ const Header = () => {
     <header ref={headerRef}>
       <div className="Header_div">
         <div>
-          <a href="#">
+          <a href="/">
             <img src="/assets/logo/Thicklogo.png" alt="모으냥로고" />
           </a>
         </div>
