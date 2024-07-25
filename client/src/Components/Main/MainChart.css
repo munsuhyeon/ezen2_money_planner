@@ -3,6 +3,11 @@
   width: calc(100% - 250px);
   height: calc(100vh - 50px);
   margin-left: 250px;
+  background-image: url(../../../public/assets/Main/background2.jpg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center; /* 수직, 수평 중앙 */
+  background-position: 50% 50%; /* 퍼센트로 위치 지정 */
 }
 
 .Main3-CheckBox {
@@ -29,10 +34,6 @@
   border: 2px solid white;
   border-radius: 10px;
   padding: 15px 45px;
-  background-color: transparent;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
 }
 
 .Main3-Graph1 {
@@ -109,6 +110,11 @@
   width: calc(100% - 250px);
   height: calc(100vh - 50px);
   margin-left: 250px;
+  background-image: url(../../../public/assets/Main/background3.jpg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center; /* 수직, 수평 중앙 */
+  background-position: 50% 50%; /* 퍼센트로 위치 지정 */
 }
 .Main4-CheckBox {
   background-color: #896ccb;
@@ -134,10 +140,6 @@
   border: 2px solid white;
   border-radius: 10px;
   padding: 15px 45px;
-  background-color: transparent;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
 }
 
 .Main4-Graph2 {
@@ -213,6 +215,11 @@
   width: calc(100% - 250px);
   height: calc(100vh - 150px);
   margin-left: 250px;
+  background-image: url(../../../public/assets/Main/background4.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center; /* 수직, 수평 중앙 */
+  background-position: 50% 50%; /* 퍼센트로 위치 지정 */
 }
 
 .Main5-CheckBox {
@@ -245,10 +252,6 @@
   border-radius: 10px;
   padding: 15px 45px;
   margin: 0 20px;
-  background-color: transparent;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
 }
 
 .Main5-Graph3 {
@@ -270,5 +273,14 @@
   padding-bottom: 50px;
   font-size: 25px;
   font-weight: 600;
+}
+
+.Main3-CheckBox button:hover,
+.Main5-CheckBox button:hover {
+  background-color: #896ccb;
+}
+
+.Main4-CheckBox button:hover {
+  background-color: #603693;
 }
 /* -------------------------------Section5-------------------------------- */
