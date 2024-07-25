@@ -17,4 +17,3 @@ primary key (`user_id`)
 )
 ;
 
-

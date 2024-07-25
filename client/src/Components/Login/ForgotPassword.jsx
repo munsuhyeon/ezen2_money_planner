@@ -1,5 +1,7 @@
 import {useState} from "react";
 
+import axios from "axios";
+
 
 import "./ForgotPassword.css";
 
@@ -12,13 +14,13 @@ function ForgotPassword () {
    async function sendEmail() {
         // call("/user", "get", item).then((response) => setItems(response.data));
         const responses = await axios.get(`${Server_URL}/forgotpassword`, {});
-        const inputData = await responses.data.filter((email) => it.email == id);
+        // const inputData = await responses.data.filter((email) => it.email == id);
 
-        if(inputEmail == email){
-        }
-        else{
+        // if(inputEmail == email){
+        // }
+        // else{
             
-        }
+        // }
 
     }
 
