@@ -1,20 +1,20 @@
-
 .login_section {
     max-width: 500px;
-    margin: 80px auto; 
+    margin: 80px auto;
     max-height: 750px;
     width: 500px;
     height: 750px;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(245, 245, 245);
     padding: 2rem;
     border-radius: 25px;
 }
 
 /* 로그인화면 로고 이미지 */
-.login_section .login_title_container .login_image_box .login_img{
+.login_section .login_title_container .login_image_box .login_img {
     width: 349px;
     height: 159px;
 }
+
 /* 로그인화면 로고 이미지 F */
 
 .login_section .login_title_container {
@@ -79,7 +79,7 @@
     max-height: 50px;
     width: 250px;
     height: 50px;
-    background-color:#603693;
+    background-color: #603693;
     border: none;
     font-size: 20px;
     font-weight: 600;
@@ -88,12 +88,11 @@
     text-align: center;
 }
 
-.login_section .login_button_container .login_button_box button:first-child{
+.login_section .login_button_container .login_button_box button:first-child {
     margin-bottom: 8px;
 }
 
 .login_section .login_button_container .login_button_box {
- 
     display: grid;
     justify-content: space-around;
 
@@ -102,36 +101,36 @@
 /* 로그인 버튼 F */
 
 /* 소셜 로그인 */
-.social_login_container{
+.social_login_container {
     border: 2px solid #896ccb;
     border-radius: 24px;
     margin-bottom: 1rem;
 }
 
-.social_login_container .social_login_title_box .social_login_title{
+.social_login_container .social_login_title_box .social_login_title {
     padding: 12px 12px 0 12px;
     font-size: 18px;
     font-weight: bold;
 }
 
-.social_login_container .social_login_button_box{
+.social_login_container .social_login_button_box {
     padding: 12px;
 
 }
 
-.social_login_container .social_login_button_box .social_login_button{
+.social_login_container .social_login_button_box .social_login_button {
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #FEE500;
     width: 48px;
-    height: 48px;    
+    height: 48px;
     border-radius: 50%;
     object-fit: contain;
 }
 
-.social_login_container .social_login_button_box .social_login_button .social_login_img{
+.social_login_container .social_login_button_box .social_login_button .social_login_img {
     width: 32px;
     height: 32px;
 }
@@ -168,9 +167,20 @@
 
 
 
+<<<<<<< HEAD
 /* 버튼요소 공통 */
 
 
 
 /* 버튼요소 공통 F */
 
+=======
+/* 버튼요소 hover */
+.login_section .login_button_container .login_button_box button:hover {
+    /* background-color: #896ccb; */
+    
+}
+
+
+/* 버튼요소 hover F */
+>>>>>>> feature/login
