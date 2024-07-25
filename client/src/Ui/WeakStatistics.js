@@ -29,7 +29,7 @@ const WeakStatistics = () => {
           <WeakDatePick onChangeDate={handleDateChange} />
         </div>
       </div>
-      <div className="flex_area">
+      <div className="weak_flex_area">
         <div className="weak_category_chart_area">
           <h2 className="weak_category_chart_title">카테고리별 지출</h2>
           <div className="weak_category_chart_wrap">

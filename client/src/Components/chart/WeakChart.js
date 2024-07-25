@@ -1,4 +1,4 @@
-import Chart from 'chart.js/auto';
+import Chart from "chart.js/auto";
 
 export const createCategoryChart = () => {
   const ctx = document.getElementById("weak_category_chart");
@@ -9,6 +9,14 @@ export const createCategoryChart = () => {
       datasets: [
         {
           data: [25000, 25000, 10000, 15000, 15000, 10000],
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.6)",
+            "rgba(54, 162, 235, 0.6)", 
+            "rgba(255, 206, 86, 0.6)",
+            "rgba(75, 192, 192, 0.6)",
+            "rgba(153, 102, 255, 0.6)",
+            "rgba(255, 159, 64, 0.6)",
+          ],
         },
       ],
     },
@@ -26,7 +34,9 @@ export const createCategoryChart = () => {
               if (data.labels.length && data.datasets.length) {
                 return data.labels.map(function (label, i) {
                   let value = data.datasets[0].data[i];
-                  let total = data.datasets[0].data.reduce((acc, val) => acc + val);
+                  let total = data.datasets[0].data.reduce(
+                    (acc, val) => acc + val
+                  );
                   let percentage = Math.round((value / total) * 100);
                   let datasetColor = data.datasets[0].backgroundColor[i];
                   let fillColor = datasetColor;
@@ -34,8 +44,11 @@ export const createCategoryChart = () => {
                   return {
                     text: `${label}: ${percentage}% (${valueWon})`,
                     fillStyle: fillColor,
-                    hidden: isNaN(data.datasets[0].data[i]) || data.datasets[0].data[i] === 0,
+                    hidden:
+                      isNaN(data.datasets[0].data[i]) ||
+                      data.datasets[0].data[i] === 0,
                     index: i,
+                    strokeStyle: 'rgba(0, 0, 0, 0)'
                   };
                 });
               }
@@ -60,7 +73,7 @@ export const createCategoryChart = () => {
       },
     },
   });
-}
+};
 
 export const createWeakPayChart = () => {
   const wpctx = document.getElementById("weak_pay");
@@ -115,7 +128,7 @@ export const createWeakPayChart = () => {
       barThickness: 25,
     },
   });
-}
+};
 
 export const createDayPayChart = () => {
   const wpctx = document.getElementById("day_pay");
@@ -135,7 +148,7 @@ export const createDayPayChart = () => {
         {
           data: [150000, 50000, 20000, 200000, 70000, 90000, 60000],
           borderWidth: 2,
-          pointRadius: 6
+          pointRadius: 6,
         },
       ],
     },
@@ -155,9 +168,7 @@ export const createDayPayChart = () => {
             },
             label: function (tooltipItem) {
               let value = tooltipItem.raw;
-              return (
-                tooltipItem.label + ": " + `${value.toLocaleString()}원`
-              );
+              return tooltipItem.label + ": " + `${value.toLocaleString()}원`;
             },
           },
         },
@@ -174,4 +185,4 @@ export const createDayPayChart = () => {
       },
     },
   });
-}
+};
