@@ -7,13 +7,17 @@ const BudgetModification = () => {
       <div className="budget_modification_container">
         <div className="image_container">
           <img
-            src="/images/고양이 그림.png"
+            src="/assets/logo/pocketcat.png"
             alt="예산 고양이"
             class="cat_image"
           />
         </div>
         <div className="budget_page_title">
-          <img src="/images/logo.png" alt="모으냥 로고" class="logo_image" />
+          <img
+            src="/assets/logo/Thicklogo.png"
+            alt="모으냥 로고"
+            class="logo_image"
+          />
         </div>
         <div className="budget_page_sub_title">
           나의 이번 달 예산을 설정해주세요
