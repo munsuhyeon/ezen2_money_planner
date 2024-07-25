@@ -1,11 +1,11 @@
 import React, { useState} from 'react';
 import './Modal.css';
 import Checkbox from './Checkbox';
-
 export const AddDataModal = ({ setAddModalOpen }) => {
     const closeModal = () => {
         setAddModalOpen(false);
     };
+
     return(
         <div className="popup-menu" id="popup-menu">
                 <div className="pop-menu-head">

@@ -24,14 +24,16 @@ DROP TABLE IF EXISTS `transactions`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `transactions` (
   `transaction_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(20) NOT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
   `category_id` int NOT NULL,
   `amount` int NOT NULL,
   `transaction_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `description` varchar(150) NOT NULL,
-  `payment_type` varchar(10) NOT NULL,
-  `income_type` varchar(10) NOT NULL,
-  PRIMARY KEY (`transaction_id`)
+  `description` varchar(255) DEFAULT NULL,
+  `payment_type` varchar(255) DEFAULT NULL,
+  `income_type` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`transaction_id`),
+  KEY `fk_categoryid` (`category_id`),
+  CONSTRAINT `fk_categoryid` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-23 10:53:15
+-- Dump completed on 2024-07-25 17:11:42

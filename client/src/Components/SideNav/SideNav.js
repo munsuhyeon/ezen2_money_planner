@@ -13,7 +13,7 @@ const SideNav = () => {
       text: "대시보드",
     },
     {
-      to: "/transcationList",
+      to: "/transactionList",
       imgSrc: "/assets/sideNav/table-of-contents-svgrepo-com.svg",
       imgAlt: "수입/지출아이콘",
       text: "수입/지출내역",

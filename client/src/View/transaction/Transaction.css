@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
 .transcation{
     width: calc(100% - 250px);
+    margin-left: 250px;
     height: calc(98vh - 60px);
     position: absolute;
     top:60px;
-    margin-left: 250px;
     background: #FDFDFE;
     font-family: "Noto Sans KR", sans-serif;
 }

@@ -5,7 +5,7 @@ const Footer = () => {
     <>
       {/* ---------------------------------Footer-------------------------------- -- */}
       <footer>
-        <div class="Footer-content">
+        <div className="Footer-content">
           <p>
             본사 <span>인천 남동구 인주대로 593 12층</span> | 대표이사
             <span>TEAM2</span> | 사업자등록번호 <span>2024-07-15</span>

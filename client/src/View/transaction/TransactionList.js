@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import './Transcation.css';
+import './Transaction.css';
 import { AddDataModal, SearchModal } from '../../Ui/Modal';
 import { call } from '../../Components/service/ApiService';
 const TransactionList = () => {
     const [searchModalOpen, setSearchModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
-    const [categorys, setCategorys] = useState([]);
+    const [expenseCategory, setExpenseCategory] = useState([]);
+    const [incomeCategory, setIncomeCategory] = useState([]);
+    const [assetsCategory, setAssetsCategory] = useState([]);
+    const [installmentCategory, setInstallmentCategory] = useState([]);
     const showModal = (btn) => {
         if(btn == 'addData'){
             setAddModalOpen(true);
@@ -22,11 +25,24 @@ const TransactionList = () => {
     useEffect(() => {
         call("/category","GET",null)
         .then((response) => {
-            setCategorys(response.data);
+            if (response) {
+                const expenseData = response.data.filter(category => category.categoryType === 'expense');
+                const incomeData = response.data.filter(category => category.categoryType === 'income');
+                const assetsData = response.data.filter(category => category.categoryType === 'assets');
+                const installmentsData = response.data.filter(category => category.categoryType === 'installments');
+                setExpenseCategory(expenseData);
+                setIncomeCategory(incomeData);
+                setAssetsCategory(assetsData);
+                setInstallmentCategory(installmentsData);
+            } else {
+                throw new Error("응답 구조가 잘못되었습니다");
+            }
         })
+        .catch((error) => {
+            console.error("API call error:", error);
+        });
     },[])
     return(
-        <div className="container">
             <div className="transcation" id="transcation">
             <div className="content-header">
                 <h2 className="date-button">
@@ -95,11 +111,10 @@ const TransactionList = () => {
                     </table>
                 </div>
             </div>
-        </div>
+        
         {addModalOpen && <AddDataModal setAddModalOpen={setAddModalOpen}/>}
         {searchModalOpen && <SearchModal setSearchModalOpen={setSearchModalOpen}/>}
-    </div>
-        
+        </div>       
     )
 }
 export default TransactionList;
