@@ -6,6 +6,8 @@ import MonthStatistics from "./Ui/MonthStatistics.js";
 import WeakStatistics from "./Ui/WeakStatistics.js";
 import SideNav from "./Components/SideNav/SideNav.js";
 import Header from "./Components/Header/Header.js";
+import BudgetModification from "./Components/BudgetModification/BudgetModification.js";
+import BudgetPage from "./Components/BudgetPage/BudgetPage.js";
 function App() {
   return (
     <div>
@@ -18,6 +20,8 @@ function App() {
           <Route path="/transcationList" element={<TransactionList />} />
           <Route path="/monthly-report" element={<MonthStatistics />} />
           <Route path="/weekly-report" element={<WeakStatistics />} />
+          <Route path="/budgetmodification" element={<BudgetModification />} />
+          <Route path="/budgetpage" element={<BudgetPage />} />
         </Routes>
       </BrowserRouter>
     </div>
