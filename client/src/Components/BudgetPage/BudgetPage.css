@@ -1,0 +1,314 @@
+#budget_page {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: calc(100% - 250px);
+  margin-left: 80px;
+  margin-top: 50px;
+  font-family: "Nanum Gothic", "sans-serif";
+}
+
+.container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 1300px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap; /* 한 줄에 고정 */
+}
+
+.left-section,
+.right-section,
+.end-section {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.left-section {
+  flex: 2; /* 비율에 따라 너비 조정 */
+  min-width: 554px; /* 최소 폭 설정 */
+}
+
+.right-section {
+  flex: 2; /* 비율에 따라 너비 조정 */
+  min-width: 700px; /* 최소 폭 설정 */
+}
+
+.end-section {
+  flex: 1; /* 남은 공간을 차지 */
+  min-width: 330px; /* 최소 폭 설정 */
+}
+
+.budget1,
+.budget2,
+.budget3,
+.budget4 {
+  border: 2px solid #af9adf;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+.budget1,
+.budget2,
+.budget3 {
+  width: 100%;
+}
+
+.budget4 {
+  width: 100%;
+  height: 285px;
+  font-size: 15px;
+}
+
+.section-title,
+.section-title1 {
+  font-size: 27px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #000000;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #000000;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title input {
+  font-size: 16px;
+  font-weight: bolder;
+  padding: 4px;
+  border-radius: 5px;
+  border: none;
+}
+
+.budget-setting {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 25px;
+}
+
+.profile-image-left {
+  width: 171px;
+  height: auto;
+  border-radius: 50%;
+  margin-right: 65px;
+}
+
+.profile-content-right {
+  text-align: left;
+  font-size: 22px;
+  line-height: 50px;
+}
+
+.profile-content-right span {
+  font-weight: bold;
+}
+
+#myChart {
+  max-width: 100%;
+  height: 100%;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
+
+.pie-chart-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.pie-chart-container canvas {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+}
+
+.table-container {
+  margin-top: 50px;
+  padding: 20px;
+}
+
+.budget-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 45px;
+}
+
+.budget-table td {
+  padding: 10px;
+  border-bottom: 1px solid #969595;
+  border-top: 1px solid #969595;
+}
+
+.budget-table td:first-child {
+  text-align: left;
+  color: #444343;
+  font-weight: bold;
+}
+
+.budget-table td:last-child {
+  text-align: right;
+  color: #000000;
+  font-weight: bold;
+}
+
+.buttons {
+  display: flex;
+  margin-top: 38px;
+  justify-content: flex-end;
+}
+
+.edit-button,
+.confirm-button {
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+  border: none;
+  font-weight: bold;
+}
+
+.confirm-button {
+  background-color: #603693;
+}
+
+.edit-button {
+  background-color: #af9adf;
+}
+
+button:hover {
+  background-color: #896ccb;
+}
+
+.section-title2 h3 {
+  text-align: left;
+}
+
+/* buget4 예산분석 part */
+.budget4 {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.section-title2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.section-subtitle2 h3 {
+  font-size: 17px;
+  text-align: left;
+  margin-bottom: 5px;
+  color: #7a7a7a;
+}
+
+.sub_title1 {
+  font-size: 20px;
+  text-align: left;
+  margin-bottom: 16px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.month-budget {
+  border-top: 1px solid;
+}
+.sub_title2 {
+  margin-top: 12px;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 7px;
+  color: #7a7a7a;
+}
+
+.sub_title3 {
+  font-size: 17px;
+  font-weight: bold;
+  text-align: left;
+  display: block;
+  margin-bottom: 5px;
+  color: #000000;
+}
+
+.sub-title4 {
+  font-size: 12px;
+  text-align: left;
+  display: flex;
+  color: #7a7a7a;
+}
+
+.sub_title1 span,
+.sub_title3 span {
+  font-size: 27px;
+  color: #ff3265;
+}
+
+/* 달력 커스텀 하기  */
+.custom-month-picker {
+  display: flex;
+  align-items: center;
+}
+
+.custom-month-picker input[type="month"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background-color: #f0f0f0;
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.custom-month-picker .arrow {
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0 10px;
+}
+
+.custom-month-picker .arrow:hover {
+  color: #007bff;
+}
+
+/* 모바일 화면에서 적절히 배치되도록 조정 */
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap; /* 작은 화면에서 줄 바꿈 */
+  }
+
+  .left-section,
+  .right-section,
+  .end-section {
+    width: 100%;
+    margin: 10px 0;
+  }
+}

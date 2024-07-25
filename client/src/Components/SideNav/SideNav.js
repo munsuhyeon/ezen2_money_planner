@@ -37,7 +37,7 @@ const SideNav = () => {
       text: "월간 보고서",
     },
     {
-      to: "/budget",
+      to: "/budgetpage",
       imgSrc: "/assets/sideNav/user-svgrepo-com.svg",
       imgAlt: "예산설정아이콘",
       text: "예산 설정",
