@@ -24,7 +24,7 @@ const BudgetModification = () => {
         </div>
         <div className="input_container">
           <input type="text" id="budget_input" value="0" />
-          <span>원</span>
+          <span className="budget_span">원</span>
         </div>
         <button className="confirm_button">확인</button>
       </div>

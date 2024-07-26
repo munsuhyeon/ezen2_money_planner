@@ -8,7 +8,7 @@
   font-family: "Nanum Gothic", "sans-serif";
 }
 
-.container {
+.container_budget {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
@@ -17,7 +17,7 @@
   text-align: center;
 }
 
-.content {
+.content_budget {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

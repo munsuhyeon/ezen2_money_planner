@@ -35,7 +35,7 @@ header {
   position: fixed;
   top: 0;
   height: 60px;
-  z-index: 2;
+  z-index: 1000;
   /* 요소의 상태 변화를 부드럽게 처리하는 속성 */
   transition: background-color 0.3s ease;
 }

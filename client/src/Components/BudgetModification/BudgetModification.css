@@ -51,7 +51,7 @@
   text-align: right;
 }
 
-span {
+.budget_span {
   font-size: 20px;
   font-weight: bold;
   color: #333;

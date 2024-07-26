@@ -162,8 +162,8 @@ const BudgetPage = () => {
 
   return (
     <section id="budget_page">
-      <div className="container">
-        <div className="content">
+      <div className="container_budget">
+        <div className="content_budget">
           <div className="left-section">
             <div className="budget1">
               <div className="section-title">설정한 예산 데이터</div>
