@@ -1,14 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Transaction.css';
 import { AddDataModal, SearchModal } from '../../Ui/Modal';
 import { call } from '../../Components/service/ApiService';
+import { CategoryContext } from '../../App';
+
 const TransactionList = () => {
+    const categoryList = useContext(CategoryContext);
     const [searchModalOpen, setSearchModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
+    const [activeTab, setActiveTab] = useState('all');
     const [expenseCategory, setExpenseCategory] = useState([]);
     const [incomeCategory, setIncomeCategory] = useState([]);
     const [assetsCategory, setAssetsCategory] = useState([]);
     const [installmentCategory, setInstallmentCategory] = useState([]);
+    useEffect(() => {
+        if (categoryList && categoryList.length > 0) {
+            const expense = categoryList.filter(category => category.categoryType === 'expense');
+            const income = categoryList.filter(category => category.categoryType === 'income');
+            const assets = categoryList.filter(category => category.categoryType === 'assets');
+            const installment = categoryList.filter(category => category.categoryType === 'installments');
+
+            setExpenseCategory(expense);
+            setIncomeCategory(income);
+            setAssetsCategory(assets);
+            setInstallmentCategory(installment);
+        }
+    },[categoryList])
     const showModal = (btn) => {
         if(btn == 'addData'){
             setAddModalOpen(true);
@@ -16,32 +33,11 @@ const TransactionList = () => {
             setSearchModalOpen(true)
         }
     }
-    const [activeTab, setActiveTab] = useState('all');
     
     const handleTabClick = (tabName) => {
     setActiveTab(tabName);
     };
 
-    useEffect(() => {
-        call("/category","GET",null)
-        .then((response) => {
-            if (response) {
-                const expenseData = response.data.filter(category => category.categoryType === 'expense');
-                const incomeData = response.data.filter(category => category.categoryType === 'income');
-                const assetsData = response.data.filter(category => category.categoryType === 'assets');
-                const installmentsData = response.data.filter(category => category.categoryType === 'installments');
-                setExpenseCategory(expenseData);
-                setIncomeCategory(incomeData);
-                setAssetsCategory(assetsData);
-                setInstallmentCategory(installmentsData);
-            } else {
-                throw new Error("응답 구조가 잘못되었습니다");
-            }
-        })
-        .catch((error) => {
-            console.error("API call error:", error);
-        });
-    },[])
     return(
             <div className="transcation" id="transcation">
             <div className="content-header">
@@ -65,7 +61,7 @@ const TransactionList = () => {
                 <div className="tabs">
                     <button className={`tab ${activeTab === 'all' ? 'active' : ''}`} onClick={() => handleTabClick('all')}>전체 (1)<br/><span className="tab_total">-1,000 원</span></button>
                     <button className={`tab ${activeTab === 'income' ? 'active' : ''}`} onClick={() => handleTabClick('income')}>수입 (0)<br/><span className="tab_income">0 원</span></button>
-                    <button className={`tab ${activeTab === 'expense' ? 'active' : ''}`} onClick={() => handleTabClick('expense')}><span>지출 (1)</span><span className="tab_expense">1,000,000 원</span></button>
+                    <button className={`tab ${activeTab === 'expense' ? 'active' : ''}`} onClick={() => handleTabClick('expense')}>지출 (1)<span className="tab_expense">1,000,000 원</span></button>
                 </div>
                 <div>
                     <table className="transcation-table">
@@ -112,8 +108,12 @@ const TransactionList = () => {
                 </div>
             </div>
         
-        {addModalOpen && <AddDataModal setAddModalOpen={setAddModalOpen}/>}
-        {searchModalOpen && <SearchModal setSearchModalOpen={setSearchModalOpen}/>}
+        {addModalOpen && <AddDataModal setAddModalOpen={setAddModalOpen} expenseCategory={expenseCategory}
+        incomeCategory={incomeCategory} assetsCategory={assetsCategory}/>}
+
+        {searchModalOpen && <SearchModal setSearchModalOpen={setSearchModalOpen} expenseCategory={expenseCategory}
+        incomeCategory={incomeCategory} assetsCategory={assetsCategory} installmentCategory={installmentCategory}/>}
+
         </div>       
     )
 }

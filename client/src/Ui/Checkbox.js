@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import './Checkbox.css'
-const Checkbox = ({text}) => {
-    const [isChecked, setIsChecked] = useState(false);
+const Checkbox = ({id,text,checked, onChange}) => {
+    /*const [isChecked, setIsChecked] = useState(false);
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
-    }
+    }*/
     return(
         <div>
-            <input id='checkbox' type='checkbox' checked={isChecked} onChange={handleCheckboxChange} value={text}/>
-            <label htmlFor='checkbox' className={`filter-check-box ${isChecked ? 'checked' : ''}`}></label>
-            <p htmlFor='checkbox' className="filter-binding">{text}</p>
+            <input id={id} type='checkbox' checked={checked} onChange={onChange} value={text}/>
+            <label htmlFor={id} className={`filter-check-box ${checked ? 'checked' : ''}`}></label>
+            <p htmlFor={id} className="filter-binding">{text}</p>
         </div>
     )
 }
