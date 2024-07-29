@@ -78,9 +78,6 @@
     align-items: center;
     justify-content: center;
 }
-.tab_total {
-    color: #FF616A;
-}
 .tab_income{
     color: #4A74FB;
 }
@@ -111,10 +108,6 @@
 .transcation tbody tr td {
     padding: 10px;
     border-bottom: 1px solid #e0e0e0;
-}
-
-.amount {
-    color: #FF616A;
 }
 
 .no-data {

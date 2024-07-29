@@ -1,10 +1,11 @@
-import React, { useState, useRef} from 'react';
+import React, { useState, useRef, useEffect, useContext} from 'react';
 import './Modal.css';
-import Checkbox from './Checkbox';
-import { formatDate,formatTime } from '../Utils/Utils';
-import { call } from '../Components/service/ApiService';
-
+import Checkbox from '../../Ui/Checkbox';
+import { formatDate,formatTime } from '../../Utils/Utils';
+import {call} from '../service/ApiService'
+import {TransactionListContext } from "../../App"
 export const AddDataModal = ({ setAddModalOpen,expenseCategory,incomeCategory,assetsCategory }) => {
+    const { getTransactionList } = useContext(TransactionListContext);
     const closeModal = () => {
         setAddModalOpen(false);
     };
@@ -17,6 +18,15 @@ export const AddDataModal = ({ setAddModalOpen,expenseCategory,incomeCategory,as
         setNowDate(e.target.value)
     }
     const [nowTime, setNowTime] = useState(formatTime(new Date()));
+    const [Selected, setSelected] = useState(0);
+    const [incomeType, setIncomeType] = useState("expense");
+    useEffect(()=>{
+        setIncomeType(popupTab === 'income' ? "income" : "expense");
+    },[popupTab]);
+
+    const handleSelect = (e) => {
+        setSelected(e.target.value);
+    }
     const handleTimeChange = (e) => {
         setNowTime(e.target.value)
     }
@@ -25,28 +35,39 @@ export const AddDataModal = ({ setAddModalOpen,expenseCategory,incomeCategory,as
         const amountRef = useRef(null);
         const categoryRef = useRef(null);
         const assetRef = useRef(null);
-        const installmenttRef = useRef(null);
+        const installmentRef = useRef(null);
         const descriptionRef = useRef(null);
-        const userId = 'test123;'
-        const transactionDate = '';
+        const userId = 'test123';
 
         const handleSubmit = (e) => {
             e.preventDefault();
-    
+
+            const categoryElement = categoryRef.current;
+            const selectedOption = categoryRef.current.options[categoryElement.selectedIndex];
+            const selectedCategoryName = selectedOption.getAttribute('data-category-name');
+
             const formData = {
                 date: dateRef.current.value,
                 time: timeRef.current.value,
                 amount: amountRef.current.value,
-                category: categoryRef.current.value,
+                categoryId: categoryRef.current.value,
+                paymentType: assetRef.current.value,
+                incomeType: incomeType,
                 asset: assetRef.current.value,
-                installment: repeatRef.current.value,
+                installment: popupTab === 'expense' && installmentRef.current ? installmentRef.current.value : '',
                 description: descriptionRef.current.value,
                 userId: userId,
-                transactionDate : date + time
+                categoryName: selectedCategoryName,
+                transactionDate: `${dateRef.current.value}T${timeRef.current.value}`
             };
-    
             console.log('formData :', formData);
-            call('/transactions',"POST",formData).then(() => console.log("저장 성공"));
+            call('/transactions', 'POST', formData)
+            .then((response) => {
+                console.log(response);
+                setAddModalOpen(false);
+                getTransactionList(); 
+            })
+            .catch(error => console.error("저장 실패", error));
         };
     return(
         <div className="popup-menu" id="popup-menu">
@@ -56,8 +77,8 @@ export const AddDataModal = ({ setAddModalOpen,expenseCategory,incomeCategory,as
                 </div>
                 <form onSubmit={handleSubmit} className={`input-form ${popupTab === 'income' ? 'income' : 'expense'}`}>
                     <div className="tab-buttons">
-                        <button className={`pop-up-tab incomeTab ${popupTab === 'income' ? 'active' : ''}`} onClick={()=>{handlePopupTab('income')}}>수입</button>
-                        <button className={`pop-up-tab expenseTab ${popupTab === 'expense' ? 'active' : ''}`} onClick={()=>{handlePopupTab('expense')}}>지출</button>
+                        <button type="button" className={`pop-up-tab incomeTab ${popupTab === 'income' ? 'active' : ''}`} onClick={()=>{handlePopupTab('income')}}>수입</button>
+                        <button type="button" className={`pop-up-tab expenseTab ${popupTab === 'expense' ? 'active' : ''}`} onClick={()=>{handlePopupTab('expense')}}>지출</button>
                     </div>
                     <div className="input-wrap">
                         <div className="date-time">
@@ -79,12 +100,12 @@ export const AddDataModal = ({ setAddModalOpen,expenseCategory,incomeCategory,as
                             <select id="category"  className="custom-select" ref={categoryRef}>
                                 {popupTab === 'expense' &&
                                     expenseCategory.map((item) => (
-                                        <option key={item.categoryId}>{item.categoryName}</option>
+                                        <option key={item.categoryId} value={item.categoryId} data-category-name={item.categoryName}>{item.categoryName}</option>
                                     ))
                                 }
                                 {popupTab === 'income' &&
                                     incomeCategory.map((item) => (
-                                        <option key={item.categoryId}>{item.categoryName}</option>
+                                        <option key={item.categoryId} value={item.categoryId} data-category-name={item.categoryName}>{item.categoryName}</option>
                                     ))
                                 }
                             </select>
@@ -94,30 +115,32 @@ export const AddDataModal = ({ setAddModalOpen,expenseCategory,incomeCategory,as
                             <label htmlFor="asset">자산</label>
                             <select id="asset"  ref={assetRef}>
                                 {assetsCategory.map((item) => (
-                                    <option key={item.categoryId}>{item.categoryName}</option>
+                                    <option key={item.categoryId} value={item.categoryName == '카드' ? 'card' : 'cash'}>{item.categoryName}</option>
                                 ))}
-                                {/* 옵션 추가 */}
                             </select>
                             <img src={process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`} alt="Arrow Down" className="custom-select-arrow"/>
                         </div>
+                        {popupTab === 'expense' && (
                         <div className="input-group" id="repeat-wrap">
                             <label htmlFor="repeat">할부</label>
-                            <select id="repeat" ref={installmenttRef}>
-                                <option>일시불</option>
-                                <option>1개월</option>
-                                <option>2개월</option>
-                                <option>3개월</option>
-                                <option>4개월</option>
-                                <option>5개월</option>
-                                <option>7개월</option>
-                                <option>8개월</option>
-                                <option>9개월</option>
-                                <option>10개월</option>
-                                <option>11개월</option>
-                                <option>12개월</option>
+                            <select id="repeat" ref={installmentRef} onChange={handleSelect} value={Selected}>
+                                <option value={0}>일시불</option>
+                                <option value={1}>1개월</option>
+                                <option value={2}>2개월</option>
+                                <option value={3}>3개월</option>
+                                <option value={4}>4개월</option>
+                                <option value={5}>5개월</option>
+                                <option value={6}>6개월</option>
+                                <option value={7}>7개월</option>
+                                <option value={8}>8개월</option>
+                                <option value={9}>9개월</option>
+                                <option value={10}>10개월</option>
+                                <option value={11}>11개월</option>
+                                <option value={12}>12개월</option>
                             </select>
                             <img src={process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`} alt="Arrow Down" className="custom-select-arrow"/>
                         </div>
+                        )}
                         <div className="input-group">
                             <label htmlFor="description">내용</label>
                             <input type="text" id="description" ref={descriptionRef}/>
