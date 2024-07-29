@@ -15,7 +15,7 @@ import Forgotpassword from "../src/Components/Login/ForgotPassword.jsx";
 import { call } from "./Components/service/ApiService.js";
 
 export const CategoryContext = React.createContext();
-
+export const TransactionListContext = React.createContext();
 function App() {
   
   // DB에서 카테고리 종류 가져오기
@@ -32,14 +32,34 @@ const getCategory = async() => {
   .catch((error) => {
     console.log("카테고리 API Call 에러 :::  ", error)
   })
+};
+
+// DB에서 지출/수입 내역 가져오기(후에 사용자 id 반영해서 가져오기)
+const [transactionList, setTransactionList] = useState([]);
+const getTransactionList = async() => {
+  call('/transactions', 'GET', null)
+  .then((response) => {
+    if(response){
+      console.log(response.data)
+      setTransactionList(response.data)
+    } else{
+      throw new Error("응답 구조가 잘못되었습니다")
+    }
+  })
+  .catch((error) => {
+    console.log("지출/수입 내역 API Call 에러 :::  ", error)
+  })
 }
 useEffect(() => {
   getCategory();
+  getTransactionList();
 },[])
 
 
   return (
+
     <CategoryContext.Provider value={categoryList}>
+    <TransactionListContext.Provider value={{transactionList, getTransactionList} }>
       <BrowserRouter>
         <Header />
         <SideNav />
@@ -55,6 +75,7 @@ useEffect(() => {
           <Route path="/forgotpw" element={<Forgotpassword/>}/>
         </Routes>
       </BrowserRouter>
+    </TransactionListContext.Provider>
     </CategoryContext.Provider>
   );
 }
