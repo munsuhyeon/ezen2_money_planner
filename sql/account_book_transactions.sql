@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: account_book
 -- ------------------------------------------------------
--- Server version	8.0.37
+-- Server version	8.0.38
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,7 +18,7 @@
 --
 -- Table structure for table `transactions`
 --
-
+use account_book;
 DROP TABLE IF EXISTS `transactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -32,6 +32,8 @@ CREATE TABLE `transactions` (
   `payment_type` varchar(10) NOT NULL,
   `income_type` varchar(10) NOT NULL,
   PRIMARY KEY (`transaction_id`)
+  -- KEY `transactions_user_id_idx` (`user_id`)
+  -- CONSTRAINT `tracnsactions_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-23 10:53:15
+-- Dump completed on 2024-07-25 15:10:25
