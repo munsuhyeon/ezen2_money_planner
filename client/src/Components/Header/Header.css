@@ -180,4 +180,15 @@ img {
   font-weight: bold;
   z-index: 5;
 }
+
+.NotAlarm {
+  font-size: 16px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.highlight {
+  font-weight: 900;
+  color: red;
+}
 /* --------------------------------Header-------------------------------- */
