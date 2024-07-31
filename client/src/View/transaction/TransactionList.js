@@ -13,24 +13,29 @@ const TransactionList = () => {
     .filter(item => item.incomeType === 'expense')
     .reduce((sum, item) => sum + item.amount, 0);
 
-    // 'income'의 총 합계 계산
-    const totalIncome = transactionList
-    .filter(item => item.incomeType === 'income')
+  // 'income'의 총 합계 계산
+  const totalIncome = transactionList
+    .filter((item) => item.incomeType === "income")
     .reduce((sum, item) => sum + item.amount, 0);
 
-    // 전체 amount의 합계 계산
-    const totalAmount = transactionList.reduce((total, item) => {
-        // 'expense'일 경우 amount를 음수로 변환하고, 'income'일 경우 양수로 유지
-        const adjustedAmount = item.incomeType === 'expense' ? -item.amount : item.amount;
-        return total + adjustedAmount;
-      }, 0);
+  // 전체 amount의 합계 계산
+  const totalAmount = transactionList.reduce((total, item) => {
+    // 'expense'일 경우 amount를 음수로 변환하고, 'income'일 경우 양수로 유지
+    const adjustedAmount =
+      item.incomeType === "expense" ? -item.amount : item.amount;
+    return total + adjustedAmount;
+  }, 0);
 
-    // 전체 지출의 갯수
-    const countExpense = transactionList.filter((item => item.incomeType === 'expense')).length;
-    // 전체 내역의 갯수
-    const countTotal = transactionList.length;
-    // 전체 수입의 갯수
-    const countIncome = transactionList.filter((item => item.incomeType === 'income')).length;
+  // 전체 지출의 갯수
+  const countExpense = transactionList.filter(
+    (item) => item.incomeType === "expense"
+  ).length;
+  // 전체 내역의 갯수
+  const countTotal = transactionList.length;
+  // 전체 수입의 갯수
+  const countIncome = transactionList.filter(
+    (item) => item.incomeType === "income"
+  ).length;
 
     const [searchModalOpen, setSearchModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
@@ -47,21 +52,21 @@ const TransactionList = () => {
             const assets = categoryList.filter(category => category.categoryType === 'assets');
             const installment = categoryList.filter(category => category.categoryType === 'installments');
 
-            setExpenseCategory(expense);
-            setIncomeCategory(income);
-            setAssetsCategory(assets);
-            setInstallmentCategory(installment);
-        }
-    },[categoryList])
-    const showModal = (btn) => {
-        if(btn == 'addData'){
-            setAddModalOpen(true);
-        }else if(btn == 'search'){
-            setSearchModalOpen(true)
-        }
+      setExpenseCategory(expense);
+      setIncomeCategory(income);
+      setAssetsCategory(assets);
+      setInstallmentCategory(installment);
     }
-    
-    const handleTabClick = (tabName) => {
+  }, [categoryList]);
+  const showModal = (btn) => {
+    if (btn == "addData") {
+      setAddModalOpen(true);
+    } else if (btn == "search") {
+      setSearchModalOpen(true);
+    }
+  };
+
+  const handleTabClick = (tabName) => {
     setActiveTab(tabName);
     };
     // 체크박스 상태 관리

@@ -1,50 +1,57 @@
-import React, { useState, useRef, useEffect, useContext} from 'react';
-import './Modal.css';
-import Checkbox from '../../Ui/Checkbox';
-import { formatDate,formatTime } from '../../Utils/Utils';
-import {call} from '../service/ApiService'
-import {TransactionListContext } from "../../App"
-export const AddDataModal = ({ setAddModalOpen,expenseCategory,incomeCategory,assetsCategory }) => {
-    const { getTransactionList } = useContext(TransactionListContext);
-    const closeModal = () => {
-        setAddModalOpen(false);
-    };
-    const handlePopupTab = (tab) => {
-        setPopupTab(tab);
-    }
-    const [popupTab,setPopupTab] = useState("expense");
-    const [nowDate,setNowDate] = useState(formatDate(new Date()));
-    const handleDateChange = (e) => {
-        setNowDate(e.target.value)
-    }
-    const [nowTime, setNowTime] = useState(formatTime(new Date()));
-    const [Selected, setSelected] = useState(0);
-    const [incomeType, setIncomeType] = useState("expense");
-    useEffect(()=>{
-        setIncomeType(popupTab === 'income' ? "income" : "expense");
-    },[popupTab]);
+import React, { useState, useRef, useEffect, useContext } from "react";
+import "./Modal.css";
+import Checkbox from "../../Ui/Checkbox";
+import { formatDate, formatTime } from "../../Utils/Utils";
+import { call } from "../service/ApiService";
+import { TransactionListContext } from "../../App";
+export const AddDataModal = ({
+  setAddModalOpen,
+  expenseCategory,
+  incomeCategory,
+  assetsCategory,
+}) => {
+  const { getTransactionList } = useContext(TransactionListContext);
+  const closeModal = () => {
+    setAddModalOpen(false);
+  };
+  const handlePopupTab = (tab) => {
+    setPopupTab(tab);
+  };
+  const [popupTab, setPopupTab] = useState("expense");
+  const [nowDate, setNowDate] = useState(formatDate(new Date()));
+  const handleDateChange = (e) => {
+    setNowDate(e.target.value);
+  };
+  const [nowTime, setNowTime] = useState(formatTime(new Date()));
+  const [Selected, setSelected] = useState(0);
+  const [incomeType, setIncomeType] = useState("expense");
+  useEffect(() => {
+    setIncomeType(popupTab === "income" ? "income" : "expense");
+  }, [popupTab]);
 
-    const handleSelect = (e) => {
-        setSelected(e.target.value);
-    }
-    const handleTimeChange = (e) => {
-        setNowTime(e.target.value)
-    }
-        const dateRef = useRef(null);
-        const timeRef = useRef(null);
-        const amountRef = useRef(null);
-        const categoryRef = useRef(null);
-        const assetRef = useRef(null);
-        const installmentRef = useRef(null);
-        const descriptionRef = useRef(null);
-        const userId = 'test123';
+  const handleSelect = (e) => {
+    setSelected(e.target.value);
+  };
+  const handleTimeChange = (e) => {
+    setNowTime(e.target.value);
+  };
+  const dateRef = useRef(null);
+  const timeRef = useRef(null);
+  const amountRef = useRef(null);
+  const categoryRef = useRef(null);
+  const assetRef = useRef(null);
+  const installmentRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const userId = "test123";
 
-        const handleSubmit = (e) => {
-            e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-            const categoryElement = categoryRef.current;
-            const selectedOption = categoryRef.current.options[categoryElement.selectedIndex];
-            const selectedCategoryName = selectedOption.getAttribute('data-category-name');
+    const categoryElement = categoryRef.current;
+    const selectedOption =
+      categoryRef.current.options[categoryElement.selectedIndex];
+    const selectedCategoryName =
+      selectedOption.getAttribute("data-category-name");
 
             const formData = {
                 date: dateRef.current.value,
@@ -154,72 +161,87 @@ export const AddDataModal = ({ setAddModalOpen,expenseCategory,incomeCategory,as
     )
 }
 
-export const SearchModal = ({setSearchModalOpen,expenseCategory,incomeCategory,assetsCategory,installmentCategory}) => {
-    const closeModal = () => {
-        setSearchModalOpen(false);
-    };
-    const [checkedBoxes, setCheckedBoxes] = useState({
-        expense: Array(expenseCategory.length).fill(false),
-        income: Array(incomeCategory.length).fill(false),
-        assets: Array(assetsCategory.length).fill(false),
-        installment: Array(installmentCategory.length).fill(false),
-    });
+export const SearchModal = ({
+  setSearchModalOpen,
+  expenseCategory,
+  incomeCategory,
+  assetsCategory,
+  installmentCategory,
+}) => {
+  const closeModal = () => {
+    setSearchModalOpen(false);
+  };
+  const [checkedBoxes, setCheckedBoxes] = useState({
+    expense: Array(expenseCategory.length).fill(false),
+    income: Array(incomeCategory.length).fill(false),
+    assets: Array(assetsCategory.length).fill(false),
+    installment: Array(installmentCategory.length).fill(false),
+  });
 
-    const toggleCheckBox = (categoryType, index) => {
-        setCheckedBoxes(prev => ({
-            ...prev,
-            [categoryType]: prev[categoryType].map((checked, i) => i === index ? !checked : checked)
-        }));
-    };
+  const toggleCheckBox = (categoryType, index) => {
+    setCheckedBoxes((prev) => ({
+      ...prev,
+      [categoryType]: prev[categoryType].map((checked, i) =>
+        i === index ? !checked : checked
+      ),
+    }));
+  };
 
-    const renderCheckboxList = (categoryType, categories) => (
-        <ul>
-            {categories.map((item, index) => (
-                <li className="categoryList" key={item.categoryId}>
-                    <Checkbox
-                        id={item.categoryId}
-                        text={item.categoryName}
-                        checked={checkedBoxes[categoryType][index]}
-                        onChange={() => toggleCheckBox(categoryType, index)}
-                    />
-                </li>
-            ))}
-        </ul>
-    );
-    return(
-        <div className="popup-menu" id="search-menu">
-                <div className="pop-menu-head">
-                    <h1 className="pop-menu-title">검색</h1>
-                    <p id="closeButton" className="close-button" onClick={closeModal}><img src={process.env.PUBLIC_URL + `assets/close-svgrepo-com.svg`} alt="close"/></p>
-                </div>
-                <div className="check-wrap">
-                    <div className='search-wrap'>
-                        <input type='text' className='searchForm'/>
-                        <div className='searchImg'>
-                            <img src={process.env.PUBLIC_URL + `assets/search-svgrepo-com.svg`}/>
-                        </div>
-                    </div>
-                    
-                    <div className="expense-checkbox">
-                        <p className="filter-title">카테고리(지출)</p>
-                        {renderCheckboxList('expense', expenseCategory)}
-                    </div>
-                   
-                    <div className="income-checkbox">
-                        <p className="filter-title">카테고리(수입)</p>
-                        {renderCheckboxList('income', incomeCategory)}
-                    </div>
+  const renderCheckboxList = (categoryType, categories) => (
+    <ul>
+      {categories.map((item, index) => (
+        <li className="categoryList" key={item.categoryId}>
+          <Checkbox
+            id={item.categoryId}
+            text={item.categoryName}
+            checked={checkedBoxes[categoryType][index]}
+            onChange={() => toggleCheckBox(categoryType, index)}
+          />
+        </li>
+      ))}
+    </ul>
+  );
+  return (
+    <div className="popup-menu" id="search-menu">
+      <div className="pop-menu-head">
+        <h1 className="pop-menu-title">검색</h1>
+        <p id="closeButton" className="close-button" onClick={closeModal}>
+          <img
+            src={process.env.PUBLIC_URL + `assets/close-svgrepo-com.svg`}
+            alt="close"
+          />
+        </p>
+      </div>
+      <div className="check-wrap">
+        <div className="search-wrap">
+          <input type="text" className="searchForm" />
+          <div className="searchImg">
+            <img
+              src={process.env.PUBLIC_URL + `assets/search-svgrepo-com.svg`}
+            />
+          </div>
+        </div>
 
-                    <div className="property-checkbox">
-                        <p className="filter-title">자산</p>
-                        {renderCheckboxList('assets', assetsCategory)}
-                    </div>
+        <div className="expense-checkbox">
+          <p className="filter-title">카테고리(지출)</p>
+          {renderCheckboxList("expense", expenseCategory)}
+        </div>
 
-                    <div className="installment-checkbox">
-                        <p className="filter-title">할부</p>
-                        {renderCheckboxList('installment', installmentCategory)}
-                    </div>
-                </div>
+        <div className="income-checkbox">
+          <p className="filter-title">카테고리(수입)</p>
+          {renderCheckboxList("income", incomeCategory)}
+        </div>
+
+        <div className="property-checkbox">
+          <p className="filter-title">자산</p>
+          {renderCheckboxList("assets", assetsCategory)}
+        </div>
+
+        <div className="installment-checkbox">
+          <p className="filter-title">할부</p>
+          {renderCheckboxList("installment", installmentCategory)}
+        </div>
+      </div>
 
                 <div className="button-group">
                     <button className="search-button">검색</button>
