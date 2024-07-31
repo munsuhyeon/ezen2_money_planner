@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './Transaction.css';
-import { AddDataModal, SearchModal } from '../../Components/Transaction/Modal';
+import { AddDataModal, SearchModal, dataDetailModal } from '../../Components/Transaction/Modal';
 import { call } from '../../Components/service/ApiService';
 import { CategoryContext, TransactionListContext } from '../../App';
 import {convertToCustomDateFormat, formatPrice} from '../../Utils/Utils';
 import Checkbox from '../../Ui/Checkbox';
 const TransactionList = () => {
     const categoryList = useContext(CategoryContext);
-    const {transactionList} = useContext(TransactionListContext);
-    console.log(transactionList);
+    const {transactionList,getTransactionList} = useContext(TransactionListContext);
     // 'expense'의 총 합계 계산
     const totalExpense = transactionList
     .filter(item => item.incomeType === 'expense')
@@ -35,14 +34,12 @@ const TransactionList = () => {
 
     const [searchModalOpen, setSearchModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
+    const [dataDetailModalOpen, setDataDetailModalOpen] = useState(true);
     const [activeTab, setActiveTab] = useState('all');
     const [expenseCategory, setExpenseCategory] = useState([]);
     const [incomeCategory, setIncomeCategory] = useState([]);
     const [assetsCategory, setAssetsCategory] = useState([]);
     const [installmentCategory, setInstallmentCategory] = useState([]);
-    const [allAmount, setAllAmount] = useState(0);
-    const [expenseAmount, setExpenseAmount] = useState(0);
-    const [incomeAmount, setIncomeAmount] = useState(0);
     useEffect(() => {
         if (categoryList && categoryList.length > 0) {
             const expense = categoryList.filter(category => category.categoryType === 'expense');
@@ -68,11 +65,48 @@ const TransactionList = () => {
     setActiveTab(tabName);
     };
     // 체크박스 상태 관리
-    const [isChecked, setIsChecked] = useState(false);
-
-    const handleCheckboxChange = (event) => {
-        setIsChecked(event.target.checked);
+    const [isChecked, setIsChecked] = useState({});
+    const [isAllChecked, setIsAllChecked] = useState(false);
+    // 개별 체크박스 상태 관리
+    const handleCheckboxChange = (event, transactionId) => {
+        setIsChecked(prevState => ({
+            ...prevState,
+            [transactionId]: event.target.checked
+        }));
     };
+    // 전체 체크박스 상태 관리
+    const handleAllCheckboxChange = () => {
+        const updatedChecked = {};
+        const currentTabList = transactionList.filter(item => {
+            if (activeTab === 'all') return true;
+            return item.incomeType === activeTab;
+        });
+
+        currentTabList.forEach(item => {
+            updatedChecked[item.transactionId] = !isAllChecked;
+        });
+
+        setIsChecked(updatedChecked);
+        setIsAllChecked(!isAllChecked);
+    };
+    const deleteList = () => {
+        const keys = Object.keys(isChecked);
+        const formDataArray = keys.map(key => ({ transactionId: Number(key) }));
+        console.log(formDataArray)
+        window.confirm("삭제하시겠습니까?")
+        call("/transactions","DELETE",formDataArray)
+        .then((response) => {
+            //console.log(response)
+            if(isAllChecked){
+                setIsAllChecked(false)
+            }
+            getTransactionList();
+        }) 
+        .catch(error => console.error("삭제 실패", error));
+    }
+    const detailData = () => {
+        
+    }
     return(
             <div className="transcation" id="transcation">
             <div className="content-header">
@@ -86,6 +120,9 @@ const TransactionList = () => {
                     </div>
                     <div className="circle-btn" id="search-btn" onClick={() => {showModal('search')}}>
                         <img src={process.env.PUBLIC_URL + `assets/search-svgrepo-com.svg`} alt="search"/>
+                    </div>
+                    <div className="circle-btn" id="delete-btn" onClick={deleteList}>
+                        <img src={process.env.PUBLIC_URL + `assets/trash-bin-trash-svgrepo-com.svg`} alt="trash"/>
                     </div>
                     <div className="circle-btn">
                         <img src={process.env.PUBLIC_URL + `assets/excel2-svgrepo-com.svg`} alt="excel"/>
@@ -102,7 +139,7 @@ const TransactionList = () => {
                     <table className="transcation-table">
                         <thead>
                             <tr>
-                                <th><Checkbox id="checkbox-all" checked={isChecked} onChange={handleCheckboxChange}/>
+                                <th><Checkbox id="checkbox-all" checked={isAllChecked} onChange={(event) => handleAllCheckboxChange(event)}/>
                                 </th>
                                 <th>날짜</th>
                                 <th>자산</th>
@@ -114,8 +151,8 @@ const TransactionList = () => {
                         <tbody id="all" className="tab-content" style={{ display: activeTab === 'all' ? 'table-row-group' : 'none' }}>
                                 {transactionList && transactionList.length > 0 ? (
                                     transactionList.map((item) => (
-                                        <tr key={item.transactionId}>
-                                            <td><Checkbox id={item.transactionId} checked={isChecked} onChange={handleCheckboxChange}/></td>
+                                        <tr key={item.transactionId} onClick={detailData}>
+                                            <td><Checkbox id={item.transactionId} checked={isChecked[item.transactionId] || false}  onChange={(event) => handleCheckboxChange(event, item.transactionId)}/></td>
                                             <td>{convertToCustomDateFormat(item.transactionDate)}</td>
                                             <td>{item.paymentType == 'card' ? '카드':'현금'}</td>
                                             <td>{item.categoryName}</td>
@@ -134,10 +171,10 @@ const TransactionList = () => {
                                 )}
                         </tbody>
                         <tbody id="income" className="tab-content" style={{ display: activeTab === 'income' ? 'table-row-group' : 'none' }}>
-                            {transactionList && transactionList.length > 0 ? (
+                            {transactionList && transactionList.filter(list => list.incomeType === 'income').length > 0 ? (
                                 transactionList.filter(list => list.incomeType === 'income').map((item) => (
                                     <tr key={item.transactionId}>
-                                            <td><Checkbox id={item.transactionId} checked={isChecked} onChange={handleCheckboxChange}/></td>
+                                            <td><Checkbox id={item.transactionId} checked={isChecked[item.transactionId] || false}  onChange={(event) => handleCheckboxChange(event, item.transactionId)}/></td>
                                             <td>{convertToCustomDateFormat(item.transactionDate)}</td>
                                             <td>{item.paymentType == 'card' ? '카드':'현금'}</td>
                                             <td>{item.categoryName}</td>
@@ -156,10 +193,10 @@ const TransactionList = () => {
                             )}
                         </tbody>
                         <tbody id="expense" className="tab-content" style={{ display: activeTab === 'expense' ? 'table-row-group' : 'none' }}>
-                        {transactionList && transactionList.length > 0 ? (
+                        {transactionList && transactionList.filter(list => list.incomeType === 'expense').length > 0 ? (
                                 transactionList.filter(list => list.incomeType === 'expense').map((item) => (
                                     <tr key={item.transactionId}>
-                                            <td><Checkbox id={item.transactionId} checked={isChecked} onChange={handleCheckboxChange}/></td>
+                                            <td><Checkbox id={item.transactionId} checked={isChecked[item.transactionId] || false}  onChange={(event) => handleCheckboxChange(event, item.transactionId)}/></td>
                                             <td>{convertToCustomDateFormat(item.transactionDate)}</td>
                                             <td>{item.paymentType == 'card' ? '카드':'현금'}</td>
                                             <td>{item.categoryName}</td>
@@ -187,6 +224,8 @@ const TransactionList = () => {
         {searchModalOpen && <SearchModal setSearchModalOpen={setSearchModalOpen} expenseCategory={expenseCategory}
         incomeCategory={incomeCategory} assetsCategory={assetsCategory} />}
 
+        {dataDetailModalOpen && <dataDetailModal setDataDetailModalOpen={setDataDetailModalOpen} expenseCategory={expenseCategory}
+        incomeCategory={incomeCategory} assetsCategory={assetsCategory}/>}
         </div>       
     )
 }

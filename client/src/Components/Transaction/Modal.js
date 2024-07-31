@@ -93,7 +93,7 @@ export const AddDataModal = ({ setAddModalOpen,expenseCategory,incomeCategory,as
                         </div>
                         <div className="input-group">
                             <label htmlFor="amount">금액</label>
-                            <input type="text" id="amount"  ref={amountRef}/>
+                            <input type="number" id="amount"  ref={amountRef}/>
                         </div>
                         <div className="input-group">
                             <label htmlFor="category">분류</label>
@@ -225,5 +225,13 @@ export const SearchModal = ({setSearchModalOpen,expenseCategory,incomeCategory,a
                     <button className="search-button">검색</button>
                 </div>
             </div>
+    )
+}
+
+export const dataDetailModal = ({ setAddModalOpen,expenseCategory,incomeCategory,assetsCategory }) => {
+    return(
+        <div>
+            
+        </div>
     )
 }
