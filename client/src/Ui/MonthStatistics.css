@@ -19,13 +19,15 @@
 /* content-header */
 
 /* category_chart */
-.month_flex_area {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.month_chart_area {
   background-color: rgba(221, 221, 221, 0.05);
   padding: 10px;
   border-radius: 10px;
+}
+
+.month_chart_flex {
+  display: flex;
+  justify-content: center;
 }
 
 .month_chart_container {

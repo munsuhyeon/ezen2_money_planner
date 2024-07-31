@@ -1,12 +1,12 @@
 /* content-header */
-.weak_content-header {
+.week_content-header {
   width: 1315px;
   background: #fff;
   border-bottom: 1px solid #ddd;
   margin: 5px 0px 0px 48px;
 }
 
-.weak_date_area input {
+.week_date_area input {
   width: 350px;
   margin-bottom: 10px;
   font-size: 20px;
@@ -18,21 +18,23 @@
 }
 /* content-header */
 
-/* weak_category_chart */
-.weak_chart_container {
+/* week_category_chart */
+.week_chart_container {
   margin: 70px 200px 70px 300px;
 }
 
-.weak_flex_area {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.week_chart_area {
   background-color: rgba(221, 221, 221, 0.05);
   padding: 10px;
   border-radius: 10px;
 }
 
-.weak_category_chart_area {
+.week_chart_flex {
+  display: flex;
+  justify-content: center;
+}
+
+.week_category_chart_area {
   width: 545px;
   height: 455px;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -42,8 +44,8 @@
   z-index: 0;
 }
 
-.weak_category_chart_title,
-.weak_pay_title,
+.week_category_chart_title,
+.week_pay_title,
 .day_pay_title,
 .day_pay__detail_main_title {
   font-size: 18px;
@@ -51,13 +53,13 @@
   padding: 16px;
 }
 
-.weak_category_chart_wrap {
+.week_category_chart_wrap {
   width: 500px;
   height: 400px;
   margin: 0 auto;
 }
 
-.weak_chart_text {
+.week_chart_text {
   position: absolute;
   top: 210px;
   left: 110px;
@@ -66,20 +68,20 @@
   z-index: -1;
 }
 
-.weak_chart_text_category,
-.weak_chart_text_exprese {
+.week_chart_text_category,
+.week_chart_text_exprese {
   font-size: 15px;
   font-weight: 100;
 }
 
-.weak_chart_text_category_detail {
+.week_chart_text_category_detail {
   font-size: 22px;
   font-weight: bold;
 }
-/* weak_category_chart */
+/* week_category_chart */
 
-/* .weak_pay */
-.weak_pay_area {
+/* .week_pay */
+.week_pay_area {
   width: 750px;
   height: 455px;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -88,12 +90,12 @@
   z-index: 0;
 }
 
-.weak_pay_wrap {
+.week_pay_wrap {
   width: 700px;
   height: 380px;
   margin: 0 auto;
 }
-/* .weak_pay */
+/* .week_pay */
 
 /* day_pay */
 .day_pay_area {
