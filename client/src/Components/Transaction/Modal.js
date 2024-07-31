@@ -53,203 +53,113 @@ export const AddDataModal = ({
     const selectedCategoryName =
       selectedOption.getAttribute("data-category-name");
 
-    const formData = {
-      date: dateRef.current.value,
-      time: timeRef.current.value,
-      amount: amountRef.current.value,
-      categoryId: categoryRef.current.value,
-      paymentType: assetRef.current.value,
-      incomeType: incomeType,
-      asset: assetRef.current.value,
-      installment:
-        popupTab === "expense" && installmentRef.current
-          ? installmentRef.current.value
-          : "",
-      description: descriptionRef.current.value,
-      userId: userId,
-      categoryName: selectedCategoryName,
-      transactionDate: `${dateRef.current.value}T${timeRef.current.value}`,
-    };
-    console.log("formData :", formData);
-    // call 함수로 서버로 데이터 전송
-    call("/transactions", "POST", formData)
-      .then((response) => {
-        console.log(response);
-        // 모달창을 끄고 getTransactionList();함수로 불러옴
-        setAddModalOpen(false);
-        getTransactionList();
-      })
-      .catch((error) => console.error("저장 실패", error));
-  };
-  return (
-    <div className="popup-menu" id="popup-menu">
-      <div className="pop-menu-head">
-        <h1 className="pop-menu-title">입력</h1>
-        <p id="closeButton" className="close-button" onClick={closeModal}>
-          <img
-            src={process.env.PUBLIC_URL + `assets/close-svgrepo-com.svg`}
-            alt="close"
-          />
-        </p>
-      </div>
-      <form
-        onSubmit={handleSubmit}
-        className={`input-form ${popupTab === "income" ? "income" : "expense"}`}
-      >
-        <div className="tab-buttons">
-          <button
-            type="button"
-            className={`pop-up-tab incomeTab ${
-              popupTab === "income" ? "active" : ""
-            }`}
-            onClick={() => {
-              handlePopupTab("income");
-            }}
-          >
-            수입
-          </button>
-          <button
-            type="button"
-            className={`pop-up-tab expenseTab ${
-              popupTab === "expense" ? "active" : ""
-            }`}
-            onClick={() => {
-              handlePopupTab("expense");
-            }}
-          >
-            지출
-          </button>
-        </div>
-        <div className="input-wrap">
-          <div className="date-time">
-            <div>
-              <label htmlFor="date">날짜</label>
-              <input
-                type="date"
-                id="date"
-                value={nowDate}
-                onChange={handleDateChange}
-                ref={dateRef}
-              />
+            const formData = {
+                date: dateRef.current.value,
+                time: timeRef.current.value,
+                amount: amountRef.current.value,
+                categoryId: categoryRef.current.value,
+                paymentType: assetRef.current.value,
+                incomeType: incomeType,
+                asset: assetRef.current.value,
+                installment: popupTab === 'expense' && installmentRef.current ? installmentRef.current.value : '',
+                description: descriptionRef.current.value,
+                userId: userId,
+                categoryName: selectedCategoryName,
+                transactionDate: `${dateRef.current.value}T${timeRef.current.value}`
+            };
+            console.log('formData :', formData);
+            call('/transactions', 'POST', formData)
+            .then((response) => {
+                console.log(response);
+                setAddModalOpen(false);
+                getTransactionList(); 
+            })
+            .catch(error => console.error("저장 실패", error));
+        };
+    return(
+        <div className="popup-menu" id="popup-menu">
+                <div className="pop-menu-head">
+                    <h1 className="pop-menu-title">입력</h1>
+                    <p id="closeButton" className="close-button" onClick={closeModal}><img src={process.env.PUBLIC_URL + `assets/close-svgrepo-com.svg`} alt="close"/></p>
+                </div>
+                <form onSubmit={handleSubmit} className={`input-form ${popupTab === 'income' ? 'income' : 'expense'}`}>
+                    <div className="tab-buttons">
+                        <button type="button" className={`pop-up-tab incomeTab ${popupTab === 'income' ? 'active' : ''}`} onClick={()=>{handlePopupTab('income')}}>수입</button>
+                        <button type="button" className={`pop-up-tab expenseTab ${popupTab === 'expense' ? 'active' : ''}`} onClick={()=>{handlePopupTab('expense')}}>지출</button>
+                    </div>
+                    <div className="input-wrap">
+                        <div className="date-time">
+                            <div>
+                                <label htmlFor="date">날짜</label>
+                                <input type="date" id="date" value={nowDate} onChange={handleDateChange} ref={dateRef}/>
+                            </div>
+                            <div>
+                                <label htmlFor="time">시간</label>
+                                <input type="time" id="time" value={nowTime} onChange={handleTimeChange} ref={timeRef}/>
+                            </div>
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="amount">금액</label>
+                            <input type="number" id="amount"  ref={amountRef}/>
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="category">분류</label>
+                            <select id="category"  className="custom-select" ref={categoryRef}>
+                                {popupTab === 'expense' &&
+                                    expenseCategory.map((item) => (
+                                        <option key={item.categoryId} value={item.categoryId} data-category-name={item.categoryName}>{item.categoryName}</option>
+                                    ))
+                                }
+                                {popupTab === 'income' &&
+                                    incomeCategory.map((item) => (
+                                        <option key={item.categoryId} value={item.categoryId} data-category-name={item.categoryName}>{item.categoryName}</option>
+                                    ))
+                                }
+                            </select>
+                            <img src={process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`} alt="Arrow Down" className="custom-select-arrow"/>
+                        </div>
+                        <div className="input-group">
+                            <label htmlFor="asset">자산</label>
+                            <select id="asset"  ref={assetRef}>
+                                {assetsCategory.map((item) => (
+                                    <option key={item.categoryId} value={item.categoryName == '카드' ? 'card' : 'cash'}>{item.categoryName}</option>
+                                ))}
+                            </select>
+                            <img src={process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`} alt="Arrow Down" className="custom-select-arrow"/>
+                        </div>
+                        {popupTab === 'expense' && (
+                        <div className="input-group" id="repeat-wrap">
+                            <label htmlFor="repeat">할부</label>
+                            <select id="repeat" ref={installmentRef} onChange={handleSelect} value={Selected}>
+                                <option value={0}>일시불</option>
+                                <option value={1}>1개월</option>
+                                <option value={2}>2개월</option>
+                                <option value={3}>3개월</option>
+                                <option value={4}>4개월</option>
+                                <option value={5}>5개월</option>
+                                <option value={6}>6개월</option>
+                                <option value={7}>7개월</option>
+                                <option value={8}>8개월</option>
+                                <option value={9}>9개월</option>
+                                <option value={10}>10개월</option>
+                                <option value={11}>11개월</option>
+                                <option value={12}>12개월</option>
+                            </select>
+                            <img src={process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`} alt="Arrow Down" className="custom-select-arrow"/>
+                        </div>
+                        )}
+                        <div className="input-group">
+                            <label htmlFor="description">내용</label>
+                            <input type="text" id="description" ref={descriptionRef}/>
+                        </div>
+                        <div className="button-group">
+                            <button type="submit" className={`save-button ${popupTab === 'expense' ? 'expense-active' : 'income-active'}`} >저장</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div>
-              <label htmlFor="time">시간</label>
-              <input
-                type="time"
-                id="time"
-                value={nowTime}
-                onChange={handleTimeChange}
-                ref={timeRef}
-              />
-            </div>
-          </div>
-          <div className="input-group">
-            <label htmlFor="amount">금액</label>
-            <input type="text" id="amount" ref={amountRef} />
-          </div>
-          <div className="input-group">
-            <label htmlFor="category">분류</label>
-            <select id="category" className="custom-select" ref={categoryRef}>
-              {popupTab === "expense" &&
-                expenseCategory.map((item) => (
-                  <option
-                    key={item.categoryId}
-                    value={item.categoryId}
-                    data-category-name={item.categoryName}
-                  >
-                    {item.categoryName}
-                  </option>
-                ))}
-              {popupTab === "income" &&
-                incomeCategory.map((item) => (
-                  <option
-                    key={item.categoryId}
-                    value={item.categoryId}
-                    data-category-name={item.categoryName}
-                  >
-                    {item.categoryName}
-                  </option>
-                ))}
-            </select>
-            <img
-              src={
-                process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`
-              }
-              alt="Arrow Down"
-              className="custom-select-arrow"
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="asset">자산</label>
-            <select id="asset" ref={assetRef}>
-              {assetsCategory.map((item) => (
-                <option
-                  key={item.categoryId}
-                  value={item.categoryName == "카드" ? "card" : "cash"}
-                >
-                  {item.categoryName}
-                </option>
-              ))}
-            </select>
-            <img
-              src={
-                process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`
-              }
-              alt="Arrow Down"
-              className="custom-select-arrow"
-            />
-          </div>
-          {popupTab === "expense" && (
-            <div className="input-group" id="repeat-wrap">
-              <label htmlFor="repeat">할부</label>
-              <select
-                id="repeat"
-                ref={installmentRef}
-                onChange={handleSelect}
-                value={Selected}
-              >
-                <option value={0}>일시불</option>
-                <option value={1}>1개월</option>
-                <option value={2}>2개월</option>
-                <option value={3}>3개월</option>
-                <option value={4}>4개월</option>
-                <option value={5}>5개월</option>
-                <option value={6}>6개월</option>
-                <option value={7}>7개월</option>
-                <option value={8}>8개월</option>
-                <option value={9}>9개월</option>
-                <option value={10}>10개월</option>
-                <option value={11}>11개월</option>
-                <option value={12}>12개월</option>
-              </select>
-              <img
-                src={
-                  process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`
-                }
-                alt="Arrow Down"
-                className="custom-select-arrow"
-              />
-            </div>
-          )}
-          <div className="input-group">
-            <label htmlFor="description">내용</label>
-            <input type="text" id="description" ref={descriptionRef} />
-          </div>
-          <div className="button-group">
-            <button
-              type="submit"
-              className={`save-button ${
-                popupTab === "expense" ? "expense-active" : "income-active"
-              }`}
-            >
-              저장
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-  );
-};
+    )
+}
 
 export const SearchModal = ({
   setSearchModalOpen,
@@ -333,9 +243,17 @@ export const SearchModal = ({
         </div>
       </div>
 
-      <div className="button-group">
-        <button className="search-button">검색</button>
-      </div>
-    </div>
-  );
-};
+                <div className="button-group">
+                    <button className="search-button">검색</button>
+                </div>
+            </div>
+    )
+}
+
+export const dataDetailModal = ({ setAddModalOpen,expenseCategory,incomeCategory,assetsCategory }) => {
+    return(
+        <div>
+            
+        </div>
+    )
+}
