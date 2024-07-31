@@ -1,4 +1,3 @@
-import Header from "../../Components/Header/Header";
 import MainChart from "../../Components/Main/MainChart.js";
 import "./Main.css";
 import Scroll from "../../Components/ScrollTop&Bottom/Scroll.js";
@@ -12,7 +11,6 @@ const Main = () => {
 
   return (
     <>
-      <Header />
       <Scroll />
       <SideNav />
       {/* -- -------------------------------Section1-------------------------------- -- */}

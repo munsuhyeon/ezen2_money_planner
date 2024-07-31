@@ -4,6 +4,7 @@ import Checkbox from "../../Ui/Checkbox";
 import { formatDate, formatTime } from "../../Utils/Utils";
 import { call } from "../service/ApiService";
 import { TransactionListContext } from "../../App";
+
 export const AddDataModal = ({
   setAddModalOpen,
   expenseCategory,
