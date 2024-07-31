@@ -1,5 +1,6 @@
 // new Date()에서 시간:분 으로 표시하는 함수
-export const formatTime = (date) => {
+export const formatTime = (dateString) => {
+    const date = new Date(dateString);
     const hours  = String(date.getHours()).padStart(2, '0');
     const minutes  = String(date.getMinutes()).padStart(2, '0');
     return `${hours}:${minutes}`;
