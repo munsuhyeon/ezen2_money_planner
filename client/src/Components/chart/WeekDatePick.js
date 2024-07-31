@@ -4,7 +4,7 @@ import { startOfWeek, endOfWeek, eachDayOfInterval } from "date-fns";
 import { ko } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default class WeekDatePicker extends Component {
+export default class WeekDatePick extends Component {
   constructor(props) {
     super(props);
     const today = new Date();
@@ -15,6 +15,7 @@ export default class WeekDatePicker extends Component {
       startDate: startOfThisWeek,
       endDate: endOfThisWeek,
       highlightDates: [],
+      isOpen: false,
     };
   }
 
@@ -39,8 +40,15 @@ export default class WeekDatePicker extends Component {
         endDate: endOfSelectedWeek,
         highlightDates: daysOfWeek,
       });
+      this.props.onChangeDate(startOfSelectedWeek, endOfSelectedWeek);
     } else {
-      this.setState({ startDate: start, endDate: end, highlightDates: [] });
+      this.setState({
+        startDate: start,
+        endDate: end,
+        highlightDates: [],
+      });
+
+      this.props.onChangeDate(start, end);
     }
   };
 

@@ -4,7 +4,7 @@ import React,{ useEffect, useState } from "react";
 import TransactionList from "./View/transaction/TransactionList.js";
 import Main from "./View/Main/Main.js";
 import MonthStatistics from "./Ui/MonthStatistics.js";
-import WeakStatistics from "./Ui/WeakStatistics.js";
+import WeekStatistics from "./Ui/WeekStatistics.js";
 import SideNav from "./Components/SideNav/SideNav.js";
 import Header from "./Components/Header/Header.js";
 import BudgetModification from "./Components/BudgetModification/BudgetModification.js";
@@ -67,7 +67,7 @@ useEffect(() => {
           <Route path="/" element={<Main />} />
           <Route path="/transactionList" element={<TransactionList />} />
           <Route path="/monthly-report" element={<MonthStatistics />} />
-          <Route path="/weekly-report" element={<WeakStatistics />} />
+          <Route path="/weekly-report" element={<WeekStatistics />} />
           <Route path="/budgetmodification" element={<BudgetModification />} />
           <Route path="/budgetpage" element={<BudgetPage />} />
           <Route path="/login" element={<Login/>}/>
