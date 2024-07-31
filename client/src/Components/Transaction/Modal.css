@@ -2,8 +2,8 @@
 .popup-menu{
     position: absolute;
     left: 50%;
-    top: 50%;
-    /*height:95%;*/
+    top: 45%;
+    height:100%;
     transform: translate(-50%, -50%);
     width: 600px;
     padding:  20px 30px 60px 30px;
@@ -177,7 +177,7 @@
     margin-top: 20px;
 }
 
-.save-button,.search-button, .continue-button {
+.save-button,.search-button, .continue-button,.ok-button {
     flex: 1;
     padding: 10px;
     border: none;
@@ -185,7 +185,20 @@
     cursor: pointer;
     font-size: 16px;
 }
-
+.ok-button.expense-active{
+    background-color: #fff;
+    border:1px solid #4A74FB;
+    color: #4A74FB;
+    margin-right: 10px;
+    text-align: center;
+}
+.ok-button.income-active{
+    background-color: #fff;
+    border:1px solid #ff6b6b;
+    color: #ff6b6b;
+    margin-right: 10px;
+    text-align: center;
+}
 .save-button {
     background-color: #4A74FB;
     color: #fff;
