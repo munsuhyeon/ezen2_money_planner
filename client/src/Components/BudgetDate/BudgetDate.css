@@ -1,0 +1,91 @@
+.date-picker-container-budget {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.custom-datepicker-budget {
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  /* transition: border-color 0.3s ease; */
+  flex: 1;
+  min-width: 200px; /* 최소 너비 추가 */
+}
+
+.custom-datepicker-budget:focus {
+  border-color: #af9adf;
+  outline: none;
+}
+
+.date-picker-budget-icon {
+  position: absolute;
+  right: 10px;
+  font-size: 20px;
+  color: #896ccb;
+  cursor: pointer;
+}
+
+/* 달력 팝업의 너비를 조정 */
+.react-datepicker {
+  width: 320px; /* 원하는 너비로 설정 */
+  max-width: 100%; /* 최대 너비는 100%로 설정 */
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 달력( 날짜 헤더 배경화면 색깔 )  */
+.custom-header-budget {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #896ccb;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.custom-header-budget button {
+  background: none;
+  border: none;
+  color: rgb(255, 255, 255);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* 드롭다운 메뉴바 */
+.year-select-budget {
+  border: none;
+  color: #f1efef;
+  font-size: 1.3rem;
+  padding: 5px;
+  min-width: 200px; /* 연도 선택 드롭다운의 최소 너비 추가 */
+}
+
+.year-drop-down-budget {
+  color: black;
+  font-size: 1.3rem;
+}
+
+/* 날짜(달력(1~12)월 선택하는 부분 */
+.react-datepicker__month-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+  font-weight: bold;
+  gap: 40px; /* 월 버튼 간의 간격 추가 */
+}
+
+.react-datepicker__month-text {
+  flex: 1 1 22%; /* 각 월 버튼의 너비 조정 */
+  margin: 5px;
+  padding: 12px; /* 패딩을 조금 더 늘림 */
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.react-datepicker__month-text:hover {
+  background-color: #e8deff; /* 마우스 오버 시 배경색 */
+}

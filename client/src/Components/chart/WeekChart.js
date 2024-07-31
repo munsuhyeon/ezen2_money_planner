@@ -1,7 +1,7 @@
 import Chart from "chart.js/auto";
 
 export const createCategoryChart = () => {
-  const ctx = document.getElementById("weak_category_chart");
+  const ctx = document.getElementById("week_category_chart");
   return new Chart(ctx, {
     type: "doughnut",
     data: {
@@ -75,8 +75,8 @@ export const createCategoryChart = () => {
   });
 };
 
-export const createWeakPayChart = () => {
-  const wpctx = document.getElementById("weak_pay");
+export const createWeekPayChart = () => {
+  const wpctx = document.getElementById("week_pay");
   return new Chart(wpctx, {
     type: "bar",
     data: {

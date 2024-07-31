@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Bar, Doughnut } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import CustomDatePicker from "../BudgetDate/BudgetDate"; // CustomDatePicker를 임포트합니다.
 import "./BudgetPage.css";
 
 // 막대 그래프 데이터
@@ -150,7 +151,7 @@ const donutOptions = (totalBudget) => ({
 
 const BudgetPage = () => {
   const [totalBudget, setTotalBudget] = useState(300000);
-  const [month, setMonth] = useState("2024-07");
+  const [month, setMonth] = useState(new Date());
   const [categories, setCategories] = useState([
     { name: "식비", amount: 50000 },
     { name: "카페 / 디저트", amount: 50000 },
@@ -163,6 +164,16 @@ const BudgetPage = () => {
   return (
     <section id="budget_page">
       <div className="container_budget">
+        <div className="budget_top">
+          <CustomDatePicker
+            selectedDate={month}
+            onChange={(date) => setMonth(date)}
+          />
+          <div className="buttons">
+            <button className="edit-button">수정</button>
+            <button className="confirm-button">확인</button>
+          </div>
+        </div>
         <div className="content_budget">
           <div className="left-section">
             <div className="budget1">
@@ -192,15 +203,7 @@ const BudgetPage = () => {
           </div>
           <div className="right-section">
             <div className="budget3">
-              <div className="section-title">
-                카테고리별 예산
-                <input
-                  type="month"
-                  id="monthPicker"
-                  value={month}
-                  onChange={(e) => setMonth(e.target.value)}
-                />
-              </div>
+              <div className="section-title">카테고리별 예산</div>
               <div className="chart-container">
                 <Doughnut
                   data={donutData(categories)}
@@ -220,27 +223,24 @@ const BudgetPage = () => {
                   </tbody>
                 </table>
               </div>
-
-              <div className="buttons">
-                <button className="edit-button">수정</button>
-                <button className="confirm-button">확인</button>
-              </div>
             </div>
           </div>
           <div className="end-section">
             <div className="budget4">
-              {/* 전체적인 예산 분석 */}
               <div className="section-title2">예산 분석</div>
               <div className="section-subtitle2">
-                {/* 카테고리 총 금액을 계산 */}
                 <h3>카테고리 총 금액</h3>
                 <p className="sub_title1">
                   <span>{totalBudget.toLocaleString()}</span>원
                 </p>
-
                 <div className="month-budget">
-                  {/* 이번달 예산 분석 */}
-                  <p className="sub_title2">{month} 금액</p>
+                  <p className="sub_title2">
+                    {month.toLocaleDateString("ko-KR", {
+                      year: "numeric",
+                      month: "long",
+                    })}{" "}
+                    금액
+                  </p>
                   <p className="sub_title3">
                     <span>{totalBudget.toLocaleString()}</span>원
                   </p>
