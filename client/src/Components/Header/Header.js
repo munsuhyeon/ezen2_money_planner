@@ -16,7 +16,7 @@ const Header = () => {
   const userBudget = 1000; // 예산 설정
   const [userExpenses] = useState([
     // 비용 설정
-    { amount: 100 },
+    { amount: 600 },
   ]);
 
   const toggleNotification = (event) => {
