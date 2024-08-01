@@ -28,7 +28,7 @@ const Header = () => {
   const notificationRef = useRef(null);
 
   const userId = "test123"; // 예제 userId, 실제로는 Context 등에서 가져와야 함
-  const userBudget = 10000; // 예제 예산, 실제로는 Context 등에서 가져와야 함
+  const userBudget = 120000; // 예제 예산, 실제로는 Context 등에서 가져와야 함
 
   // 알림 창을 열고 닫는 함수
   const toggleNotification = (event) => {
@@ -78,15 +78,11 @@ const Header = () => {
     // 컴포넌트의 처음 렌더링 시 한 번만 실행되도록 합니다.
   }, []);
 
-  // 예산을 확인하고 알림을 생성하는 함수
   const checkBudget = (budget, expenses) => {
-    // 총 지출 금액을 계산합니다.
-    // expenses 배열의 각 요소에서 amount 속성을 추출하여 합계(acc)로 누적합니다.
-    const totalExpenses = expenses.reduce(
-      (acc, expense) => acc + expense.amount, // 누적값(acc)과 현재 지출(expense.amount)을 더합니다.
-      0 // reduce 함수의 초기 값은 0입니다.
-    );
-    // 알림을 추가할 배열을 초기화합니다.
+    const totalExpenses = expenses
+      .filter((item) => item.incomeType === "expense")
+      .reduce((acc, expense) => acc + expense.amount, 0);
+
     const notificationsToAdd = [];
 
     // 예산과 총 지출 금액을 비교하여 알림을 생성합니다.
