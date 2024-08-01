@@ -25,7 +25,7 @@ export const call = async (api, method, request) => {
     method: method, 
   };
   
-  
+  console.log(url)
   if (request) {
     options.body = JSON.stringify(request);
   }
