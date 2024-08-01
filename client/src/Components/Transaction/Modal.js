@@ -52,13 +52,10 @@ export const AddDataModal = ({
     const selectedCategoryName = selectedOption.getAttribute("data-category-name");
 
     const formData = {
-        date: dateRef.current.value,
-        time: timeRef.current.value,
         amount: amountRef.current.value,
         categoryId: categoryRef.current.value,
         paymentType: assetRef.current.value,
         incomeType: incomeType,
-        asset: assetRef.current.value,
         installment: popupTab === 'expense' && installmentRef.current ? installmentRef.current.value : '',
         description: descriptionRef.current.value,
         userId: userId,
@@ -254,40 +251,58 @@ export const DataDetailModal = ({ setDataDetailModalOpen,expenseCategory,incomeC
   const closeModal = () => {
     setDataDetailModalOpen(false);
   };
-
+  const { getTransactionList } = useContext(TransactionListContext);
   const [popupTab, setPopupTab] = useState(filterData.incomeType);
-  const [Selected, setSelected] = useState(0);
   const [amount, setAmount] = useState(filterData.amount);
   const [categoryId, setCategoryId] = useState(filterData.categoryId);
   const [description, setDescription] = useState(filterData.description);
   const [incomeType, setIncomeType] = useState(filterData.incomeType);
   const [paymentType, setPaymentType] = useState(filterData.paymentType);
   const [transactionId, setTransactionId] = useState(filterData.transactionId);
-  const [filterDate, setFilterDate] = useState(filterData.transactionDate);
-  const [filterTime, setFilterTime] = useState(filterData.transactionDate);
+  const [filterDate, setFilterDate] = useState(formatDate(filterData.transactionDate));
+  const [filterTime, setFilterTime] = useState(formatTime(filterData.transactionDate));
   const [installment, setInstallment] = useState(filterData.installment);
-  const installmentRef = useRef(null);
+  const [categoryName, setCategoryName] = useState("")
   const userId = "test123";
-
-  //카테고리 값 가져오기
-  //const categoryElement = categoryRef.current;
-  //const selectedOption = categoryRef.current.options[categoryElement.selectedIndex];
-  //const selectedCategoryName = selectedOption.getAttribute("data-category-name");
 
   const handlePopupTab = (tab) => {
     setPopupTab(tab);
+    setIncomeType(tab)
+    if(tab === 'income'){
+      setInstallment(0)
+    }
   };
-  const handleSelect = (e) => {
-    setSelected(e.target.value);
-  };
-
-  useEffect(()=>{
-    console.log(filterData)
-    console.log(assetsCategory)
-  },[filterData]);
 
   const handleUpdate = (e) => {
     e.preventDefault();
+    const formData = {
+      transactionId: transactionId,
+      amount: amount,
+      categoryId: categoryId,
+      paymentType: paymentType,
+      incomeType: incomeType,
+      installment: installment,
+      description: description,
+      userId: userId,
+      categoryName: categoryName,
+      transactionDate: `${filterDate}T${filterTime}:00`
+  };
+  console.log('formData :', formData);
+  if (amount === '') {
+    alert('금액을 입력해주세요.');
+    return;
+  }else if(description === ''){
+    alert('내용을 입력해주세요.');
+    return;
+  } else{
+    call('/transactions', 'PUT', formData)
+    .then((response) => {
+        console.log(response);
+        setDataDetailModalOpen(false);
+        getTransactionList(); 
+    })
+    .catch(error => console.error("수정 실패", error));
+  }
   }
 
     return(
@@ -305,11 +320,11 @@ export const DataDetailModal = ({ setDataDetailModalOpen,expenseCategory,incomeC
               <div className="date-time">
                   <div>
                       <label htmlFor="date">날짜</label>
-                      <input type="date" id="date" value={formatDate(filterDate)} onChange={(e) => {setFilterDate(e.target.value)}}/>
+                      <input type="date" id="date" value={filterDate} onChange={(e) => {setFilterDate(e.target.value)}}/>
                   </div>
                   <div>
                       <label htmlFor="time">시간</label>
-                      <input type="time" id="time" value={formatTime(filterTime)} onChange={(e) => {setFilterTime(e.target.value)}}/>
+                      <input type="time" id="time" value={filterTime} onChange={(e) => {setFilterTime(e.target.value)}}/>
                   </div>
               </div>
               <div className="input-group">
@@ -318,7 +333,9 @@ export const DataDetailModal = ({ setDataDetailModalOpen,expenseCategory,incomeC
               </div>
               <div className="input-group">
                   <label htmlFor="category">분류</label>
-                  <select id="category"  className="custom-select" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+                  <select id="category"  className="custom-select" value={categoryId} onChange={(e) => {
+                    setCategoryName(e.target.options[e.target.selectedIndex].getAttribute('data-category-name'));
+                    setCategoryId(e.target.value)}}>
                       {popupTab === 'expense' &&
                           expenseCategory.map((item) => (
                               <option key={item.categoryId} value={item.categoryId} data-category-name={item.categoryName}>{item.categoryName}</option>
@@ -344,7 +361,7 @@ export const DataDetailModal = ({ setDataDetailModalOpen,expenseCategory,incomeC
               {popupTab === 'expense' && (
               <div className="input-group" id="repeat-wrap">
                   <label htmlFor="repeat">할부</label>
-                  <select id="repeat" ref={installmentRef} onChange={(e) => setInstallment(e.target.value)} value={installment}>
+                  <select id="repeat" onChange={(e) => setInstallment(e.target.value)} value={installment}>
                       <option value={0}>일시불</option>
                       <option value={1}>1개월</option>
                       <option value={2}>2개월</option>
