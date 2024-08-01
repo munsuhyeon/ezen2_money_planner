@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { format, toZonedTime } from 'date-fns-tz';
 
 import {
   createCategoryChart,
@@ -35,14 +36,23 @@ const MonthStatistics = () => {
     sendDataToServer(start, end);
   };
 
+  const formatDateToISO = (date) => {
+    const timeZone = 'Asia/Seoul';
+    const zonedDate = toZonedTime(date, timeZone);
+    return format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", { timeZone });
+  };
+
   const sendDataToServer = (startDate, endDate) => {
     const userId = "test123";
     const url = "http://localhost:8080/monthchart";
 
+    const startDateISO = formatDateToISO(startDate);
+    const endDateISO = formatDateToISO(endDate);
+
     const data = {
       user_id: userId,
-      start_date: startDate,
-      end_date: endDate,
+      start_date: startDateISO,
+      end_date: endDateISO,
     };
 
     console.log("Sending data:", data);
