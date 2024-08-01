@@ -1,4 +1,4 @@
-create schema account_book;
+-- create schema account_book;
 
 use account_book;
 

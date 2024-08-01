@@ -20,7 +20,7 @@ const Header = () => {
   const toggleNotification = (event) => {
     setNotificationVisible((prev) => !prev);
     if (!isNotificationVisible) {
-      setUnreadNotificationCount(0); // 알림을 열 때 읽지 않은 알림 개수 초기화
+      setUnreadNotificationCount(0); // 알림 창이 열릴 때 읽지 않은 알림 개수 초기화
     }
     event.stopPropagation();
   };
@@ -53,6 +53,7 @@ const Header = () => {
       (acc, expense) => acc + expense.amount,
       0
     );
+    console.log("Total Expenses: ", totalExpenses); // 총 지출 확인
     const notificationsToAdd = [];
     if (totalExpenses > budget) {
       notificationsToAdd.push({
@@ -85,39 +86,43 @@ const Header = () => {
     if (newNotifications.length === 0) return;
 
     const listString = localStorage.getItem(`${userId}`);
+    console.log("Stored Notifications: ", listString); // 로컬 스토리지 확인
     let storageList = [];
     if (listString) {
       storageList = JSON.parse(listString);
     }
 
-    const newNotificationTitles = newNotifications
-      .map((n) => n.title + n.detail)
-      .join();
-    const existingNotifications = storageList.filter(
-      (notification) =>
-        !newNotificationTitles.includes(
-          notification.title + notification.detail
-        )
+    const newNotificationTitles = newNotifications.map(
+      (n) => n.title + n.detail
     );
 
+    // 기존 알림 중 새로운 알림과 겹치는 알림은 제외
     const updatedNotifications = [
       ...newNotifications.map((notification) => ({
         ...notification,
-        timestamp: Date.now(),
+        timestamp: Date.now(), // 새 알림 시간 설정
+        read: false, // 새로운 알림은 기본적으로 읽지 않음
       })),
-      ...existingNotifications,
+      ...storageList.filter(
+        (notification) =>
+          !newNotificationTitles.includes(
+            notification.title + notification.detail
+          )
+      ),
     ];
 
     localStorage.setItem(`${userId}`, JSON.stringify(updatedNotifications));
-    setNotifications(updatedNotifications);
 
-    // 읽지 않은 알림 개수는 새로 추가된 알림의 개수만 카운트
-    setUnreadNotificationCount(
-      (prevCount) => prevCount + newNotifications.length
-    );
+    // 읽지 않은 알림 개수 계산
+    const unreadCount = updatedNotifications.filter(
+      (notification) => !notification.read
+    ).length;
+    setNotifications(updatedNotifications);
+    setUnreadNotificationCount(unreadCount);
   };
 
   useEffect(() => {
+    console.log("Transaction List: ", transactionList); // 트랜잭션 리스트 확인
     const newNotifications = checkBudget(userBudget, transactionList);
     addNotifications(newNotifications);
   }, [transactionList]);
@@ -141,10 +146,10 @@ const Header = () => {
         );
         localStorage.setItem(`${userId}`, JSON.stringify(parsedNotifications));
         setNotifications(parsedNotifications);
-        // 새로 고침 시 읽지 않은 알림 개수 업데이트
-        if (!isNotificationVisible) {
-          setUnreadNotificationCount(parsedNotifications.length);
-        }
+        setUnreadNotificationCount(
+          parsedNotifications.filter((notification) => !notification.read)
+            .length
+        );
       }
     };
 
@@ -161,12 +166,17 @@ const Header = () => {
   }, []);
 
   const handleDeleteNotification = (index) => {
+    // 현재 알림 목록에서 삭제할 알림을 제외한 새로운 목록 생성
     const updatedNotifications = notifications.filter((_, i) => i !== index);
-    localStorage.setItem(`${userId}`, JSON.stringify(updatedNotifications));
-    setNotifications(updatedNotifications);
 
-    // 삭제 후 읽지 않은 알림 개수 재조정
-    setUnreadNotificationCount((prevCount) => prevCount - 1);
+    // 로컬 스토리지에 업데이트된 알림 목록 저장
+    localStorage.setItem(`${userId}`, JSON.stringify(updatedNotifications));
+
+    // 상태 업데이트
+    setNotifications(updatedNotifications);
+    setUnreadNotificationCount(
+      updatedNotifications.filter((notification) => !notification.read).length
+    ); // 삭제 후 읽지 않은 알림 개수 업데이트
   };
 
   return (
