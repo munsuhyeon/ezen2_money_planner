@@ -204,10 +204,13 @@ export const SearchModal = ({setSearchModalOpen,expenseCategory,incomeCategory,a
       <div className="pop-menu-head">
         <h1 className="pop-menu-title">검색</h1>
         <p id="closeButton" className="close-button" onClick={closeModal}>
-          <img
-            src={process.env.PUBLIC_URL + `assets/close-svgrepo-com.svg`}
-            alt="close"
-          />
+          <span>
+            <img
+              src={process.env.PUBLIC_URL + `assets/close-svgrepo-com.svg`}
+              alt="close"
+            />
+          </span>
+          
         </p>
       </div>
       <div className="check-wrap">
@@ -249,6 +252,7 @@ export const SearchModal = ({setSearchModalOpen,expenseCategory,incomeCategory,a
 }
 
 export const DataDetailModal = ({ setDataDetailModalOpen,expenseCategory,incomeCategory,assetsCategory,filterData }) => {
+  const { getTransactionList } = useContext(TransactionListContext);
   const closeModal = () => {
     setDataDetailModalOpen(false);
   };
@@ -263,9 +267,9 @@ export const DataDetailModal = ({ setDataDetailModalOpen,expenseCategory,incomeC
   const [filterDate, setFilterDate] = useState(formatDate(filterData.transactionDate));
   const [filterTime, setFilterTime] = useState(formatTime(filterData.transactionDate));
   const [installment, setInstallment] = useState(filterData.installment);
-  const [categoryName, setCategoryName] = useState("")
   const userId = "test123";
-
+  const categoryIdRef = useRef(filterData.categoryId);
+  const assetRef = useRef(paymentType);
   const handlePopupTab = (tab) => {
     setPopupTab(tab);
     setIncomeType(tab)
@@ -326,6 +330,7 @@ export const DataDetailModal = ({ setDataDetailModalOpen,expenseCategory,incomeC
                   <div>
                       <label htmlFor="time">시간</label>
                       <input type="time" id="time" value={filterTime} onChange={(e) => {setFilterTime(e.target.value)}}/>
+                      <input type="time" id="time" value={filterTime} onChange={(e) => {setFilterTime(e.target.value)}}/>
                   </div>
               </div>
               <div className="input-group">
@@ -334,9 +339,9 @@ export const DataDetailModal = ({ setDataDetailModalOpen,expenseCategory,incomeC
               </div>
               <div className="input-group">
                   <label htmlFor="category">분류</label>
-                  <select id="category"  className="custom-select" value={categoryId} onChange={(e) => {
-                    setCategoryName(e.target.options[e.target.selectedIndex].getAttribute('data-category-name'));
-                    setCategoryId(e.target.value)}}>
+                  <select id="category"  className="custom-select" ref={categoryIdRef} value={categoryId} onChange={(e) => {
+                    setCategoryId(e.target.value)
+                    }}>
                       {popupTab === 'expense' &&
                           expenseCategory.map((item) => (
                               <option key={item.categoryId} value={item.categoryId} data-category-name={item.categoryName}>{item.categoryName}</option>
@@ -352,7 +357,7 @@ export const DataDetailModal = ({ setDataDetailModalOpen,expenseCategory,incomeC
               </div>
               <div className="input-group">
                   <label htmlFor="asset">자산</label>
-                  <select id="asset" value={paymentType} onChange={(e) => setPaymentType(e.target.value)}>
+                  <select id="asset" value={paymentType} ref={assetRef} onChange={(e) => setPaymentType(e.target.value)}>
                       {assetsCategory.map((item) => (
                           <option key={item.categoryId} value={item.categoryName === '카드' ? 'card':'cash'} >{item.categoryName}</option>
                       ))}
