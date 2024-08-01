@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import ScrollEvent from "../../Hooks/Main/ScrollEvent";
 
-// 새로고침시 안읽은 알림이 아닌 새로운 알림만 뱃지로 추가해줌
+// 새로고침시 안읽은 알림이 아닌 새로운 알림만 뱃지로 추가해줌.
 
 const Header = () => {
   // TransactionListContext에서 거래 목록을 가져옴
