@@ -3,8 +3,7 @@
   margin: 0;
   padding: 0;
   width: calc(100% - 250px);
-  margin-left: 80px;
-  margin-top: 50px;
+  margin-left: 235px;
   font-family: "Nanum Gothic", "sans-serif";
 }
 
@@ -12,9 +11,9 @@
   background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
-  max-width: 1300px;
   margin: 50px auto;
   text-align: center;
+  /* margin-left: 250px; */
 }
 
 .content_budget {
@@ -23,7 +22,6 @@
   justify-content: space-between;
   flex-wrap: nowrap; /* 한 줄에 고정 */
 }
-
 .left-section,
 .right-section,
 .end-section {
@@ -50,9 +48,9 @@
 .budget2,
 .budget3,
 .budget4 {
-  border: 2px solid #af9adf;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   padding: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 45px;
 }
 
 .budget1,
@@ -88,14 +86,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.section-title input {
-  font-size: 16px;
-  font-weight: bolder;
-  padding: 4px;
-  border-radius: 5px;
-  border: none;
 }
 
 .budget-setting {
@@ -159,7 +149,7 @@
 }
 
 .budget-table td {
-  padding: 10px;
+  padding: 17px;
   border-bottom: 1px solid #969595;
   border-top: 1px solid #969595;
 }
@@ -176,20 +166,14 @@
   font-weight: bold;
 }
 
-.buttons {
-  display: flex;
-  margin-top: 38px;
-  justify-content: flex-end;
-}
-
 .edit-button,
 .confirm-button {
   color: white;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 6px;
+  font-size: 14px;
   cursor: pointer;
-  border-radius: 5px;
-  margin-left: 10px;
+  border-radius: 3px;
+  margin-right: 10px;
   border: none;
   font-weight: bold;
 }
@@ -271,31 +255,21 @@
   color: #ff3265;
 }
 
-/* 달력 커스텀 하기  */
-.custom-month-picker {
+/* budget_top */
+.budget_top {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px; /* 여백 추가 */
+  margin-right: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.custom-month-picker input[type="month"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border: none;
-  background-color: #f0f0f0;
-  font-size: 16px;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-.custom-month-picker .arrow {
-  cursor: pointer;
-  font-size: 20px;
-  padding: 0 10px;
-}
-
-.custom-month-picker .arrow:hover {
-  color: #007bff;
+#monthPicker {
+  margin-right: 20px; /* 오른쪽 여백 추가 */
+  padding: 10px; /* 패딩 추가 */
+  font-size: 1em; /* 폰트 크기 */
+  font-weight: bold;
 }
 
 /* 모바일 화면에서 적절히 배치되도록 조정 */
@@ -311,5 +285,16 @@
   .end-section {
     width: 100%;
     margin: 10px 0;
+  }
+
+  .budget_top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .buttons {
+    margin-top: 10px;
+    justify-content: space-between;
+    width: 100%;
   }
 }

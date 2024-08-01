@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './Transaction.css';
-import { AddDataModal, SearchModal, dataDetailModal } from '../../Components/Transaction/Modal';
+import { AddDataModal, SearchModal, DataDetailModal } from '../../Components/Transaction/Modal';
 import { call } from '../../Components/service/ApiService';
 import { CategoryContext, TransactionListContext } from '../../App';
 import {convertToCustomDateFormat, formatPrice} from '../../Utils/Utils';
@@ -39,7 +39,8 @@ const TransactionList = () => {
 
     const [searchModalOpen, setSearchModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
-    const [dataDetailModalOpen, setDataDetailModalOpen] = useState(true);
+    const [dataDetailModalOpen, setDataDetailModalOpen] = useState(false);
+    const [filterData, setFilterData] = useState([]);
     const [activeTab, setActiveTab] = useState('all');
     const [expenseCategory, setExpenseCategory] = useState([]);
     const [incomeCategory, setIncomeCategory] = useState([]);
@@ -56,13 +57,18 @@ const TransactionList = () => {
       setIncomeCategory(income);
       setAssetsCategory(assets);
       setInstallmentCategory(installment);
+      
     }
   }, [categoryList]);
+  useEffect(()=>{
+  },[expenseCategory])
   const showModal = (btn) => {
     if (btn == "addData") {
       setAddModalOpen(true);
     } else if (btn == "search") {
       setSearchModalOpen(true);
+    } else if(btn == "detailData"){
+        setDataDetailModalOpen(true)
     }
   };
 
@@ -109,8 +115,11 @@ const TransactionList = () => {
         }) 
         .catch(error => console.error("삭제 실패", error));
     }
-    const detailData = () => {
-        
+    const detailData = (id) => {
+        const filterItem = transactionList.filter((list) => id === list.transactionId)
+        //console.log(filterItem)
+        setFilterData(filterItem[0])
+        showModal("detailData")
     }
     return(
             <div className="transcation" id="transcation">
@@ -156,7 +165,7 @@ const TransactionList = () => {
                         <tbody id="all" className="tab-content" style={{ display: activeTab === 'all' ? 'table-row-group' : 'none' }}>
                                 {transactionList && transactionList.length > 0 ? (
                                     transactionList.map((item) => (
-                                        <tr key={item.transactionId} onClick={detailData}>
+                                        <tr key={item.transactionId} onClick={() => detailData(item.transactionId)} style={{cursor:'pointer'}}>
                                             <td><Checkbox id={item.transactionId} checked={isChecked[item.transactionId] || false}  onChange={(event) => handleCheckboxChange(event, item.transactionId)}/></td>
                                             <td>{convertToCustomDateFormat(item.transactionDate)}</td>
                                             <td>{item.paymentType == 'card' ? '카드':'현금'}</td>
@@ -227,10 +236,10 @@ const TransactionList = () => {
         incomeCategory={incomeCategory} assetsCategory={assetsCategory}/>}
 
         {searchModalOpen && <SearchModal setSearchModalOpen={setSearchModalOpen} expenseCategory={expenseCategory}
-        incomeCategory={incomeCategory} assetsCategory={assetsCategory} />}
+        incomeCategory={incomeCategory} assetsCategory={assetsCategory} installmentCategory={installmentCategory} />}
 
-        {dataDetailModalOpen && <dataDetailModal setDataDetailModalOpen={setDataDetailModalOpen} expenseCategory={expenseCategory}
-        incomeCategory={incomeCategory} assetsCategory={assetsCategory}/>}
+        {dataDetailModalOpen && <DataDetailModal setDataDetailModalOpen={setDataDetailModalOpen} expenseCategory={expenseCategory}
+        incomeCategory={incomeCategory} assetsCategory={assetsCategory} filterData={filterData}/>}
         </div>       
     )
 }
