@@ -2,9 +2,10 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import {useState} from "react"
-
+import axios from 'axios';
 import "../../assets/css/reset.css";
 import "./Login.css";
+
 
 
 
@@ -12,9 +13,24 @@ function Login() {
 
     const [inputId, setInputId] = useState("");
     const [inputPw, setInputPw] = useState("");
+    const [error, setError] = useState(null);
 
-    function reqLogin (){
-        // call("/login", "POST", item).then((response) => setItems(response.data));
+    function reqLogin() {
+        axios.post('http://localhost:8080/auth/login', {
+            user_name: inputId,
+            password: inputPw
+        })
+        .then(response => {
+            // 서버로부터 응답을 받았을 때 처리할 작업
+            console.log(response.data); // 서버에서 받은 데이터를 콘솔에 출력
+            setError(null); // 에러 초기화
+            // 로그인 성공 후 처리할 작업 추가 가능
+        })
+        .catch(error => {
+            // 오류 발생 시 처리할 작업
+            console.error('로그인 오류:', error);
+            setError("아이디나 비밀번호가 올바르지 않습니다."); // 에러 메시지 설정
+        });
     }
     return (
         <div className="login_section">
@@ -32,11 +48,19 @@ function Login() {
                     <form action="" className="login_form_box">
                         <div className="input_login">
                             <p>아이디</p>
-                            <input type="text" value={inputId} onChange={(e) => setInputId(e.target.value)} placeholder="아이디를 입력하세요"/>
+                            <input 
+                            type="text" 
+                            value={inputId}
+                            onChange={(e) => setInputId(e.target.value)} 
+                            placeholder="아이디를 입력하세요"/>
                         </div>
                         <div className="input_login">
                             <p>비밀번호</p>
-                            <input type="password" value={inputPw} onChange={(e) => setInputPw(e.target.value)} placeholder="비밀번호를 입력하세요"/>
+                            <input 
+                            type="password" 
+                            value={inputPw} 
+                            onChange={(e) => setInputPw(e.target.value)} 
+                            placeholder="비밀번호를 입력하세요"/>
                         </div>
                     </form>
                 </div>

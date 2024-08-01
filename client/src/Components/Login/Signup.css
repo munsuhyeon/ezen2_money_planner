@@ -21,7 +21,11 @@
 
 /* 가입 정보 기재 박스 */
 .signup_section .signup_input_container .input_box {
-    padding-bottom: 1rem;
+    padding-bottom: 2rem;
+}
+
+.signup_section .signup_input_container .input_box:last-child{
+    margin-bottom: 1rem;
 }
 
 .signup_section .signup_input_container .input_box input {
