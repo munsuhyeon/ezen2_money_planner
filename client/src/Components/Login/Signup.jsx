@@ -1,6 +1,6 @@
 import { useState } from "react";
-
-
+import axios from 'axios'
+import {call} from "../service/ApiService"
 import "./Signup.css";
 
 
@@ -10,10 +10,32 @@ function Signup() {
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState("");
     const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
 
-    function reqSignUp () {
-        // {id, password, checkPassword, name} 
-        
+    const Server_URL = "http://localhost:8080";
+
+    async function reqSignUp () {
+        const formData = {
+            userid : id,
+            password : password,
+            checkPassword : checkPassword,
+            username : name,
+            email : email 
+        }
+        console.log("Call!!!!")
+        call('/user/signup', 'POST', formData)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch(error => console.error("저장 실패", error));
+            /*
+        const response = await axios.post(`${Server_URL}/user/signup`, {
+            userid : id,
+            password : password,
+            checkPassword : checkPassword,
+            username : name,
+            email : email 
+        })*/
     }
 
     return (
@@ -35,6 +57,10 @@ function Signup() {
                 <div className="input_box">
                     <h4 className="input_title">이름</h4>
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="이름을 입력해주세요" />
+                </div>
+                <div className="input_box">
+                    <h4 className="input_title">Email</h4>
+                    <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email 을 입력해주세요" />
                 </div>
             </div>
 
