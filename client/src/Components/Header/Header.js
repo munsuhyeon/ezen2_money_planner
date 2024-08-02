@@ -28,7 +28,7 @@ const Header = () => {
   const notificationRef = useRef(null);
 
   const userId = "test123"; // 예제 userId, 실제로는 Context 등에서 가져와야 함
-  const userBudget = 120000; // 예제 예산, 실제로는 Context 등에서 가져와야 함
+  const userBudget = 50000; // 예제 예산, 실제로는 Context 등에서 가져와야 함
 
   // 알림 창을 열고 닫는 함수
   const toggleNotification = (event) => {
@@ -192,8 +192,6 @@ const Header = () => {
 
   // 거래 목록이 변경될 때 예산을 확인하고 알림을 추가
   useEffect(() => {
-    // 트랜잭션 리스트를 콘솔에 출력하여 확인
-    console.log("Transaction List: ", transactionList);
     // 현재 예산(userBudget)과 트랜잭션 리스트(transactionList)를 기반으로 새로운 알림을 생성
     const newNotifications = checkBudget(userBudget, transactionList);
     // 생성된 새로운 알림을 상태에 추가

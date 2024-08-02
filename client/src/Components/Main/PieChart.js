@@ -83,7 +83,13 @@ const PieChart = ({
           weight: "bold", // 라벨 폰트 두께
         },
         formatter: (value, context) => {
-          return `${context.chart.data.labels[context.dataIndex]}: ${value}%`;
+          // 데이터가 0이거나, 데이터 값이 없을 때는 빈 문자열을 반환하여 라벨을 숨김
+          if (value === 0 || !value) {
+            return "";
+          }
+          return `${
+            context.chart.data.labels[context.dataIndex]
+          }: ${value.toLocaleString()}원`;
         },
       },
     },
