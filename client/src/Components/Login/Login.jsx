@@ -2,7 +2,7 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import {useState} from "react"
-import axios from 'axios';
+
 import "../../assets/css/reset.css";
 import "./Login.css";
 
@@ -15,22 +15,30 @@ function Login() {
     const [inputPw, setInputPw] = useState("");
     const [error, setError] = useState(null);
 
-    function reqLogin() {
-        axios.post('http://localhost:8080/auth/login', {
-            user_name: inputId,
-            password: inputPw
-        })
-        .then(response => {
-            // 서버로부터 응답을 받았을 때 처리할 작업
-            console.log(response.data); // 서버에서 받은 데이터를 콘솔에 출력
-            setError(null); // 에러 초기화
+
+    const loginData = {userid: inputId, password: inputPw}
+
+    async function reqLogin() {
+        try {
+            const response = await fetch('http://localhost:8080/user/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(loginData)
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const data = await response.json();
+            console.log(data); // 서버에서 받은 데이터를 콘솔에 출력
+        
             // 로그인 성공 후 처리할 작업 추가 가능
-        })
-        .catch(error => {
-            // 오류 발생 시 처리할 작업
+        } catch (error) {
             console.error('로그인 오류:', error);
             setError("아이디나 비밀번호가 올바르지 않습니다."); // 에러 메시지 설정
-        });
+            alert("아이디나 비밀번호가 올바르지 않습니다.");
+        }
     }
     return (
         <div className="login_section">

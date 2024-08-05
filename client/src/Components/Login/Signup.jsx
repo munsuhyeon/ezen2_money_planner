@@ -14,6 +14,8 @@ function Signup() {
 
     const Server_URL = "http://localhost:8080";
 
+    let exist_id = 0;
+
     const checkId = async () => {
         try {
             const response = await fetch(`http://localhost:8080/user/exists`, {
@@ -36,8 +38,10 @@ function Signup() {
 
             if (!exists) {
                 alert("사용 가능한 ID 입니다.");
+                exist_id = 1;
             } else {
                 alert("이미 사용된 ID 입니다.");
+                exist_id = 0;
             }
 
         } catch (error) {
@@ -67,7 +71,9 @@ function Signup() {
         if (formData.password !== formData.checkPassword) {
             alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
             return;
-        }       
+        } 
+        
+       if ( exist_id == 1){
         try {
             const response = await fetch(`http://localhost:8080/user/signup`, {
                 method: 'POST',
@@ -86,8 +92,11 @@ function Signup() {
             }
         } catch (error) {
             console.error('회원가입 실패', error);
-            alert('오류 발생: ' + error.message);
-        }
+            alert('오류 발생: ' + error.message);                   
+    }
+}else{
+    alert("ID가 중복되는지 확인해주세요")
+}
         
       
         // catch (error) {
