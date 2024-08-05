@@ -48,3 +48,18 @@ export const convertToCustomDateFormat = (isoDateString) => {
 export const formatPrice = (price) => {
   return new Intl.NumberFormat("ko-KR").format(price);
 };
+// 이번달 첫째날과 마지막날을 추출하는 함수 (2024-08-01, 2024-08-31)
+export const formatMonth = (now) => {
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+  return {
+    startDate: formatDate(startOfMonth),
+    endDate: formatDate(endOfMonth),
+  };
+} 

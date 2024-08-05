@@ -13,7 +13,7 @@ import Login from "../src/Components/Login/Login.jsx";
 import Signup from "../src/Components/Login/Signup.jsx";
 import Forgotpassword from "../src/Components/Login/ForgotPassword.jsx";
 import { call } from "./Components/service/ApiService.js";
-
+import {formatMonth} from "./Utils/Utils.js"
 export const CategoryContext = React.createContext();
 export const TransactionListContext = React.createContext();
 function App() {
@@ -35,8 +35,9 @@ function App() {
 
   // DB에서 지출/수입 내역 가져오기(후에 사용자 id 반영해서 가져오기)
   const [transactionList, setTransactionList] = useState([]);
-  const getTransactionList = async () => {
-    call("/transactions", "GET", null)
+  const getTransactionList = async (item = formatMonth(new Date())) => {
+    console.log(item)
+    call("/transactions/list", "POST", item)
       .then((response) => {
         if (response) {
           console.log(response.data);
@@ -64,7 +65,7 @@ function App() {
           <SideNav />
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/transactionList" element={<TransactionList />} />
+            <Route path="/transactionList" element={<TransactionList setTransactionList={setTransactionList}/>} />
             <Route path="/monthly-report" element={<MonthStatistics />} />
             <Route path="/weekly-report" element={<WeekStatistics />} />
             <Route
