@@ -261,7 +261,11 @@ export const SearchModal = ({
   incomeCategory,
   assetsCategory,
   installmentCategory,
+  setTransactionList,
 }) => {
+  const { transactionList, getTransactionList } = useContext(
+    TransactionListContext
+  );
   const closeModal = () => {
     setSearchModalOpen(false);
   };
@@ -295,6 +299,27 @@ export const SearchModal = ({
       ))}
     </ul>
   );
+  const [searchInput, setSearchInput] = useState("");
+  const handleSearch = () => {
+    console.log(searchInput);
+    console.log("searchModal  ::::    ", transactionList);
+    const categories = [
+      { type: "expense", data: expenseCategory },
+      { type: "income", data: incomeCategory },
+      { type: "assets", data: assetsCategory },
+      { type: "installment", data: installmentCategory },
+    ];
+    const allSelectedCategoryIds = categories.flatMap(({ type, data }) =>
+      data
+        .filter((_, index) => checkedBoxes[type][index])
+        .map((item) => item.categoryId)
+    );
+    console.log("Selected Category IDs: ", allSelectedCategoryIds);
+    const newTransactionList = transactionList.filter((list) => {
+      allSelectedCategoryIds.includes(list.categoryId);
+    });
+    console.log(newTransactionList);
+  };
   return (
     <div className="popup-menu" id="search-menu">
       <div className="pop-menu-head">
@@ -310,12 +335,16 @@ export const SearchModal = ({
       </div>
       <div className="check-wrap">
         <div className="search-wrap">
-          <input type="text" className="searchForm" />
-          <div className="searchImg">
+          <input
+            type="text"
+            className="searchForm"
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+          {/*<div className="searchImg" >
             <img
               src={process.env.PUBLIC_URL + `assets/search-svgrepo-com.svg`}
             />
-          </div>
+          </div>*/}
         </div>
 
         <div className="expense-checkbox">
@@ -340,7 +369,9 @@ export const SearchModal = ({
       </div>
 
       <div className="button-group">
-        <button className="search-button">검색</button>
+        <button className="search-button" onClick={handleSearch}>
+          검색
+        </button>
       </div>
     </div>
   );
@@ -360,6 +391,7 @@ export const DataDetailModal = ({
   const [popupTab, setPopupTab] = useState(filterData.incomeType);
   const [amount, setAmount] = useState(filterData.amount);
   const [categoryId, setCategoryId] = useState(filterData.categoryId);
+  const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState(filterData.description);
   const [incomeType, setIncomeType] = useState(filterData.incomeType);
   const [paymentType, setPaymentType] = useState(filterData.paymentType);
@@ -393,7 +425,7 @@ export const DataDetailModal = ({
       installment: installment,
       description: description,
       userId: userId,
-      // categoryName: categoryName,
+      categoryName: categoryName,
       transactionDate: `${filterDate}T${filterTime}:00`,
     };
     console.log("formData :", formData);
@@ -476,14 +508,6 @@ export const DataDetailModal = ({
                   setFilterTime(e.target.value);
                 }}
               />
-              <input
-                type="time"
-                id="time"
-                value={filterTime}
-                onChange={(e) => {
-                  setFilterTime(e.target.value);
-                }}
-              />
             </div>
           </div>
           <div className="input-group">
@@ -506,6 +530,10 @@ export const DataDetailModal = ({
               value={categoryId}
               onChange={(e) => {
                 setCategoryId(e.target.value);
+                const selectedOption = e.target.options[e.target.selectedIndex];
+                setCategoryName(
+                  selectedOption.getAttribute("data-category-name")
+                );
               }}
             >
               {popupTab === "expense" &&

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, createContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import "./Transaction.css";
 import {
   AddDataModal,
@@ -7,15 +7,21 @@ import {
 } from "../../Components/Transaction/Modal";
 import { call } from "../../Components/service/ApiService";
 import { CategoryContext, TransactionListContext } from "../../App";
-import { convertToCustomDateFormat, formatPrice } from "../../Utils/Utils";
+import {
+  convertToCustomDateFormat,
+  formatPrice,
+  formatMonth,
+} from "../../Utils/Utils";
 import Checkbox from "../../Ui/Checkbox";
-
-const TransactionList = () => {
+import { startOfMonth, endOfMonth } from "date-fns";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import ko from "date-fns/locale/ko";
+const TransactionList = ({ setTransactionList }) => {
   const categoryList = useContext(CategoryContext);
   const { transactionList, getTransactionList } = useContext(
     TransactionListContext
   );
-
   // 'expense'의 총 합계 계산
   const totalExpense = transactionList
     .filter((item) => item.incomeType === "expense")
@@ -137,15 +143,37 @@ const TransactionList = () => {
     setFilterData(filterItem[0]);
     showModal("detailData");
   };
+  /* 현재 날짜 선택 */
+  const datePickerRef = useRef();
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const handleChange = async (date) => {
+    setSelectedDate(date);
+    const item = formatMonth(date);
+    getTransactionList(item);
+  };
+  const handleImgClick = () => {
+    if (datePickerRef.current) {
+      datePickerRef.current.click();
+    }
+  };
+
   return (
     <div className="transcation" id="transcation">
       <div className="content-header">
         <h2 className="date-button">
-          07월 2024
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleChange}
+            dateFormat="yyyy년 MM월"
+            showMonthYearPicker
+            locale={ko}
+            ref={datePickerRef}
+          />
           <img
             src={process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`}
             alt="arrow-down"
             className="arrow-down"
+            onClick={handleImgClick}
           />
         </h2>
         <div className="btn-wrap">
@@ -245,11 +273,7 @@ const TransactionList = () => {
             >
               {transactionList && transactionList.length > 0 ? (
                 transactionList.map((item) => (
-                  <tr
-                    key={item.transactionId}
-                    onClick={() => detailData(item.transactionId)}
-                    style={{ cursor: "pointer" }}
-                  >
+                  <tr key={item.transactionId}>
                     <td>
                       <Checkbox
                         id={item.transactionId}
@@ -259,7 +283,12 @@ const TransactionList = () => {
                         }
                       />
                     </td>
-                    <td>{convertToCustomDateFormat(item.transactionDate)}</td>
+                    <td
+                      onClick={() => detailData(item.transactionId)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {convertToCustomDateFormat(item.transactionDate)}
+                    </td>
                     <td>{item.paymentType == "card" ? "카드" : "현금"}</td>
                     <td>{item.categoryName}</td>
                     <td
@@ -310,7 +339,17 @@ const TransactionList = () => {
                       <td>{convertToCustomDateFormat(item.transactionDate)}</td>
                       <td>{item.paymentType == "card" ? "카드" : "현금"}</td>
                       <td>{item.categoryName}</td>
-                      <td className="amount">{formatPrice(item.amount)}</td>
+                      <td
+                        className={`${
+                          item.incomeType === "expense"
+                            ? "tab_expense"
+                            : "tab_income"
+                        }`}
+                      >
+                        {item.incomeType === "expense"
+                          ? "-" + formatPrice(item.amount)
+                          : "+" + formatPrice(item.amount)}
+                      </td>
                       <td>{item.description}</td>
                     </tr>
                   ))
@@ -348,7 +387,17 @@ const TransactionList = () => {
                       <td>{convertToCustomDateFormat(item.transactionDate)}</td>
                       <td>{item.paymentType == "card" ? "카드" : "현금"}</td>
                       <td>{item.categoryName}</td>
-                      <td className="amount">{formatPrice(item.amount)}</td>
+                      <td
+                        className={`${
+                          item.incomeType === "expense"
+                            ? "tab_expense"
+                            : "tab_income"
+                        }`}
+                      >
+                        {item.incomeType === "expense"
+                          ? "-" + formatPrice(item.amount)
+                          : "+" + formatPrice(item.amount)}
+                      </td>
                       <td>{item.description}</td>
                     </tr>
                   ))
@@ -380,6 +429,7 @@ const TransactionList = () => {
           incomeCategory={incomeCategory}
           assetsCategory={assetsCategory}
           installmentCategory={installmentCategory}
+          setTransactionList={setTransactionList}
         />
       )}
 
