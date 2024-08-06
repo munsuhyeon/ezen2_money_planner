@@ -43,65 +43,71 @@ const TransactionList = ({setTransactionList,originalList}) => {
     (item) => item.incomeType === "income"
   ).length;
 
-    const [searchModalOpen, setSearchModalOpen] = useState(false);
-    const [addModalOpen, setAddModalOpen] = useState(false);
-    const [dataDetailModalOpen, setDataDetailModalOpen] = useState(false);
-    const [filterData, setFilterData] = useState([]);
-    const [activeTab, setActiveTab] = useState('all');
-    const [expenseCategory, setExpenseCategory] = useState([]);
-    const [incomeCategory, setIncomeCategory] = useState([]);
-    const [assetsCategory, setAssetsCategory] = useState([]);
-    const [installmentCategory, setInstallmentCategory] = useState([]);
-    useEffect(() => {
-        if (categoryList && categoryList.length > 0) {
-            const expense = categoryList.filter(category => category.categoryType === 'expense');
-            const income = categoryList.filter(category => category.categoryType === 'income');
-            const assets = categoryList.filter(category => category.categoryType === 'assets');
-            const installment = categoryList.filter(category => category.categoryType === 'installments');
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [dataDetailModalOpen, setDataDetailModalOpen] = useState(false);
+  const [filterData, setFilterData] = useState([]);
+  const [activeTab, setActiveTab] = useState("all");
+  const [expenseCategory, setExpenseCategory] = useState([]);
+  const [incomeCategory, setIncomeCategory] = useState([]);
+  const [assetsCategory, setAssetsCategory] = useState([]);
+  const [installmentCategory, setInstallmentCategory] = useState([]);
+  useEffect(() => {
+    if (categoryList && categoryList.length > 0) {
+      const expense = categoryList.filter(
+        (category) => category.categoryType === "expense"
+      );
+      const income = categoryList.filter(
+        (category) => category.categoryType === "income"
+      );
+      const assets = categoryList.filter(
+        (category) => category.categoryType === "assets"
+      );
+      const installment = categoryList.filter(
+        (category) => category.categoryType === "installments"
+      );
 
       setExpenseCategory(expense);
       setIncomeCategory(income);
       setAssetsCategory(assets);
       setInstallmentCategory(installment);
-      
     }
   }, [categoryList]);
-  useEffect(()=>{
-  },[expenseCategory])
+  useEffect(() => {}, [expenseCategory]);
   const showModal = (btn) => {
     if (btn == "addData") {
       setAddModalOpen(true);
     } else if (btn == "search") {
       setSearchModalOpen(true);
-    } else if(btn == "detailData"){
-        setDataDetailModalOpen(true)
+    } else if (btn == "detailData") {
+      setDataDetailModalOpen(true);
     }
   };
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
-    };
-    // 체크박스 상태 관리
-    const [isChecked, setIsChecked] = useState({});
-    const [isAllChecked, setIsAllChecked] = useState(false);
-    // 개별 체크박스 상태 관리
-    const handleCheckboxChange = (event, transactionId) => {
-        setIsChecked(prevState => ({
-            ...prevState,
-            [transactionId]: event.target.checked
-        }));
-    };
-    // 전체 체크박스 상태 관리
-    const handleAllCheckboxChange = () => {
-        const updatedChecked = {};
-        const currentTabList = transactionList.filter(item => {
-            if (activeTab === 'all') return true;
-            return item.incomeType === activeTab;
-        });
+  };
+  // 체크박스 상태 관리
+  const [isChecked, setIsChecked] = useState({});
+  const [isAllChecked, setIsAllChecked] = useState(false);
+  // 개별 체크박스 상태 관리
+  const handleCheckboxChange = (event, transactionId) => {
+    setIsChecked((prevState) => ({
+      ...prevState,
+      [transactionId]: event.target.checked,
+    }));
+  };
+  // 전체 체크박스 상태 관리
+  const handleAllCheckboxChange = () => {
+    const updatedChecked = {};
+    const currentTabList = transactionList.filter((item) => {
+      if (activeTab === "all") return true;
+      return item.incomeType === activeTab;
+    });
 
-        currentTabList.forEach(item => {
-            updatedChecked[item.transactionId] = !isAllChecked;
-        });
+    currentTabList.forEach((item) => {
+      updatedChecked[item.transactionId] = !isAllChecked;
+    });
 
         setIsChecked(updatedChecked);
         setIsAllChecked(!isAllChecked);

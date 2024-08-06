@@ -4,11 +4,13 @@
   height: 100%;
 }
 .Main_Img {
+  width: calc(100% - 250px);
   height: 100vh; /* 전체 뷰포트 높이를 차지하도록 설정 */
   background-image: url("../../../public/assets/Main/test.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  margin-left: 250px;
 }
 /* -------------------------------Section1-------------------------------- */
 /* -------------------------------Section2-------------------------------- */
@@ -79,3 +81,33 @@
   transition-delay: 0.7s;
 }
 /* -------------------------------Section2-------------------------------- */
+
+@media screen and (max-width: 991px) {
+  #Main-2 {
+    height: auto;
+  }
+  .Main-Allcard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2개의 열을 생성 */
+    gap: 20px; /* 카드 사이의 간격 */
+    margin-bottom: 50px;
+  }
+
+  .Main2_card {
+    width: 220px;
+    margin-bottom: 20px;
+  }
+  .Main2_card img {
+    width: 100%; /* 이미지가 카드의 너비에 맞게 조정됨 */
+    height: auto; /* 이미지 비율 유지 */
+  }
+
+  .Main2_card h5 {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .Main2_card p {
+    font-size: 1em; /* 본문 폰트 크기 */
+  }
+}

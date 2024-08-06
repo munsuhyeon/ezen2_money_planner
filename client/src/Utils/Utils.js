@@ -1,40 +1,38 @@
 // new Date()에서 시간:분 으로 표시하는 함수
 export const formatTime = (dateString) => {
-    const date = new Date(dateString);
-    const hours  = String(date.getHours()).padStart(2, '0');
-    const minutes  = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
-};  
+  const date = new Date(dateString);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  return `${hours}:${minutes}`;
+};
 
 // 년-월-일 으로 표시하는 함수
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
-  const month = ('0' + (date.getMonth() + 1)).slice(-2);
-  const day = ('0' + date.getDate()).slice(-2);
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const day = ("0" + date.getDate()).slice(-2);
   return `${year}-${month}-${day}`;
 };
 
-// 2024-07-29T03:03:31.000+00:00 -> 07/15 (월) 18:04 
+// 2024-07-29T03:03:31.000+00:00 -> 07/15 (월) 18:04
 export const convertToCustomDateFormat = (isoDateString) => {
-  const daysOfWeek = [
-    '일', '월', '화', '수', '목', '금', '토'
-  ];
+  const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
   const date = new Date(isoDateString);
 
   // 날짜 포맷팅을 위한 옵션 설정
   const options = {
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    weekday: 'short',
-    hour12: false // 24시간 형식 사용
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    weekday: "short",
+    hour12: false, // 24시간 형식 사용
   };
 
   // 날짜와 시간 포맷팅
-  const formattedDate = new Intl.DateTimeFormat('ko-KR', options).format(date);
+  const formattedDate = new Intl.DateTimeFormat("ko-KR", options).format(date);
 
   // 요일을 한글로 변환
   const weekdayIndex = date.getDay();
@@ -54,12 +52,27 @@ export const formatMonth = (now) => {
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
   const formatDate = (date) => {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
   return {
     startDate: formatDate(startOfMonth),
     endDate: formatDate(endOfMonth),
   };
-} 
+};
+// 오늘 날짜에서 한달전 날짜와 두달전 날짜를 리턴하는 함수
+export function getDatesFromToday() {
+  const today = new Date();
+
+  const oneMonthAgo = new Date(today);
+  oneMonthAgo.setMonth(today.getMonth() - 1);
+
+  const twoMonthsAgo = new Date(today);
+  twoMonthsAgo.setMonth(today.getMonth() - 2);
+
+  return {
+    oneMonthAgo,
+    twoMonthsAgo,
+  };
+}

@@ -6,38 +6,19 @@ Chart.register(...registerables);
 
 const BarChart = ({
   id,
-  labels,
-  dataValues,
-  label,
-  backgroundColor,
-  borderColor,
+  labels = [],
+  dataValues = [],
+  label = "",
+  backgroundColor = [],
+  borderColor = [],
 }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
-    const handleIntersect = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && chartRef.current) {
-          chartRef.current.update();
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersect, {
-      threshold: 0.1,
-    });
-    const element = document.getElementById(id);
-
-    if (element) {
-      observer.observe(element);
+    if (chartRef.current) {
+      chartRef.current.update();
     }
-
-    return () => {
-      if (element) {
-        observer.unobserve(element);
-      }
-    };
-  }, [id]);
+  }, [labels, dataValues, backgroundColor, borderColor]);
 
   const data = {
     labels,
@@ -56,7 +37,6 @@ const BarChart = ({
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        // 레전드 표시 제거
         display: false,
       },
       tooltip: {
