@@ -4,88 +4,103 @@ import { TransactionListContext } from "../../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import ScrollEvent from "../../Hooks/Main/ScrollEvent";
-
-// 새로고침시 안읽은 알림이 아닌 새로운 알림만 뱃지로 추가해줌.
+// 날짜 계산을 위해 date-fns 라이브러리를 불러옵니다.
+import { startOfMonth, endOfMonth } from "date-fns";
 
 const Header = () => {
-  // TransactionListContext에서 거래 목록을 가져옴
+  // 트랜잭션 리스트 컨텍스트에서 트랜잭션 리스트를 가져옵니다.
   const { transactionList } = useContext(TransactionListContext);
-  // ScrollEvent 훅을 통해 headerRef를 가져옴
+  // 스크롤 이벤트 커스텀 훅을 사용하여 headerRef를 가져옵니다.
   const { headerRef } = ScrollEvent();
 
-  // 상태 변수들
-  // 알림 창의 표시 여부
+  // 알림 창의 표시 상태를 관리하는 state입니다.
   const [isNotificationVisible, setNotificationVisible] = useState(false);
-  // 알림 목록
+  // 알림 목록을 관리하는 state입니다.
   const [notifications, setNotifications] = useState([]);
-  // 읽지 않은 알림 개수
+  // 읽지 않은 알림의 수를 관리하는 state입니다.
   const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
-  // 새로 추가된 알림 개수
+  // 새로 추가된 알림의 수를 관리하는 state입니다.
   const [newNotificationCount, setNewNotificationCount] = useState(0);
-  // 알림 아이콘의 참조
+  // 알림 아이콘의 DOM 참조를 저장하기 위한 ref입니다.
   const notificationIconRef = useRef(null);
-  // 알림 창의 참조
+  // 알림 창의 DOM 참조를 저장하기 위한 ref입니다.
   const notificationRef = useRef(null);
 
-  const userId = "test123"; // 예제 userId, 실제로는 Context 등에서 가져와야 함
-  const userBudget = 50000; // 예제 예산, 실제로는 Context 등에서 가져와야 함
+  // 테스트를 위한 가데이터 입니다.
+  const userId = "test123";
+  // 테스트를 위한 가예산입니다.
+  const userBudget = 50000;
 
-  // 알림 창을 열고 닫는 함수
+  // 알림 아이콘 클릭 시 알림 창을 토글하는 함수입니다.
   const toggleNotification = (event) => {
-    // 1. 현재 알림 창의 표시 상태를 토글합니다
     setNotificationVisible((prev) => !prev);
-    // 2. 알림 창이 열릴 때 새 알림 개수를 초기화합니다.
     if (!isNotificationVisible) {
-      // 알림 창이 열릴 때 새 알림 개수 초기화
+      // 알림 창이 열리면 새 알림 수를 0으로 초기화합니다.
       setNewNotificationCount(0);
     }
-    // 3. 클릭 이벤트가 상위 요소로 전파되지 않도록 막습니다.
+    // 이벤트 전파를 중지시킵니다.
     event.stopPropagation();
   };
 
-  // 알림 창을 닫는 함수
+  // 알림 창 닫기 버튼 클릭 시 알림 창을 닫는 함수입니다.
   const closeNotification = (event) => {
-    // 1. 알림 창을 닫습니다.
     setNotificationVisible(false);
-    // 2. 클릭 이벤트의 전파를 막습니다.
+    // 이벤트 전파를 중지시킵니다.
     event.stopPropagation();
   };
 
-  // 문서에서 클릭 이벤트가 발생할 때 알림 창이 닫히도록 하는 함수
+  // 알림창 이외의 곳을 클릭할 시 알림 창을 닫는 함수입니다.
   const handleDocumentClick = (event) => {
-    // 1. 알림 창이 열려 있고, 클릭한 위치가 알림 창이나 알림 아이콘이 아닌 경우
+    // 알림 창(notificationRef)이 렌더링된 상태이고,
+    // 클릭된 요소가 알림 창 내부가 아닌 경우
     if (
       notificationRef.current &&
-      !notificationRef.current.contains(event.target) && // 클릭한 위치가 알림 창 내부가 아닌 경우
-      notificationIconRef.current &&
-      !notificationIconRef.current.contains(event.target) // 클릭한 위치가 알림 아이콘 내부가 아닌 경우
+      !notificationRef.current.contains(event.target)
     ) {
-      // 2. 알림 창을 닫습니다.
+      // 알림 창을 닫기 위해 알림 창의 가시성 상태를 false로 설정합니다.
       setNotificationVisible(false);
     }
   };
 
-  // 컴포넌트 마운트 시 클릭 이벤트 리스너 추가
+  // 컴포넌트가 마운트될 때와 언마운트될 때 이벤트 리스너를 설정합니다.
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 'click' 이벤트 리스너를 문서에 추가합니다.
+    // 문서 전체에 클릭 이벤트 리스너를 추가합니다.
     document.addEventListener("click", handleDocumentClick);
-    // 클린업 함수: 컴포넌트가 언마운트될 때 호출됩니다.
-    // 이벤트 리스너를 제거하여 메모리 누수를 방지합니다.
+
+    // 컴포넌트가 언마운트될 때 (또는 이펙트가 재실행될 때)
+    // 클릭 이벤트 리스너를 제거합니다.
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-    // 빈 배열을 의존성으로 사용하여 이 useEffect가
-    // 컴포넌트의 처음 렌더링 시 한 번만 실행되도록 합니다.
+    // 빈 의존성 배열을 사용하여 컴포넌트가 처음 마운트될 때만 이펙트가 실행되도록 합니다.
   }, []);
 
+  // 예산과 지출 내역을 비교하여 알림을 생성하는 함수입니다.
   const checkBudget = (budget, expenses) => {
+    const now = new Date();
+    // 이번 달의 시작 날짜를 계산합니다.
+    const startOfThisMonth = startOfMonth(now);
+    // 이번 달의 마지막 날짜를 계산합니다.
+    const endOfThisMonth = endOfMonth(now);
+
+    // 이번 달의 총 지출을 계산합니다.
     const totalExpenses = expenses
+      // expense 타입의 거래만 필터링합니다.
       .filter((item) => item.incomeType === "expense")
+      // 현재 월 내에 발생한 거래만 필터링합니다.
+      .filter(
+        (item) =>
+          // item.transactionDate를 Date 객체로 변환 후 날짜가  startOfThisMonth,  endOfThisMonth 사이에 있는지 확인합니다.
+          new Date(item.transactionDate) >= startOfThisMonth &&
+          new Date(item.transactionDate) <= endOfThisMonth
+      )
+      // 각 거래의 금액을 핪나하여 총 지출 금액을 계산합니다.
       .reduce((acc, expense) => acc + expense.amount, 0);
 
+    // 새로운 알림을 추가할 배열을 초기화합니다.
     const notificationsToAdd = [];
 
-    // 예산과 총 지출 금액을 비교하여 알림을 생성합니다.
+    // 예산을 초과한 경우 알림을 추가합니다.
     if (totalExpenses > budget) {
       notificationsToAdd.push({
         title: "예산 초과",
@@ -113,105 +128,105 @@ const Header = () => {
     return notificationsToAdd;
   };
 
-  // 새 알림을 추가하고 상태를 업데이트하는 함수
+  // 새로운 알림을 추가하는 함수입니다.
   const addNotifications = (newNotifications) => {
-    // 새 알림이 없는 경우 함수 종료
+    // 추가할 새로운 알림이 없는 경우 함수 종료
     if (newNotifications.length === 0) return;
 
-    // 로컬 스토리지에서 저장된 알림 목록을 가져옴
+    // 로컬 스토리지에서 사용자 알림 목록을 가져옵니다.
     const listString = localStorage.getItem(`${userId}`);
-    console.log("Stored Notifications: ", listString); // 로컬 스토리지 확인
-    // 로컬 스토리지에서 가져온 알림 목록을 파싱하여 배열로 변환
     let storageList = [];
     if (listString) {
+      // 문자열로 저장된 알림 목록을 JSON 형식으로 변환합니다.
       storageList = JSON.parse(listString);
     }
 
-    // 새 알림 목록의 각 알림 제목과 세부 정보를 합쳐서 문자열로 생성
     const newNotificationTitles = newNotifications.map(
+      // 새로운 알림의 제목과 내용을 결합한 문자열 배열을 생성합니다.
       (n) => n.title + n.detail
     );
 
-    // 기존 알림 중 새로운 알림과 겹치는 알림을 제외한 목록을 생성
+    // 중복을 제거하고 새로운 알림을 상단에 추가하여 업데이트된 알림 목록을 생성합니다.
     const updatedNotifications = [
-      // 새 알림 목록을 추가
+      // 새로운 알림 목록을 추가합니다.
       ...newNotifications.map((notification) => ({
         ...notification,
-        timestamp: Date.now(), // 새 알림에 현재 시간을 타임스탬프로 추가
-        read: false, // 새 알림은 기본적으로 읽지 않음 상태로 설정
+        // 현재 시간을 타임스탬프로 추가합니다.
+        timestamp: Date.now(),
+        // 읽음 상태를 false로 설정합니다.
+        read: false,
       })),
-      // 기존 알림 중에서 새 알림과 겹치지 않는 알림만 포함
+      // 기존 알림 목록에서 새 알림 목록에 포함되지 않은 알림들을 필터링하여 추가합니다.
       ...storageList.filter(
         (notification) =>
+          // 새 알림 목록에 해당 알림의 제목과 세부 정보를 결합한 문자열이 포함되어 있지 않은 경우에만 해당 알림을 유지합니다.
           !newNotificationTitles.includes(
             notification.title + notification.detail
           )
       ),
-    ].sort((a, b) => b.timestamp - a.timestamp); // 최신 알림이 위로 오도록 정렬
+      // 타임스탬프를 기준으로 알림을 내림차순으로 정렬합니다.
+    ].sort((a, b) => b.timestamp - a.timestamp);
 
-    // 새로 추가된 알림의 개수 계산
+    // 새로운 알림의 수를 계산합니다.
     const newNotificationCount = newNotifications.length;
 
-    // 업데이트된 알림 목록을 로컬 스토리지에 저장
+    // 로컬 스토리지에 업데이트된 알림 목록을 저장합니다.
     localStorage.setItem(`${userId}`, JSON.stringify(updatedNotifications));
 
-    // 읽지 않은 알림 개수 업데이트
     setUnreadNotificationCount(
+      // 읽지 않은 알림의 수를 업데이트합니다.
       updatedNotifications.filter((notification) => !notification.read).length
     );
-    // 새 알림 개수 업데이트
+    // 새로운 알림의 수를 업데이트합니다.
     setNewNotificationCount((prevCount) => prevCount + newNotificationCount);
-
-    // 상태를 업데이트하여 새 알림 목록을 설정
+    // 알림 목록을 업데이트합니다.
     setNotifications(updatedNotifications);
   };
 
-  // 컴포넌트 마운트 시 로컬 스토리지에서 알림을 불러오는 함수
+  // 컴포넌트가 마운트될 때 저장된 알림을 불러오는 함수입니다.
   useEffect(() => {
-    // 알림을 로드하는 함수 정의
     const loadNotifications = () => {
-      // 로컬 스토리지에서 저장된 알림 목록을 가져옴
+      // 사용자 ID를 기반으로 로컬 저장소에서 알림 데이터를 가져옵니다.
       const storedNotifications = localStorage.getItem(`${userId}`);
-      // 저장된 알림이 있는 경우
+
+      // 로컬 저장소에서 알림 데이터가 존재하는지 확인합니다.
       if (storedNotifications) {
-        // 문자열 형태로 저장된 알림 목록을 객체 배열로 파싱
+        // 로컬 저장소에서 가져온 JSON 문자열을 객체로 변환합니다.
         const parsedNotifications = JSON.parse(storedNotifications);
-        // 파싱된 알림 목록을 상태로 설정
+        // 상태를 업데이트하여 알림 목록을 설정합니다.
         setNotifications(parsedNotifications);
-        // 읽지 않은 알림의 개수를 계산하여 상태로 설정
+        // 읽지 않은 알림의 개수를 계산하여 상태를 업데이트합니다.
         setUnreadNotificationCount(
+          // 읽지 않은 알림의 개수를 계산합니다.
           parsedNotifications.filter((notification) => !notification.read)
             .length
         );
       }
     };
-    // 컴포넌트가 마운트될 때 알림을 로드
+    // 저장된 알림을 불러와 state를 업데이트합니다.
     loadNotifications();
-    // 빈 배열([])을 의존성 배열로 제공하므로, 컴포넌트가 처음 마운트될 때만 이 useEffect가 실행됩니다.
+    // 의존성 배열이 비어 있으므로, 컴포넌트가 처음 렌더링될 때만 호출됩니다.
   }, []);
 
-  // 거래 목록이 변경될 때 예산을 확인하고 알림을 추가
+  // 트랜잭션 리스트가 변경될 때 예산을 확인하고 알림을 추가하는 함수입니다.
   useEffect(() => {
-    // 현재 예산(userBudget)과 트랜잭션 리스트(transactionList)를 기반으로 새로운 알림을 생성
     const newNotifications = checkBudget(userBudget, transactionList);
-    // 생성된 새로운 알림을 상태에 추가
+    // 새로운 알림을 추가합니다.
     addNotifications(newNotifications);
-    // 이 useEffect 훅은 transactionList가 변경될 때마다 실행됩니다.
+    // 트랜잭션 리스트가 변경될 때마다 실행됩니다.
   }, [transactionList]);
 
-  // 알림을 삭제하는 함수
+  // 알림을 삭제하는 함수입니다.
   const handleDeleteNotification = (index) => {
-    // 현재 알림 목록에서 삭제할 알림을 제외한 새로운 목록 생성
     const updatedNotifications = notifications.filter((_, i) => i !== index);
-
-    // 로컬 스토리지에 업데이트된 알림 목록 저장
+    // 로컬 스토리지에 업데이트된 알림 목록을 저장합니다.
     localStorage.setItem(`${userId}`, JSON.stringify(updatedNotifications));
-
-    // 상태 업데이트
+    // 알림 목록을 업데이트합니다.
     setNotifications(updatedNotifications);
+    // 읽지 않은 알림의 수를 업데이트합니다.
     setUnreadNotificationCount(
       updatedNotifications.filter((notification) => !notification.read).length
-    ); // 삭제 후 읽지 않은 알림 개수 업데이트
+    );
   };
 
   return (
@@ -284,6 +299,7 @@ const Header = () => {
                       </div>
                     ))
                   ) : (
+                    // 알림에 내용이 없을 때만 띄워줍니다.
                     <p className="NotAlarm">알림이 없습니다.</p>
                   )}
                 </div>
