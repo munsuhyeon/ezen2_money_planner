@@ -5,13 +5,15 @@ import { call } from '../../Components/service/ApiService';
 import { CategoryContext, TransactionListContext } from '../../App';
 import {convertToCustomDateFormat, formatPrice, formatMonth} from '../../Utils/Utils';
 import Checkbox from '../../Ui/Checkbox';
-import { startOfMonth, endOfMonth } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from "date-fns/locale/ko";
-const TransactionList = ({setTransactionList}) => {
+const TransactionList = ({setTransactionList,originalList}) => {
     const categoryList = useContext(CategoryContext);
     const {transactionList,getTransactionList} = useContext(TransactionListContext);
+    useEffect(() => {
+        // 화면 재 랜더링하기
+    },[transactionList])
     // 'expense'의 총 합계 계산
     const totalExpense = transactionList
     .filter(item => item.incomeType === 'expense')
@@ -133,12 +135,47 @@ const TransactionList = ({setTransactionList}) => {
         const item = formatMonth(date);
         getTransactionList(item)
       };
+      // 날짜옆에 아래화살표 클릭해도 달력 펼쳐짐
     const handleImgClick = () => {
         if (datePickerRef.current) {
             datePickerRef.current.click();
         }
       };
+      const downloadExcel = async  () => {
+        const date = formatMonth(selectedDate);
+        const baseUrl = process.env.REACT_APP_backend_HOST;
+        const api = "/transactions/excel"
+        const url = `${baseUrl}${api}`;
+        let headers = new Headers({
+            "Content-Type": "application/json",
+          });
+        let options = {
+            headers: headers,
+            method: "POST",
+            body: JSON.stringify(date)
+          };
+          const month = selectedDate.getMonth() + 1;
+          const year = selectedDate.getFullYear();
+          try {
+            const response = await fetch(url, options);
+            if (response.ok) {
+              const blob = await response.blob();
+              const downloadUrl = window.URL.createObjectURL(new Blob([blob]));
+              const link = document.createElement("a");
+              link.href = downloadUrl;
+              link.setAttribute("download", `${year}년${month}월달 가계부 내역.xlsx`);
+              document.body.appendChild(link);
+              link.click();
+              link.remove();
+              alert("파일이 저장되었습니다")
+            }  else {
+              throw new Error(response.statusText);
+            }
+          } catch (error) {
+            console.error("엑셀 저장 API Call 에러 ::: ", error);
+          }
 
+      }
     return(
             <div className="transcation" id="transcation">
             <div className="content-header">
@@ -156,7 +193,7 @@ const TransactionList = ({setTransactionList}) => {
                     <div className="circle-btn" id="delete-btn" onClick={deleteList}>
                         <img src={process.env.PUBLIC_URL + `assets/trash-bin-trash-svgrepo-com.svg`} alt="trash"/>
                     </div>
-                    <div className="circle-btn">
+                    <div className="circle-btn" onClick={downloadExcel}>
                         <img src={process.env.PUBLIC_URL + `assets/excel2-svgrepo-com.svg`} alt="excel"/>
                     </div>
                 </div>
@@ -178,6 +215,7 @@ const TransactionList = ({setTransactionList}) => {
                                 <th>분류</th>
                                 <th>금액</th>
                                 <th>내용</th>
+                                <th>할부</th>
                             </tr>
                         </thead>
                         <tbody id="all" className="tab-content" style={{ display: activeTab === 'all' ? 'table-row-group' : 'none' }}>
@@ -190,11 +228,12 @@ const TransactionList = ({setTransactionList}) => {
                                             <td>{item.categoryName}</td>
                                             <td className={`${item.incomeType === 'expense' ? 'tab_expense' : 'tab_income'}`}>{item.incomeType === 'expense' ? '-'+formatPrice(item.amount) : '+'+formatPrice(item.amount)}</td>
                                             <td>{item.description}</td>
+                                            <td>{item.incomeType === 'income' ? '' : item.incomeType === "expense" && item.installment == 0 ? '일시불':item.installment +`개월`}</td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="6" className="no-data">
+                                        <td colSpan="7" className="no-data">
                                             <div className="no-data-text">
                                                 데이터가 없습니다.
                                             </div>
@@ -212,11 +251,12 @@ const TransactionList = ({setTransactionList}) => {
                                             <td>{item.categoryName}</td>
                                             <td className={`${item.incomeType === 'expense' ? 'tab_expense' : 'tab_income'}`}>{item.incomeType === 'expense' ? '-'+formatPrice(item.amount) : '+'+formatPrice(item.amount)}</td>
                                             <td>{item.description}</td>
+                                            <td>{item.incomeType === 'income' ? '' : item.incomeType === "expense" && item.installment == 0 ? '일시불':item.installment +`개월`}</td>
                                         </tr>
                                 ))
                             ) : (
                                 <tr>
-                                        <td colSpan="6" className="no-data">
+                                        <td colSpan="7" className="no-data">
                                             <div className="no-data-text">
                                                 데이터가 없습니다.
                                             </div>
@@ -234,11 +274,12 @@ const TransactionList = ({setTransactionList}) => {
                                             <td>{item.categoryName}</td>
                                             <td className={`${item.incomeType === 'expense' ? 'tab_expense' : 'tab_income'}`}>{item.incomeType === 'expense' ? '-'+formatPrice(item.amount) : '+'+formatPrice(item.amount)}</td>
                                             <td>{item.description}</td>
+                                            <td>{item.incomeType === 'income' ? '' : item.incomeType === "expense" && item.installment == 0 ? '일시불':item.installment +`개월`}</td>
                                         </tr>
                                 ))
                             ) : (
                                 <tr>
-                                        <td colSpan="6" className="no-data">
+                                        <td colSpan="7" className="no-data">
                                             <div className="no-data-text">
                                                 데이터가 없습니다.
                                             </div>
@@ -253,7 +294,7 @@ const TransactionList = ({setTransactionList}) => {
         {addModalOpen && <AddDataModal setAddModalOpen={setAddModalOpen} expenseCategory={expenseCategory}
         incomeCategory={incomeCategory} assetsCategory={assetsCategory}/>}
 
-        {searchModalOpen && <SearchModal setSearchModalOpen={setSearchModalOpen} expenseCategory={expenseCategory} 
+        {searchModalOpen && <SearchModal setSearchModalOpen={setSearchModalOpen} expenseCategory={expenseCategory} originalList={originalList}
         incomeCategory={incomeCategory} assetsCategory={assetsCategory} installmentCategory={installmentCategory} setTransactionList={setTransactionList}/>}
 
         {dataDetailModalOpen && <DataDetailModal setDataDetailModalOpen={setDataDetailModalOpen} expenseCategory={expenseCategory}

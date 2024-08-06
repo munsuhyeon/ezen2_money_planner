@@ -35,6 +35,7 @@ function App() {
 
   // DB에서 지출/수입 내역 가져오기(후에 사용자 id 반영해서 가져오기)
   const [transactionList, setTransactionList] = useState([]);
+  const [originalList, setOriginalList] = useState([])
   const getTransactionList = async (item = formatMonth(new Date())) => {
     console.log(item)
     call("/transactions/list", "POST", item)
@@ -42,6 +43,7 @@ function App() {
         if (response) {
           console.log(response.data);
           setTransactionList(response.data);
+          setOriginalList(response.data)
         } else {
           throw new Error("응답 구조가 잘못되었습니다");
         }
@@ -65,7 +67,7 @@ function App() {
           <SideNav />
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/transactionList" element={<TransactionList setTransactionList={setTransactionList}/>} />
+            <Route path="/transactionList" element={<TransactionList setTransactionList={setTransactionList} originalList={originalList}/>} />
             <Route path="/monthly-report" element={<MonthStatistics />} />
             <Route path="/weekly-report" element={<WeekStatistics />} />
             <Route

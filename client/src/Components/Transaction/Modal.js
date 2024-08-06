@@ -39,12 +39,23 @@ export const AddDataModal = ({
   const dateRef = useRef(null);
   const timeRef = useRef(null);
   const amountRef = useRef(null);
+  const [selectedAsset, setSelectedAsset] = useState('card');
   const categoryRef = useRef(null);
   const assetRef = useRef(null);
   const installmentRef = useRef(null);
   const descriptionRef = useRef(null);
   const userId = "test123";
-
+  // assetRef의 값이 변경될 때 상태 업데이트
+  useEffect(() => {
+    if (assetRef.current) {
+      setSelectedAsset(assetRef.current.value);
+    }
+  }, [assetRef.current?.value]);
+  const handleAssetChange = () => {
+    if (assetRef.current) {
+      setSelectedAsset(assetRef.current.value);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -64,7 +75,7 @@ export const AddDataModal = ({
         transactionDate: `${dateRef.current.value}T${timeRef.current.value}:00`
     };
     console.log('formData :', formData);
-    if (amountRef.current.value === '') {
+    /*if (amountRef.current.value === '') {
       alert('금액을 입력해주세요.');
       return;
     }else if(descriptionRef.current.value === ''){
@@ -78,7 +89,7 @@ export const AddDataModal = ({
           getTransactionList(); 
       })
       .catch(error => console.error("저장 실패", error));
-    }
+    }*/
   };
     return(
         <div className="popup-menu" id="popup-menu">
@@ -124,7 +135,7 @@ export const AddDataModal = ({
                         </div>
                         <div className="input-group">
                             <label htmlFor="asset">자산</label>
-                            <select id="asset"  ref={assetRef}>
+                            <select id="asset"  ref={assetRef} onChange={handleAssetChange}>
                                 {assetsCategory.map((item) => (
                                     <option key={item.categoryId} value={item.categoryName == '카드' ? 'card' : 'cash'}>{item.categoryName}</option>
                                 ))}
@@ -134,21 +145,28 @@ export const AddDataModal = ({
                         {popupTab === 'expense' && (
                         <div className="input-group" id="repeat-wrap">
                             <label htmlFor="repeat">할부</label>
-                            <select id="repeat" ref={installmentRef} onChange={handleSelect} value={Selected}>
-                                <option value={0}>일시불</option>
-                                <option value={1}>1개월</option>
-                                <option value={2}>2개월</option>
-                                <option value={3}>3개월</option>
-                                <option value={4}>4개월</option>
-                                <option value={5}>5개월</option>
-                                <option value={6}>6개월</option>
-                                <option value={7}>7개월</option>
-                                <option value={8}>8개월</option>
-                                <option value={9}>9개월</option>
-                                <option value={10}>10개월</option>
-                                <option value={11}>11개월</option>
-                                <option value={12}>12개월</option>
-                            </select>
+                              {selectedAsset === 'card' ? (
+                                <select id="repeat" ref={installmentRef} onChange={handleSelect} value={Selected}>
+                                  <option value={0}>일시불</option>
+                                  <option value={1}>1개월</option>
+                                  <option value={2}>2개월</option>
+                                  <option value={3}>3개월</option>
+                                  <option value={4}>4개월</option>
+                                  <option value={5}>5개월</option>
+                                  <option value={6}>6개월</option>
+                                  <option value={7}>7개월</option>
+                                  <option value={8}>8개월</option>
+                                  <option value={9}>9개월</option>
+                                  <option value={10}>10개월</option>
+                                  <option value={11}>11개월</option>
+                                  <option value={12}>12개월</option>
+                                </select>
+                              ) : (
+                                <select id="repeat" ref={installmentRef} onChange={handleSelect} value={Selected}>
+                                  <option value={0}>일시불</option>
+                                </select>
+                              )}
+                            
                             <img src={process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`} alt="Arrow Down" className="custom-select-arrow"/>
                         </div>
                         )}
@@ -165,8 +183,7 @@ export const AddDataModal = ({
     )
 }
 
-export const SearchModal = ({setSearchModalOpen,expenseCategory,incomeCategory,assetsCategory,installmentCategory,setTransactionList}) => {
-  const { transactionList,getTransactionList } = useContext(TransactionListContext);
+export const SearchModal = ({setSearchModalOpen,expenseCategory,incomeCategory,assetsCategory,installmentCategory,setTransactionList,originalList}) => {
   const closeModal = () => {
     setSearchModalOpen(false);
   };
@@ -202,24 +219,58 @@ export const SearchModal = ({setSearchModalOpen,expenseCategory,incomeCategory,a
   );
   const [searchInput,setSearchInput] = useState("");
   const handleSearch = () => {
-    console.log(searchInput)
-    console.log("searchModal  ::::    ", transactionList)
+    let filterList = [];
+
+    if(searchInput !== ""){
+       const inputList = originalList.filter((list) => {return list.description.includes(searchInput)})
+       filterList = [...filterList, ...inputList]; // inputList를 filterList에 추가
+    }
+
+    // 체크박스의 카테고리를 분류별로 나누어 data에 해당 카테고리 유형의 데이터 배열을 저장
     const categories = [
       { type: 'expense', data: expenseCategory },
       { type: 'income', data: incomeCategory },
       { type: 'assets', data: assetsCategory },
       { type: 'installment', data: installmentCategory },
     ];
+    // flatMap메서드는 categories배열의 각 요소에 대해 콜백 함수를 실행하고,
+    // 그 결과를 하나의 배열로 평탄화한다
+    // 콜백함수의 매개변수는 구조분해 할당을 통해 type과 data를 받는다
     const allSelectedCategoryIds = categories.flatMap(({ type, data }) =>
       data
-        .filter((_, index) => checkedBoxes[type][index])
-        .map(item => item.categoryId)
+        .filter((_, index) => checkedBoxes[type][index]) // 특정 조건을 만족하는 요소만을 반환 '_' : 현재 요소 'index' : 현재 요소의 인덱스  => 사용자가 선택한 체크박스 배열이다. type에 따라 특정 카테고리의 체크박스 배열을 참조하고, 해당 인덱스의 체크박스가 선택되었는지 여부를 확인한다. 예를 들어, type이 'expense'이면 checkedBoxes['expense'] 배열의 해당 인덱스 값이 true인 경우 해당 요소가 필터링된다
+        .map(item => item.categoryId) // filter메서드를 통과한 요소들에 대해 map메서드를 사용하여 각 요소의 categoryId를 추출한다. 이 값들은 새로운 배열로 반환된다.
     );
-    console.log('Selected Category IDs: ', allSelectedCategoryIds);
-    const newTransactionList = transactionList.filter((list) => {
-      allSelectedCategoryIds.includes(list.categoryId)
-    })
-    console.log(newTransactionList)
+    if(allSelectedCategoryIds.length !== 0 && !allSelectedCategoryIds.includes(25) && !allSelectedCategoryIds.includes(26) && !allSelectedCategoryIds.includes(27)){
+      // 이번달 데이터에서 선택한 체크박스의 카테고리아이디가 해당된 데이터 새로운 배열에 담기
+      const checkboxFilterList = originalList.filter((list) =>
+        allSelectedCategoryIds.includes(list.categoryId)
+      );
+    filterList = [...filterList, ...checkboxFilterList]; // checkboxFilterList를 filterList에 추가
+    }else if(allSelectedCategoryIds.length !== 0 && allSelectedCategoryIds.includes(25)){
+      const checkboxFilterList = originalList.filter((list) =>
+        allSelectedCategoryIds.includes(list.categoryId)
+      );
+      const assestFilterList = originalList.filter((list)=>list.paymentType === "card")
+      filterList = [...filterList, ...checkboxFilterList, ...assestFilterList];
+    }else if(allSelectedCategoryIds.length !== 0 && allSelectedCategoryIds.includes(26)){
+      const checkboxFilterList = originalList.filter((list) =>
+        allSelectedCategoryIds.includes(list.categoryId)
+      );
+      const assestFilterList = originalList.filter((list)=>list.paymentType === "cash")
+      filterList = [...filterList, ...checkboxFilterList, ...assestFilterList];
+    }else if(allSelectedCategoryIds.length !== 0 && allSelectedCategoryIds.includes(27)){
+      console.log("할부")
+      const checkboxFilterList = originalList.filter((list) =>
+        allSelectedCategoryIds.includes(list.categoryId)
+      );
+      const installmentsFilterList = originalList.filter((list)=>list.installment !== 0);
+      filterList = [...filterList, ...checkboxFilterList, ...installmentsFilterList];
+    }
+
+    setSearchModalOpen(false); // 모달창 닫기
+    setSearchInput("") // 검색어 초기화
+    setTransactionList(filterList); // TransactionList.js에 표시할 리스트 업데이트
   }
   return (
     <div className="popup-menu" id="search-menu">
@@ -266,8 +317,8 @@ export const SearchModal = ({setSearchModalOpen,expenseCategory,incomeCategory,a
         </div>
       </div>
 
-      <div className="button-group">
-          <button className="search-button" onClick={handleSearch}>검색</button>
+      <div className="button-group" onClick={handleSearch}>
+          <button className="search-button">검색</button>
       </div>
   </div>
     )
