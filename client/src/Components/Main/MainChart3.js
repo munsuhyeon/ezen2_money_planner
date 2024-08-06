@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PieChart from "./PieChart";
 import { call } from "../../Components/service/ApiService";
+import { formatMonth, getDatesFromToday } from "../../Utils/Utils";
 import { getMonthlyAggregatedData } from "../../Utils/MainTransactionUtils";
 import { startOfMonth, endOfMonth } from "date-fns"; // 날짜 함수 추가
 import "./MainChart.css";
@@ -15,8 +16,28 @@ const MainChart3 = () => {
   useEffect(() => {
     const fetchTransactionData = async () => {
       try {
-        const response = await call("/transactions", "GET", null);
-        const transactions = response.data;
+        // 함수 사용 예
+        const dates = getDatesFromToday();
+        console.log("오늘 날짜:", new Date());
+        console.log("한 달 전 날짜:", dates.oneMonthAgo);
+        console.log("두 달 전 날짜:", dates.twoMonthsAgo);
+
+        // 이번달
+        const today = formatMonth(new Date());
+        // 두달전 날짜
+        const twoMonthsAgo = formatMonth(dates.twoMonthsAgo);
+        // 한달전 날짜 startDate:"2024-07-01", endDate:"2024-07-31"
+        const oneMonthAgo = formatMonth(dates.oneMonthAgo);
+        const [response1, response2, response3] = await Promise.all([
+          call("/transactions/list", "POST", today),
+          call("/transactions/list", "POST", oneMonthAgo),
+          call("/transactions/list", "POST", twoMonthsAgo),
+        ]);
+        const transactions = [
+          ...response1.data,
+          ...response2.data,
+          ...response3.data,
+        ];
 
         const currentDate = new Date();
         const lastMonthDate = new Date(currentDate);
@@ -27,26 +48,30 @@ const MainChart3 = () => {
         // 각 월의 시작과 끝을 정의
         const monthDates = [
           {
-            start: startOfMonth(twoMonthsAgoDate),
-            end: endOfMonth(twoMonthsAgoDate),
-            label: "2개월 전",
+            start: startOfMonth(currentDate),
+            end: endOfMonth(currentDate),
+            label: "이번 달",
           },
           {
             start: startOfMonth(lastMonthDate),
             end: endOfMonth(lastMonthDate),
-            label: "1개월 전",
+            label: "한 달 전",
           },
           {
-            start: startOfMonth(currentDate),
-            end: endOfMonth(currentDate),
-            label: "이번달",
+            start: startOfMonth(twoMonthsAgoDate),
+            end: endOfMonth(twoMonthsAgoDate),
+            label: "두 달 전",
           },
         ];
 
-        // 각 월의 총 지출을 집계
+        // 월별 지출 데이터 집계
         const totalSpentByMonth = {};
         monthDates.forEach(({ start, end, label }) => {
-          const monthlyData = getMonthlyAggregatedData(transactions, start);
+          const monthlyData = getMonthlyAggregatedData(
+            transactions,
+            start,
+            end
+          );
           const totalSpent = Object.values(monthlyData).reduce(
             (acc, amount) => acc + amount,
             0

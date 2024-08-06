@@ -5,7 +5,7 @@ import ScrollHandler from "../../Hooks/Main/ScrollEvent";
 import "./MainChart.css";
 import { call } from "../../Components/service/ApiService";
 import { getWeeklyAggregatedData } from "../../Utils/MainTransactionUtils";
-
+import { formatMonth } from "../../Utils/Utils.js";
 const MainChart = () => {
   const { main3Ref } = ScrollHandler();
   const [chartData, setChartData] = useState({ labels: [], dataValues: [] });
@@ -16,7 +16,14 @@ const MainChart = () => {
   useEffect(() => {
     const fetchTransactionData = async () => {
       try {
-        const response = await call("/transactions", "GET", null);
+        const today = formatMonth(new Date());
+        /*
+        {
+          startDate: "2024-08-01",
+          endDate: "2024-08-31"
+        }
+        */
+        const response = await call("/transactions/list", "POST", today);
         const transactions = response.data;
 
         // 선택한 날짜를 기준으로 데이터를 필터링하고 집계

@@ -4,7 +4,7 @@ import BarChart from "./BarChart";
 import ScrollHandler from "../../Hooks/Main/ScrollEvent";
 import "./MainChart.css";
 import { call } from "../../Components/service/ApiService";
-import { getMonthlyAggregatedData } from "../../Utils/MainTransactionUtils";
+import { formatMonth } from "../../Utils/Utils.js";
 
 const MainChart2 = () => {
   const { main4Ref } = ScrollHandler();
@@ -16,14 +16,9 @@ const MainChart2 = () => {
   useEffect(() => {
     const fetchTransactionData = async () => {
       try {
-        const response = await call("/transactions", "GET", null);
+        const today = formatMonth(new Date());
+        const response = await call("/transactions/list", "POST", today);
         const transactions = response.data;
-
-        // 선택한 월을 기준으로 데이터를 필터링하고 집계
-        const aggregatedData = getMonthlyAggregatedData(
-          transactions,
-          selectedMonth
-        );
 
         // 카테고리별 지출 총액 및 개수 계산
         const categoryCounts = {};
@@ -94,7 +89,7 @@ const MainChart2 = () => {
         </div>
         <div className="Main4-Graph2">
           <div className="Graph2-Info">
-            <h2>자주 지출되는 내역</h2>
+            <h2>월간 주요 지출내역</h2>
             {topCountCategories.length > 0 ? (
               <p>
                 자주 지출이 발생하는 곳은 <br />
