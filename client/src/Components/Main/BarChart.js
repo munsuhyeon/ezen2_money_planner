@@ -57,9 +57,6 @@ const BarChart = ({
     barThickness: 70,
   };
 
-  // 디버깅을 위한 로그
-  console.log("BarChart Data:", { labels, dataValues });
-
   return <Bar ref={chartRef} id={id} data={data} options={options} />;
 };
 
