@@ -46,13 +46,6 @@ function Login() {
             alert("아이디나 비밀번호가 올바르지 않습니다.");
         }
     }
-    // 로그아웃 함수
-    function reqLogout() {
-        // 로컬스토리지에서 사용자 데이터를 제거함으로 로그아웃
-        localStorage.removeItem('user');
-        alert("로그아웃 되었습니다.");
-        
-    }
 
     // 페이지 로드 시, 사용자 로그인 상태 확인
     window.onload = function () {
