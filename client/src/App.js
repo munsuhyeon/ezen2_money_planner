@@ -14,6 +14,7 @@ import Signup from "../src/Components/Login/Signup.jsx";
 import Forgotpassword from "../src/Components/Login/ForgotPassword.jsx";
 import { call } from "./Components/service/ApiService.js";
 import {formatMonth} from "./Utils/Utils.js"
+import TransactionCalendar from "./View/transaction/TransactionCalendar.js";
 export const CategoryContext = React.createContext();
 export const TransactionListContext = React.createContext();
 function App() {
@@ -68,6 +69,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/transactionList" element={<TransactionList setTransactionList={setTransactionList} originalList={originalList}/>} />
+            <Route path="/calendar" element={<TransactionCalendar/>}/>
             <Route path="/monthly-report" element={<MonthStatistics />} />
             <Route path="/weekly-report" element={<WeekStatistics />} />
             <Route
