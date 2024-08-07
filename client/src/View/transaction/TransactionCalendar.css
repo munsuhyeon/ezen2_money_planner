@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+.react-calendar {
+    width: 100%;
+    background: white;
+    line-height: 1.125em;
+    margin: auto;
+    border: 1px solid #d0d0d0;
+}
+/* 2024년 8월 버튼 스타일*/
+.react-calendar__navigation button{
+    text-align: center;
+}
+  /* 요일 스타일 */
+.react-calendar__month-view__weekdays__weekday {
+    background: #f4f4f4;
+    line-height: 44px;
+    font-family: 'sans-serif';
+}
+
+.react-calendar__month-view__days{
+    height: 90vh;
+}
+/* 오늘 날짜 */ 
+.react-calendar__tile--now {
+    background: #fff !important;
+}
+/* 오늘 날짜의 hover 색상 변경 */
+.react-calendar__tile--now:hover {
+    background-color: #d0d0d0; 
+  }
+    /* 요일 글자 */
+.react-calendar__month-view__weekdays{
+    color:#84808C;
+    border-top: 1px solid #d0d0d0;
+}
+   /* 선택된 날짜 타일 */
+ .react-calendar__tile--active {
+    background: #fcf8e3 !important;
+    color:#84808C;
+}
+.react-calendar__tile {
+    display: flex;
+    align-items: flex-start; /* 상단 정렬 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    padding: 5px; /* 타일 내부의 여백을 조정합니다. */
+    text-align: left; /* 텍스트를 왼쪽으로 정렬합니다. */
+    /*border: 1px solid #e0e0e0;*/ /* 타일의 경계를 그립니다 */
+    box-sizing: border-box; /* 패딩과 보더를 포함하여 박스 크기 계산 */
+}
+/* 날짜 텍스트의 스타일을 조정합니다 */
+.react-calendar__tile > abbr {
+    margin-right: 5px; /* 오른쪽 여백 추가 */
+  }
+  
+  .react-calendar__month-view__days__day--neighboringMonth {
+    color: #757575;
+  }
+/* 달력의 각 행을 구분하는 스타일 */
+.react-calendar__month-view__weekdays__weekday,
+.react-calendar__month-view__days__day {
+    border-right: 1px solid #e0e0e0 !important; /* 수직 경계선 */
+  border-bottom: 1px solid #e0e0e0 !important; /* 수평 경계선 */
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #d0d0d0 !important;
+}  
+/* 오늘 날짜의 'today' 텍스트 스타일링 */
+.today-label {
+    color: #603693;
+    font-weight: bold;
+    top: 5px;
+    right: 5px;
+}
+
+/* 트랜잭션 금액 스타일링 */
+.transaction-amounts {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
+}
+.transaction-amount {
+    margin-top: 5px;
+}
+
+/* incomeType이 'expense'인 경우 빨간색으로 표기 */
+.transaction-amount.expense {
+    color: #FF616A;
+}
+
+/* incomeType이 'income'인 경우 파란색으로 표기 */
+.transaction-amount.income {
+    color: #4A74FB;
+}
