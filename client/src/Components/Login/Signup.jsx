@@ -12,10 +12,10 @@ function Signup() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
-    const Server_URL = "http://localhost:8080";
+    // const Server_URL = "http://localhost:8080";
 
-    let exist_id = 0;
-
+    
+    let exist_id ;
     const checkId = async () => {
         try {
             const response = await fetch(`http://localhost:8080/user/exists`, {
