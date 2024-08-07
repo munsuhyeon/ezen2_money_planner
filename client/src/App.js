@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import TransactionList from "./View/transaction/TransactionList.js";
 import Main from "./View/Main/Main.js";
+import MainNone from "./View/Main/MainNone.js";
 import MonthStatistics from "./Ui/MonthStatistics.js";
 import WeekStatistics from "./Ui/WeekStatistics.js";
 import SideNav from "./Components/SideNav/SideNav.js";
@@ -13,7 +14,7 @@ import Login from "../src/Components/Login/Login.jsx";
 import Signup from "../src/Components/Login/Signup.jsx";
 import Forgotpassword from "../src/Components/Login/ForgotPassword.jsx";
 import { call } from "./Components/service/ApiService.js";
-import {formatMonth} from "./Utils/Utils.js"
+import { formatMonth } from "./Utils/Utils.js";
 export const CategoryContext = React.createContext();
 export const TransactionListContext = React.createContext();
 function App() {
@@ -35,15 +36,15 @@ function App() {
 
   // DB에서 지출/수입 내역 가져오기(후에 사용자 id 반영해서 가져오기)
   const [transactionList, setTransactionList] = useState([]);
-  const [originalList, setOriginalList] = useState([])
+  const [originalList, setOriginalList] = useState([]);
   const getTransactionList = async (item = formatMonth(new Date())) => {
-    console.log(item)
+    console.log(item);
     call("/transactions/list", "POST", item)
       .then((response) => {
         if (response) {
           console.log(response.data);
           setTransactionList(response.data);
-          setOriginalList(response.data)
+          setOriginalList(response.data);
         } else {
           throw new Error("응답 구조가 잘못되었습니다");
         }
@@ -64,10 +65,19 @@ function App() {
       >
         <BrowserRouter>
           <Header />
-          <SideNav />
+
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/transactionList" element={<TransactionList setTransactionList={setTransactionList} originalList={originalList}/>} />
+            <Route path="/none" element={<MainNone />} />
+            <Route
+              path="/transactionList"
+              element={
+                <TransactionList
+                  setTransactionList={setTransactionList}
+                  originalList={originalList}
+                />
+              }
+            />
             <Route path="/monthly-report" element={<MonthStatistics />} />
             <Route path="/weekly-report" element={<WeekStatistics />} />
             <Route
