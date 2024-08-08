@@ -22,7 +22,7 @@ function Login() {
     const loginData = { userid: inputId, password: inputPw }
     
     async function reqLogin() {
-
+        console.log(loginData)
         try {
             const response = await fetch('http://localhost:8080/user/login', {
                 method: 'POST',
@@ -37,24 +37,21 @@ function Login() {
             // 로그인 성공
             const data = await response.json();
             console.log(data); // 서버에서 받은 데이터를 콘솔에 출력
-            navigate('/');
 
-            
+            const user = {
+                userid: data.userid,
+                password: data.password
+            };
+
+            // 로컬 스토리지에 로그인 정보 저장
+            localStorage.setItem('user', JSON.stringify(data));
+
+            // 홈 페이지로 이동
+            navigate('/');
         } catch (error) {
             console.error('로그인 오류:', error);
             setError("아이디나 비밀번호가 올바르지 않습니다."); // 에러 메시지 설정
             alert("아이디나 비밀번호가 올바르지 않습니다.");
-        }
-    }
-
-    // 페이지 로드 시, 사용자 로그인 상태 확인
-    window.onload = function () {
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (user) {
-            console.log('현재 로그인된 사용자:', user);
-            // 로그인된 상태에서 처리할 작업 추가 가능
-        } else {
-            console.log('로그인된 사용자가 없습니다.');
         }
     }
 
