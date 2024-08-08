@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import "./Modal.css";
 import Checkbox from "../../Ui/Checkbox";
-import { formatDate, formatTime } from "../../Utils/Utils";
+import { formatDate, formatTime, formatPrice, convertToCustomDateFormat } from "../../Utils/Utils";
 import { call } from "../service/ApiService";
-import { TransactionListContext } from "../../App";
+import { TransactionListContext,CategoryContext } from "../../App";
 
 export const AddDataModal = ({
   setAddModalOpen,
@@ -611,3 +611,76 @@ export const DataDetailModal = ({
     </div>
   );
 };
+
+export const CalendarDetailModal = ({data,onClose}) => {
+  const { getTransactionList } = useContext(TransactionListContext);
+  const categoryList = useContext(CategoryContext);
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [expenseCategory, setExpenseCategory] = useState([]);
+  const [incomeCategory, setIncomeCategory] = useState([]);
+  const [assetsCategory, setAssetsCategory] = useState([]);
+  useEffect(() => {
+    if (categoryList && categoryList.length > 0) {
+      const expense = categoryList.filter(
+        (category) => category.categoryType === "expense"
+      );
+      const income = categoryList.filter(
+        (category) => category.categoryType === "income"
+      );
+      const assets = categoryList.filter(
+        (category) => category.categoryType === "assets"
+      );
+      setExpenseCategory(expense);
+      setIncomeCategory(income);
+      setAssetsCategory(assets);
+    }
+  }, [categoryList]);
+  const deleteData = (id) => {
+    const formDataArray = [{ transactionId: Number(id) }];
+    console.log(formDataArray)
+    call("/transactions","DELETE",formDataArray)
+    .then(() => {
+        onClose();
+        getTransactionList();
+    }) 
+    .catch(error => console.error("삭제 실패", error));
+  }
+
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <h2 className="calendarTitle">지출 내역</h2>
+          <table className="calendarModalTable">
+            <thead>
+              <tr>
+                <th>날짜</th>
+                <th>자산</th>
+                <th>분류</th>
+                <th>금액</th>
+                <th>내용</th>
+                <th>할부</th>
+                <th>삭제</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item, index) => (
+                <tr key={index}>
+                  <td>{convertToCustomDateFormat(item.transactionDate)}</td>
+                  <td>{item.paymentType === 'card' ? '카드':'현금'}</td>
+                  <td>{item.categoryName}</td>
+                  <td className={`${item.incomeType === 'expense' ? 'tab_expense' : 'tab_income'}`}>{item.incomeType === 'expense' ? '-'+formatPrice(item.amount) : '+'+formatPrice(item.amount)}</td>
+                  <td>{item.description}</td>
+                  <td>{item.incomeType === 'income' ? '' : item.incomeType === "expense" && item.installment == 0 ? '일시불':item.installment +`개월`}</td>
+                  <td className="table-delete-btn" onClick={() => deleteData(item.transactionId)}><img src={process.env.PUBLIC_URL + `assets/trash-bin-trash-svgrepo-com.svg`} alt="trash"/></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button className="add-btn" onClick={()=>setAddModalOpen(true)}>작성</button>
+          {addModalOpen && <AddDataModal setAddModalOpen={setAddModalOpen} expenseCategory={expenseCategory}
+            incomeCategory={incomeCategory} assetsCategory={assetsCategory}/>}
+          <button className="close-btn" onClick={onClose}>닫기</button>
+      </div>
+    </div>
+  );
+}

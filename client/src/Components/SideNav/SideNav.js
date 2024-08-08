@@ -1,10 +1,14 @@
 import React from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, NavLink, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import {TransactionListContext} from "../../App";
 import "./SideNav.css";
-
+import {formatMonth} from "../../Utils/Utils"
 const SideNav = () => {
+  const {getTransactionList} = useContext(TransactionListContext);
+  const navigate = useNavigate();
   const location = useLocation();
-
+  const item = formatMonth(new Date());
   const navItems = [
     {
       to: "/",
@@ -17,12 +21,14 @@ const SideNav = () => {
       imgSrc: "/assets/sideNav/table-of-contents-svgrepo-com.svg",
       imgAlt: "수입/지출아이콘",
       text: "수입/지출내역",
+      onClick: () => getTransactionList(item),
     },
     {
       to: "/calendar",
       imgSrc: "/assets/sideNav/date-svgrepo-com.svg",
       imgAlt: "달력아이콘",
       text: "달력",
+      onClick: () => getTransactionList(item),
     },
     {
       to: "/weekly-report",
@@ -44,20 +50,28 @@ const SideNav = () => {
     },
   ];
 
+  const handleClick = (item) => {
+    if (item.onClick) {
+      item.onClick();
+    }
+    navigate(item.to);
+  };
+
   return (
     <nav className="Side_Nav">
       <ul>
         {navItems.map((item, index) => (
           <li key={index}>
-            <Link
+            <NavLink
               to={item.to}
               className={location.pathname === item.to ? "active" : ""}
+              onClick={() => handleClick(item)}
             >
               <span className="nav-img">
                 <img src={item.imgSrc} alt={item.imgAlt} />
               </span>
               {item.text}
-            </Link>
+            </NavLink>
           </li>
         ))}
       </ul>
