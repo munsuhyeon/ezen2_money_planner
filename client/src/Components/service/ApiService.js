@@ -29,6 +29,7 @@ export const call = async (api, method, request) => {
   if (request) {
     options.body = JSON.stringify(request);
   }
+  console.log(request);
     // API 호출
     try{
       const response = await fetch(url, options);
