@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ScrollHandler from "../../Hooks/Main/ScrollEvent";
+import ScrollHandler from "../../../Hooks/Main/ScrollEvent";
 import "./MainChartNone.css";
 
 const MainChart = () => {
@@ -24,7 +24,7 @@ const MainChart = () => {
                   <br /> 사용할 예산을 미리 설정할 수 있어요.
                 </p>
                 <Link to="/transactionList">
-                  <button>회원가입 하기</button>
+                  <button>로그인 하기</button>
                 </Link>
               </div>
               <div className="Main3None-ContentImg">

@@ -3,7 +3,7 @@
 }
 
 .Main3None-Content {
-  background-color: #efebf3;
+  background-color: #f7f3fa;
   height: 500px;
   width: 100%;
   display: flex;
@@ -153,10 +153,6 @@
 
 #Main-4None {
   height: calc(100vh - 80px);
-  background-image: url(../../../public/assets/Main/background3.jpg);
-  background-repeat: no-repeat;
-  background-size: cover; /* 배경 이미지가 화면을 덮도록 */
-  background-position: center center; /* 수직, 수평 중앙 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -232,12 +228,7 @@
 /* -------------------------------Section4-------------------------------- */
 /* -------------------------------Section5-------------------------------- */
 #Main-5None {
-  height: 100vh;
-  background-image: url(../../../public/assets/Main/background4.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: bottom center; /* 수직, 수평 중앙 */
-  background-position: 50% 50%; /* 퍼센트로 위치 지정 */
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -245,65 +236,183 @@
 }
 
 .Main5None-Info {
+  width: 100%;
+  height: 100%;
+  background-color: #f7f3fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 0;
+}
+
+.Main5None-Info-1 {
+  margin-bottom: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .Main5None-Info h2 {
   font-size: 30px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
-.Main5None-Info p {
-  margin-bottom: 30px;
-}
+
 .Main5None-flex {
   display: flex;
+  position: relative;
+  width: 950px;
+  height: 400px;
 }
 
 .Main5None-flex1,
 .Main5None-flex2,
 .Main5None-flex3 {
-  background-color: #896ccb;
+  background-color: #ffffff;
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  width: 350px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 30px;
+  position: absolute;
+  border: 2px solid rgb(231, 231, 231);
+}
+.Main5None-flex1 {
+  left: 0;
+}
+.Main5None-flex2 {
+  right: 32%;
+}
+.Main5None-flex3 {
+  right: 0;
 }
 
+.Main5None-flex h3 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.Main5None-flex p {
+  font-size: 20px;
+  color: #4b4b4b;
+}
+
+.Main5None-Infoflex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: stretch;
+  width: 1200px;
+  height: 150px;
+  margin: 30px 0;
+  border: 1px solid rgb(231, 231, 231);
+  border-collapse: collapse;
+}
+
+.Main5None-Infoflex > div {
+  flex: 1;
+  border-right: 1px solid rgb(231, 231, 231);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.Main5None-Infoflex > div:last-child {
+  border-right: none;
+}
+
+.main5None-Infoflex1,
+.main5None-Infoflex2,
+.main5None-Infoflex3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main5None-Infoflex1,
+.main5None-Infoflex2 {
+  background-color: white;
+}
+
+.main5None-Infoflex3 {
+  background-color: #cbbcf1;
+}
+
+.Main5None-Infoflex h4 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.Main5None-Infoflex p {
+  text-align: center;
+  margin: 0;
+  color: #4b4b4b;
+}
 .Main5None-CheckBox {
-  background-color: #603693;
-  height: 220px;
+  background-color: #ece2f3;
+  height: 400px;
   width: 100%;
   display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.Main5None-CheckBoxin {
+  width: 60%;
+  height: 100%;
+  position: relative;
+}
+
+.Main5None-CheckBox-img {
+  position: absolute;
+  left: 0;
+  bottom: -6.5%;
+}
+
+.Main5None-CheckBox-img img {
+  width: 450px;
+  height: auto;
+}
+
+.Main5None-CheckBox-Info {
+  display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  color: white;
-}
-
-.Main5None-CheckBox p {
-  margin-bottom: 20px;
+  color: black;
+  position: absolute;
+  left: 25%;
+  top: 25%;
 }
 
 .Main5None-CheckBox p:nth-child(1) {
   font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 25px;
 }
+
 .Main5None-CheckBox p:nth-child(2) {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
-.Main5None-Buttton {
-  display: flex;
+
+.Main5None-CheckBox span {
+  color: #603693;
 }
 
 .Main5None-CheckBox button {
-  border: 2px solid white;
+  background-color: #896ccb;
   border-radius: 10px;
   padding: 15px 45px;
   margin: 0 20px;
+  font-weight: bold;
+  color: white;
 }
 /* -------------------------------Section5-------------------------------- */

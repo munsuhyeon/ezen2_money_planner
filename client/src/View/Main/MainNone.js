@@ -1,6 +1,6 @@
-import MainChartNone from "../../Components/Main/MainChartNone.js";
-import MainChart2None from "../../Components/Main/MainChart2None.js";
-import MainChart3None from "../../Components/Main/MainChart3None.js";
+import MainChartNone from "../../Components/Main/None/MainChartNone.js";
+import MainChart2None from "../../Components/Main/None/MainChart2None.js";
+import MainChart3None from "../../Components/Main/None/MainChart3None.js";
 import "./MainNone.css";
 import Scroll from "../../Components/ScrollTop&Bottom/Scroll.js";
 import ScrollHandler from "../../Hooks/Main/ScrollEvent.js";

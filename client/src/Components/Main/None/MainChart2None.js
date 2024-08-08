@@ -1,5 +1,5 @@
 import React from "react";
-import ScrollHandler from "../../Hooks/Main/ScrollEvent";
+import ScrollHandler from "../../../Hooks/Main/ScrollEvent";
 import "./MainChartNone";
 
 const MainChart2 = () => {
