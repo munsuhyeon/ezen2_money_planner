@@ -38,7 +38,6 @@ function App() {
   const [transactionList, setTransactionList] = useState([]);
   const [originalList, setOriginalList] = useState([])
   const getTransactionList = async (item = formatMonth(new Date())) => {
-    console.log(item)
     call("/transactions/list", "POST", item)
       .then((response) => {
         if (response) {

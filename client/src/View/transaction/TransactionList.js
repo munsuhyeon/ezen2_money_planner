@@ -230,7 +230,7 @@ const TransactionList = ({setTransactionList,originalList}) => {
                                         <tr key={item.transactionId} >
                                             <td><Checkbox id={item.transactionId} checked={isChecked[item.transactionId] || false}  onChange={(event) => handleCheckboxChange(event, item.transactionId)}/></td>
                                             <td onClick={() => detailData(item.transactionId)} style={{cursor:'pointer'}}>{convertToCustomDateFormat(item.transactionDate)}</td>
-                                            <td>{item.paymentType == 'card' ? '카드':'현금'}</td>
+                                            <td>{item.paymentType === 'card' ? '카드':'현금'}</td>
                                             <td>{item.categoryName}</td>
                                             <td className={`${item.incomeType === 'expense' ? 'tab_expense' : 'tab_income'}`}>{item.incomeType === 'expense' ? '-'+formatPrice(item.amount) : '+'+formatPrice(item.amount)}</td>
                                             <td>{item.description}</td>
