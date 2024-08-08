@@ -1,8 +1,7 @@
 import { useState } from "react";
-import axios from 'axios'
-import {call} from "../service/ApiService"
+import { call } from "../service/ApiService"
 import "./Signup.css";
-
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
 
@@ -11,31 +10,91 @@ function Signup() {
     const [checkPassword, setCheckPassword] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [exist_id, setExist_id] = useState("");
+    // const Server_URL = "http://localhost:8080";
+    const navigate = useNavigate();
 
-    const Server_URL = "http://localhost:8080";
+    const checkId = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/user/exists`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', },
+                body: JSON.stringify({ userid: id })
+            });
+            if (!response.ok) {
+                if (response.status === 400) {
+                    alert("ID를 입력해주세요");
+                } else {
+                    throw new Error('네트워크 불량');
+                }
+                return;
+            }
+            const exists = await response.json();
+            console.log(exists);
 
-    async function reqSignUp () {
-        const formData = {
-            userid : id,
-            password : password,
-            checkPassword : checkPassword,
-            username : name,
-            email : email 
+            if (!exists) {
+                alert("사용 가능한 ID 입니다.");
+                setExist_id(1);
+            } else {
+                alert("이미 사용된 ID 입니다.");
+                setExist_id(0);
+            }
+        } catch (error) {
+            console.error('에러메세지', error);
         }
-        console.log("Call!!!!")
-        call('/user/signup', 'POST', formData)
-            .then((response) => {
-                console.log(response);
-            })
-            .catch(error => console.error("저장 실패", error));
-            /*
-        const response = await axios.post(`${Server_URL}/user/signup`, {
-            userid : id,
-            password : password,
-            checkPassword : checkPassword,
-            username : name,
-            email : email 
-        })*/
+    };
+
+    async function reqSignUp() {
+        console.log(exist_id);
+
+        const formData = {
+            userid: id,
+            password: password,
+            checkPassword: checkPassword,
+            username: name,
+            email: email
+        };
+
+        if (formData.userid == null || formData.userid.trim() === '' ||
+            formData.password == null || formData.password.trim() === '' ||
+            formData.checkPassword == null || formData.checkPassword.trim() === '' ||
+            formData.username == null || formData.username.trim() === '' ||
+            formData.email == null || formData.email.trim() === '') {
+            alert("모든 값을 입력해주세요");
+            return;
+        }
+
+        if (formData.password !== formData.checkPassword) {
+            alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+            return;
+        }
+
+        if (exist_id == 1) {
+            try {
+                const response = await fetch(`http://localhost:8080/user/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    console.log(responseData);
+                    alert('회원가입 성공');
+                    navigate('/login')
+
+                } else {
+                    const responseData = await response.json();
+                    console.error('회원가입 실패', responseData);
+                    alert(responseData.error || '회원가입 실패');
+                }
+            } catch (error) {
+                console.error('회원가입 실패', error);
+                alert('오류 발생: ' + error.message);
+            }
+        } else {
+            alert("ID가 중복되는지 확인해주세요")
+        }
     }
 
     return (
@@ -43,7 +102,8 @@ function Signup() {
             <h2 className="signup_title_text">회원가입</h2>
             <div className="signup_input_container">
                 <div className="input_box">
-                    <h4 className="input_title">ID</h4>
+                    <h4 className="input_title">ID
+                        <button onClick={checkId}>중복 확인</button></h4>
                     <input type="text" value={id} onChange={(e) => setId(e.target.value)} placeholder="ID를 입력해주세요" />
                 </div>
                 <div className="input_box">

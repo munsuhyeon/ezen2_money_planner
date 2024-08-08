@@ -38,6 +38,16 @@
 .signup_section .signup_input_container .input_box .input_title {
     padding: 0 0 8px 4px;
     font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.signup_section .signup_input_container .input_box .input_title button{
+    font-size: 14px;
+    background-color: #896ccb;
+    color: white;
+    padding: 4px;
+    border-radius: 8px;
 }
 
 /* 가입 정보 기재 박스 F */
