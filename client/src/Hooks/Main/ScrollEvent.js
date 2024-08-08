@@ -28,6 +28,7 @@ const ScrollHandler = () => {
   const main2Ref = useRef(null);
   const main3Ref = useRef(null);
   const main4Ref = useRef(null);
+  const main3NoneRef = useRef(null);
 
   // 스크롤 이벤트 핸들러
   const scrollHandler = () => {
@@ -51,12 +52,18 @@ const ScrollHandler = () => {
     // 카드 fade 효과
     const Main2Cards = main2Ref.current?.querySelectorAll(".Main2_card") || [];
     const MainCard = main2Ref.current?.offsetTop || 0;
+
     const Main3Cards =
       main3Ref.current?.querySelectorAll(".Main3-Graph1") || [];
     const Main3Card = main3Ref.current?.offsetTop || 0;
+
     const Main4Cards =
       main4Ref.current?.querySelectorAll(".Main4-Graph2") || [];
     const Main4Card = main4Ref.current?.offsetTop || 0;
+
+    const Main3NoneContents =
+      main3NoneRef.current?.querySelectorAll(".Main3None") || [];
+    const Main3NoneContent = main3NoneRef.current?.offsetTop || 0;
 
     Main2Cards.forEach((card) => {
       if (browserScrollY >= MainCard - 300) {
@@ -75,6 +82,13 @@ const ScrollHandler = () => {
     });
     Main4Cards.forEach((card) => {
       if (browserScrollY >= Main4Card - 300) {
+        card.classList.add("fade-in");
+      } else {
+        card.classList.remove("fade-in");
+      }
+    });
+    Main3NoneContents.forEach((card) => {
+      if (browserScrollY >= Main3NoneContent - 300) {
         card.classList.add("fade-in");
       } else {
         card.classList.remove("fade-in");
@@ -99,6 +113,7 @@ const ScrollHandler = () => {
     main2Ref,
     main3Ref,
     main4Ref,
+    main3NoneRef,
   };
 };
 
