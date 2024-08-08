@@ -2,7 +2,7 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "../../assets/css/reset.css";
 import "./Login.css";
@@ -17,10 +17,10 @@ function Login() {
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
-    
-    
+
+
     const loginData = { userid: inputId, password: inputPw }
-    
+
     async function reqLogin() {
         console.log(loginData)
         try {
@@ -37,12 +37,6 @@ function Login() {
             // 로그인 성공
             const data = await response.json();
             console.log(data); // 서버에서 받은 데이터를 콘솔에 출력
-
-            const user = {
-                userid: data.userid,
-                password: data.password
-            };
-
             // 로컬 스토리지에 로그인 정보 저장
             localStorage.setItem('user', JSON.stringify(data));
 
