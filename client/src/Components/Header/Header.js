@@ -223,21 +223,20 @@ const Header = () => {
     ); // 삭제 후 읽지 않은 알림 개수 업데이트
   };
 
-  // 로그인 여부 확인 및 
+  // 로그인 여부 확인 
   const [loggedIn, setLoggedIn] = useState(false)
   // console.log(user)
-
-
   useEffect(() => {
+    // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.  
     const user = localStorage.getItem("user");
+    // user의 데이터가 있다면 loggedIn = true, 데이터가 없다면 loggedIn = false
     if (user) {
       setLoggedIn(true)
     } else {
       setLoggedIn(false)
     }
+  })
 
-  }
-  )
   const navigate = useNavigate();
 
   // 로그아웃 함수
@@ -249,7 +248,6 @@ const Header = () => {
     navigate('/login');
 
   }
-
 
   // 로그아웃 버튼에 들어갈 로그인페이지로 이동 함수
 
