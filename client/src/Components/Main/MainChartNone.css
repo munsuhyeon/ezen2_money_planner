@@ -136,15 +136,13 @@
   transform: translateX(0);
 }
 
-.Main3None-Info h2,
-.Main4None-Info h2 {
+.Main3None-Info h2 {
   font-size: 25px;
   font-weight: bold;
   margin-bottom: 20px;
 }
 
-.Main3None-Info p:nth-child(2),
-.Main4None-Info p:nth-child(2) {
+.Main3None-Info p:nth-child(2) {
   font-size: 18px;
   font-weight: bold;
   color: rgb(167, 167, 167);
@@ -174,24 +172,44 @@
   position: relative;
 }
 
+.Main4None-Infobox {
+  width: auto;
+  height: 500px;
+  padding: 0 50px;
+}
 .Main4None-Info {
   opacity: 0;
   transform: translateX(-100px);
   transition: opacity 0.3s ease-out, transform 0.5s ease-out;
 }
-
-.Main4None-Infobox {
-  width: 500px;
-  height: 500px;
-  padding: 0 50px;
+.Main4None-Info h2 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+.Main4None-Info p:nth-child(2) {
+  font-size: 23px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  margin-bottom: 30px;
+  line-height: 40px;
 }
 
+.Main4None-Info p:nth-child(3) {
+  font-size: 18px;
+  line-height: 25px;
+  color: #603693;
+  font-weight: bold;
+}
+.Main4None-Infobox span {
+  color: #896ccb;
+}
 .Main4None-ImgBox {
   width: auto;
   height: 500px;
   position: absolute;
-  right: 0; /* 오른쪽 하단에 배치 */
-  bottom: 0;
+  right: -10%;
+  bottom: -20%;
   opacity: 0;
   transform: translateX(100px);
   transition: opacity 0.3s ease-out, transform 0.5s ease-out;
@@ -199,7 +217,7 @@
 
 .Main4None-Img img {
   width: auto;
-  height: 450px;
+  height: 500px;
 }
 .Main4-Graph2.fade-in .Main4None-Info {
   opacity: 1;
@@ -214,7 +232,7 @@
 /* -------------------------------Section4-------------------------------- */
 /* -------------------------------Section5-------------------------------- */
 #Main-5None {
-  height: auto;
+  height: 100vh;
   background-image: url(../../../public/assets/Main/background4.jpg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -224,6 +242,37 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.Main5None-Info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Main5None-Info h2 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.Main5None-Info p {
+  margin-bottom: 30px;
+}
+.Main5None-flex {
+  display: flex;
+}
+
+.Main5None-flex1,
+.Main5None-flex2,
+.Main5None-flex3 {
+  background-color: #896ccb;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 30px;
 }
 
 .Main5None-CheckBox {

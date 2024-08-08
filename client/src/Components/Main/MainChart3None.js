@@ -7,25 +7,43 @@ const MainChart3 = () => {
     <>
       {/* -------------------------------Section5-------------------------------- */}
       <section id="Main-5None">
-        <div className="Main5-Graph3">
-          <div className="Main5-Img">
-            <img src="/assets/Maintest/budget.png" alt="calendarImg" />
+        <div className="Main5None-Info">
+          <h2>간편하고 꼼꼼하게</h2>
+          <p>
+            매월 정기적으로 나가는 지출 정보를 한 눈에 확인하고, 꼼꼼하게
+            관리하기
+          </p>
+          <div className="Main5None-flex">
+            <div className="Main5None-flex1">
+              <h3>달력</h3>
+              <p>달력을 통한 지출 / 수입 관리</p>
+            </div>
+            <div className="Main5None-flex2">
+              <h3>통계</h3>
+              <p>그래프를 통한 지출확인</p>
+            </div>
+            <div className="Main5None-flex3">
+              <h3>예산</h3>
+              <p>카테고리별 꼼꼼한 예산 설정</p>
+            </div>
           </div>
-          <div className="Main5None-Infobox">
-            <h2>
-              카테고리별로 예산을 지정하고
-              <br />
-              소비패턴을 볼 수 있어요.
-            </h2>
-
-            <p>
-              주간 / 요일별 지출을 확인하고, 종합 평가를 통해 재정 관리에 대한
-            </p>
-            <p>조언을 받을 수 있어요.</p>
-            <p>
-              수입과 지출을 비교할 수 있는 그래프를 보고 불필요한 지출을
-              줄여보세요!
-            </p>
+          <div className="Main5None-Infoflex">
+            <div className="main5None-Infoflex1">
+              <h4>주간보고서</h4>
+              <h4>주간 지출과 요일 지출을 한 눈에 볼 수 있어요.</h4>
+            </div>
+            <div className="main5None-Infoflex1">
+              <h4>월간보고서</h4>
+              <h4>카테고리별 지출과 수입 / 지출을 비교해서 볼 수 있어요.</h4>
+            </div>
+            <div className="main5None-Infoflex1">
+              <h4>예산</h4>
+              <h4>예산을 설정해 예산을 넘어갈 때마다 알림을 받을 수 있어요.</h4>
+            </div>
+            <div className="main5None-Infoflex1">
+              <h4>카테고리별 예산</h4>
+              <h4>카테고리별로 예산을 설정할 수 있어요.</h4>
+            </div>
           </div>
         </div>
         <div className="Main5None-CheckBox">

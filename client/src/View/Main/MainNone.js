@@ -4,7 +4,7 @@ import MainChart3None from "../../Components/Main/MainChart3None.js";
 import "./MainNone.css";
 import Scroll from "../../Components/ScrollTop&Bottom/Scroll.js";
 import ScrollHandler from "../../Hooks/Main/ScrollEvent.js";
-import MainTip from "../../Components/Main/MainTip.js";
+
 import Footer from "../../Components/Footer/Footer.js";
 
 const Main = () => {
@@ -52,7 +52,7 @@ const Main = () => {
       <MainChartNone />
       <MainChart2None />
       <MainChart3None />
-      <MainTip />
+
       <Footer />
     </>
   );

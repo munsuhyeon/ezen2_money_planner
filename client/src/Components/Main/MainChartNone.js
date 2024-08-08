@@ -34,8 +34,8 @@ const MainChart = () => {
           </div>
           <div className="Main3-Graph1">
             <div className="Main3None-Info">
-              <h2>달력을 사용해 지출 / 수입을 확인할 수 있어요.</h2>
-              <p>달력에 지출과 수입내역이 각각 표기되어 알아보기 쉬워요.</p>
+              <h2>지출 / 수입을 간편하게 확인할 수 있어요.</h2>
+              <p>월별로 지출 / 수입 내역을 꼼꼼하게 확인할 수 있어요.</p>
             </div>
             <div className="Main3None-Img">
               <img
