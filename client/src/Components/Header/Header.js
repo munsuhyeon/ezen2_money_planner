@@ -4,6 +4,8 @@ import { TransactionListContext } from "../../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import ScrollEvent from "../../Hooks/Main/ScrollEvent";
+import { useNavigate } from 'react-router-dom';
+
 
 // 새로고침시 안읽은 알림이 아닌 새로운 알림만 뱃지로 추가해줌
 
@@ -213,11 +215,46 @@ const Header = () => {
     // 로컬 스토리지에 업데이트된 알림 목록 저장
     localStorage.setItem(`${userId}`, JSON.stringify(updatedNotifications));
 
+
     // 상태 업데이트
     setNotifications(updatedNotifications);
     setUnreadNotificationCount(
       updatedNotifications.filter((notification) => !notification.read).length
     ); // 삭제 후 읽지 않은 알림 개수 업데이트
+  };
+
+  // 로그인 여부 확인 및 
+  const [loggedIn, setLoggedIn] = useState(false)
+  // console.log(user)
+
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setLoggedIn(true)
+    } else {
+      setLoggedIn(false)
+    }
+
+  }
+  )
+  const navigate = useNavigate();
+
+  // 로그아웃 함수
+  function reqLogout() {
+    // 로컬스토리지에서 사용자 데이터를 제거함으로 로그아웃
+    localStorage.removeItem('user');
+    alert("로그아웃 되었습니다.");
+    // 로그아웃후 로그인페이지로 이동
+    navigate('/login');
+
+  }
+
+
+  // 로그아웃 버튼에 들어갈 로그인페이지로 이동 함수
+
+  function loginPage() {
+    navigate('/login')
   };
 
   return (
@@ -232,7 +269,7 @@ const Header = () => {
           <ul className="Header_Right">
             <li>닉네임</li>
             <li>
-              <button className="Header_logout">로그아웃</button>
+              {loggedIn ? (<button className="Header_logout" onClick={reqLogout}>로그아웃</button>) : (<button className="Header_logout" onClick={loginPage}>로그인</button>)}
             </li>
             <li>
               <FontAwesomeIcon
@@ -248,9 +285,8 @@ const Header = () => {
                 </div>
               )}
               <div
-                className={`notification ${
-                  isNotificationVisible ? "active" : ""
-                }`}
+                className={`notification ${isNotificationVisible ? "active" : ""
+                  }`}
                 ref={notificationRef}
               >
                 <div className="notification-header">
