@@ -278,9 +278,6 @@ const Header = () => {
               <img src="/assets/logo/Thicklogo.png" alt="모으냥로고" />
             </a>
           )}
-          {/* <a href="/">
-            <img src="/assets/logo/Thicklogo.png" alt="모으냥로고" />
-          </a> */}
         </div>
         <div>
           <ul className="Header_Right">
