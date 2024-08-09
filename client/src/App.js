@@ -67,7 +67,7 @@ function App() {
           <Header />
           <Routes>
             <Route
-              path="/"
+              path="/main"
               element={
                 <Layout>
                   <Main />
@@ -75,7 +75,7 @@ function App() {
               }
             />
             <Route
-              path="/none"
+              path="/"
               element={
                 <LayoutWithoutSideNav>
                   <MainNone />
@@ -128,17 +128,17 @@ function App() {
             <Route
               path="/login"
               element={
-                <Layout>
+                <LayoutWithoutSideNav>
                   <Login />
-                </Layout>
+                </LayoutWithoutSideNav>
               }
             />
             <Route
               path="/signup"
               element={
-                <Layout>
+                <LayoutWithoutSideNav>
                   <Signup />
-                </Layout>
+                </LayoutWithoutSideNav>
               }
             />
             <Route
