@@ -16,6 +16,9 @@ footer .Footer-content {
   text-align: left;
   color: #777;
   line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .Footer-content p:nth-child(2) {
   margin-bottom: 20px;

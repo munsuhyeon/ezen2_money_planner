@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { format, toZonedTime } from 'date-fns-tz';
 
 import {
   createCategoryChart,
@@ -14,12 +15,19 @@ import "./WeekStatistics.css";
 const WeekStatistics = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
-    createCategoryChart();
-    createWeekPayChart();
-    createDayPayChart();
-  }, []);
+    if (chartData) {
+      createCategoryChart(chartData.categoryData);
+      createWeekPayChart(chartData.weeklyexpenseData);
+      createDayPayChart(chartData.dailyExpenseData);
+    }
+  }, [chartData]);
+
+  useEffect(() => {
+    fetchChartData(startDate, endDate);
+  }, [startDate, endDate]);
 
   const handleDateChange = (start, end) => {
     setStartDate(start);
@@ -27,25 +35,52 @@ const WeekStatistics = () => {
     sendDataToServer(start, end);
   };
 
+  const formatDateToISO = (date) => {
+    const timeZone = 'Asia/Seoul';
+    const zonedDate = toZonedTime(date, timeZone);
+    return format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", { timeZone });
+  };
+
+  const fetchChartData = (startDate, endDate) => {
+    const startDateISO = formatDateToISO(startDate);
+    const endDateISO = formatDateToISO(endDate);
+
+    const userId = "test123";
+    const serverurl = `http://localhost:8080/weekchart?user_id=${userId}&start_date=${startDateISO}&end_date=${endDateISO}`;
+    
+    axios
+    .get(serverurl)
+    .then((response) => {
+      console.log("데이터를 성공적으로 받았습니다:", response.data);
+      setChartData(response.data);
+    })
+    .catch((error) => {
+      console.log("데이터를 가져오는 중 오류 발생:", error);
+    });
+  };
+
   const sendDataToServer = (startDate, endDate) => {
     const userId = "test123";
     const url = "http://localhost:8080/weekchart";
 
+    const startDateISO = formatDateToISO(startDate);
+    const endDateISO = formatDateToISO(endDate);
+
     const data = {
       user_id: userId,
-      start_date: startDate,
-      end_date: endDate,
+      start_date: startDateISO,
+      end_date: endDateISO,
     };
 
-    console.log("Sending data:", data);
+    console.log("서버로 보내는 데이터:", data);
 
     axios
       .post(url, data)
       .then((response) => {
-        console.log("Data sent successfully:", response);
+        console.log("데이터를 성공적으로 보냈습니다:", response);
       })
       .catch((error) => {
-        console.error("Error sending data:", error);
+        console.error("데이터를 보내는 중 오류 발생:", error);
       });
   };
 

@@ -1,11 +1,12 @@
 import React from "react";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import {TransactionListContext} from "../../App";
+import {TransactionListContext,UserIdContext} from "../../App";
 import "./SideNav.css";
 import {formatMonth} from "../../Utils/Utils"
 const SideNav = () => {
   const {getTransactionList} = useContext(TransactionListContext);
+  const userId = useContext(UserIdContext);
   const navigate = useNavigate();
   const location = useLocation();
   const item = formatMonth(new Date());
@@ -21,14 +22,14 @@ const SideNav = () => {
       imgSrc: "/assets/sideNav/table-of-contents-svgrepo-com.svg",
       imgAlt: "수입/지출아이콘",
       text: "수입/지출내역",
-      onClick: () => getTransactionList(item),
+      onClick: () => getTransactionList(item,userId),
     },
     {
       to: "/calendar",
       imgSrc: "/assets/sideNav/date-svgrepo-com.svg",
       imgAlt: "달력아이콘",
       text: "달력",
-      onClick: () => getTransactionList(item),
+      onClick: () => getTransactionList(item,userId),
     },
     {
       to: "/weekly-report",

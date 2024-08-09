@@ -1,14 +1,62 @@
 import Chart from "chart.js/auto";
 
-export const createCategoryChart = () => {
+let categoryChartInstance = null;
+let top5PayChartInstance = null;
+let paymentMethodChartInstance = null;
+let last3MonthsChartInstance = null;
+// let averageComparisonChartInstance = null;
+let earningsExpensesChartInstance = null;
+// let generalCommentChartInstance = null;
+
+const destroyChart = (chartInstance) => {
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+};
+
+const transformData1 = (data) => {
+  const labels = data.map((item) => item.categoryName || item.label);
+  const values = data.map((item) => item.amount || item.value);
+  return { labels, values };
+};
+
+const transformData2 = (data) => {
+  const labels = data.map((item) => item.description || item.label);
+  const values = data.map((item) => item.amount || item.value);
+  return { labels, values };
+};
+
+const transformData3 = (data) => {
+  const labels = data.map((item) => item.paymentType || item.label);
+  const values = data.map((item) => item.amount || item.value);
+  return { labels, values };
+};
+
+const transformData4 = (data) => {
+  const labels = data.map((item) => item.monthPeriod || item.label);
+  const values = data.map((item) => item.amount || item.value);
+  return { labels, values };
+};
+
+const transformData5 = (data) => {
+  const labels = data.map((item) => item.incomeType || item.label);
+  const values = data.map((item) => item.amount || item.value);
+  return { labels, values };
+};
+
+export const createCategoryChart = (data) => {
   const ctx = document.getElementById("category_chart");
-  return new Chart(ctx, {
+  console.log("크아아아아악:", data);
+  destroyChart(categoryChartInstance);
+  const { labels, values } = transformData1(data);
+
+  categoryChartInstance = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: ["식비", "주거비", "교통비", "의료비", "여가비", "기타"],
+      labels: labels,
       datasets: [
         {
-          data: [352000, 250000, 10000, 150000, 15000, 100000],
+          data: values,
           backgroundColor: [
             "rgba(255, 99, 132, 0.6)",
             "rgba(54, 162, 235, 0.6)",
@@ -76,15 +124,19 @@ export const createCategoryChart = () => {
   });
 };
 
-export const createTop5PayChart = () => {
+export const createTop5PayChart = (data) => {
   const t5mctx = document.getElementById("top_5_pay");
-  return new Chart(t5mctx, {
+  console.log("크아아아아악:", data);
+  destroyChart(top5PayChartInstance);
+  const { labels, values } = transformData2(data);
+
+  top5PayChartInstance = new Chart(t5mctx, {
     type: "bar",
     data: {
-      labels: ["영화", "게임", "독서", "의류", "치킨"],
+      labels: labels,
       datasets: [
         {
-          data: [300000, 700000, 80000, 300000, 500000],
+          data: values,
           borderWidth: 0,
         },
       ],
@@ -131,15 +183,19 @@ export const createTop5PayChart = () => {
   });
 };
 
-export const createPaymentMethodChart = () => {
+export const createPaymentMethodChart = (data) => {
   const pmctx = document.getElementById("payment_method");
-  return new Chart(pmctx, {
+  console.log("크아아아아악:", data);
+  destroyChart(paymentMethodChartInstance);
+  const { labels, values } = transformData3(data);
+
+  paymentMethodChartInstance = new Chart(pmctx, {
     type: "doughnut",
     data: {
-      labels: ["신용카드", "현금", "체크카드", "계좌이체"],
+      labels: labels,
       datasets: [
         {
-          data: [520000, 50000, 250000, 200000],
+          data: values,
           backgroundColor: [
             "rgba(255, 99, 132, 0.6)",
             "rgba(54, 162, 235, 0.6)",
@@ -206,15 +262,19 @@ export const createPaymentMethodChart = () => {
   });
 };
 
-export const createLast3MonthsChart = () => {
+export const createLast3MonthsChart = (data) => {
   const l3mctx = document.getElementById("last_3_month");
-  return new Chart(l3mctx, {
+  console.log("크아아아아악:", data);
+  destroyChart(last3MonthsChartInstance);
+  const { labels, values } = transformData4(data);
+
+  last3MonthsChartInstance = new Chart(l3mctx, {
     type: "bar",
     data: {
-      labels: ["5월", "6월", "7월"],
+      labels: ["두달전", "한달전", "이번달"],
       datasets: [
         {
-          data: [1500000, 2000000, 1700000],
+          data: values,
           backgroundColor: ["rgb(175, 154, 223)"],
         },
       ],
@@ -255,65 +315,73 @@ export const createLast3MonthsChart = () => {
   });
 };
 
-export const createAverageComparison = () => {
-  const acctx = document.getElementById("average_comparison");
-  return new Chart(acctx, {
-    type: "bar",
-    data: {
-      labels: ["나", "평균"],
-      datasets: [
-        {
-          data: [800000, 1200000],
-          backgroundColor: ["rgba(0, 0, 255, 0.5)", "rgba(255, 0, 0, 0.4)"],
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: "none",
-        },
-        tooltip: {
-          displayColors: false,
-          zindex: 100,
-          callbacks: {
-            title: function (tooltipItem, data) {
-              return "";
-            },
-            label: function (tooltipItem) {
-              let value = tooltipItem.raw;
-              return `${tooltipItem.label}: ${value.toLocaleString()}원`;
-            },
-          },
-        },
-      },
-      scales: {
-        y: {
-          ticks: {
-            callback: function (value) {
-              return (value / 10000).toLocaleString() + "만원";
-            },
-            maxTicksLimit: 8,
-          },
-        },
-      },
-      barThickness: 25,
-    },
-  });
-};
+// export const createAverageComparison = (data) => {
+//   const acctx = document.getElementById("average_comparison");
+//   console.log("크아아아아악:" , data)
+//   destroyChart(averageComparisonChartInstance);
+//   const { labels, values } = transformData(data);
 
-export const createEarningsExpenses = () => {
+//   averageComparisonChartInstance = new Chart(acctx, {
+//     type: "bar",
+//     data: {
+//       labels: labels,
+//       datasets: [
+//         {
+//           data: values,
+//           backgroundColor: ["rgba(0, 0, 255, 0.5)", "rgba(255, 0, 0, 0.4)"],
+//         },
+//       ],
+//     },
+//     options: {
+//       responsive: true,
+//       maintainAspectRatio: false,
+//       plugins: {
+//         legend: {
+//           position: "none",
+//         },
+//         tooltip: {
+//           displayColors: false,
+//           zindex: 100,
+//           callbacks: {
+//             title: function (tooltipItem, data) {
+//               return "";
+//             },
+//             label: function (tooltipItem) {
+//               let value = tooltipItem.raw;
+//               return `${tooltipItem.label}: ${value.toLocaleString()}원`;
+//             },
+//           },
+//         },
+//       },
+//       scales: {
+//         y: {
+//           ticks: {
+//             callback: function (value) {
+//               return (value / 10000).toLocaleString() + "만원";
+//             },
+//             maxTicksLimit: 8,
+//           },
+//         },
+//       },
+//       barThickness: 25,
+//     },
+//   });
+// };
+
+export const createEarningsExpenses = (data) => {
   const eectx = document.getElementById("earnings_expenses");
-  return new Chart(eectx, {
+  console.log("크아아아아악:", data);
+  destroyChart(earningsExpensesChartInstance);
+  const { labels, values } = transformData5(data);
+
+  earningsExpensesChartInstance = new Chart(eectx, {
     type: "bar",
     data: {
-      labels: ["수입", "지출"],
+      labels: ["지출", "수입"],
       datasets: [
         {
-          data: [800000, 1200000],
-          backgroundColor: ["rgba(0, 0, 255, 0.5)", "rgba(255, 0, 0, 0.4)"],
+          data: values,
+          backgroundColor: ["rgba(255, 0, 0, 0.4)", "rgba(0, 0, 255, 0.5)"],
         },
       ],
     },
@@ -353,34 +421,38 @@ export const createEarningsExpenses = () => {
   });
 };
 
-export const createGeneralComment = () => {
-  const gcctx = document.getElementById("general_comment").getContext("2d");
-  return new Chart(gcctx, {
-    type: "doughnut",
-    data: {
-      labels: ["여유", "나머지"],
-      datasets: [
-        {
-          data: [75, 25],
-          backgroundColor: ["#4A90E2", "#E0E0E0"],
-          borderWidth: 0,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          enabled: false,
-        },
-      },
-      cutout: "80%",
-      rotation: -90,
-      circumference: 180,
-    },
-  });
-};
+// export const createGeneralComment = (data) => {
+//   const gcctx = document.getElementById("general_comment").getContext("2d");
+//   console.log("크아아아아악:" , data)
+//   destroyChart(generalCommentChartInstance);
+//   const { labels, values } = transformData(data);
+
+//   generalCommentChartInstance = new Chart(gcctx, {
+//     type: "doughnut",
+//     data: {
+//       labels: labels,
+//       datasets: [
+//         {
+//           data: values,
+//           backgroundColor: ["#4A90E2", "#E0E0E0"],
+//           borderWidth: 0,
+//         },
+//       ],
+//     },
+//     options: {
+//       responsive: true,
+//       maintainAspectRatio: false,
+//       plugins: {
+//         legend: {
+//           display: false,
+//         },
+//         tooltip: {
+//           enabled: false,
+//         },
+//       },
+//       cutout: "80%",
+//       rotation: -90,
+//       circumference: 180,
+//     },
+//   });
+// };

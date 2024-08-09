@@ -57,7 +57,8 @@ export default class WeekDatePick extends Component {
       <div>
         <DatePicker
           selectsRange
-          className="datepicker"
+          className= 'react-datepicker'
+          style={{width: '243px'}}
           locale={ko}
           dateFormat="yyyy년 MM월 dd일"
           selected={this.state.startDate}

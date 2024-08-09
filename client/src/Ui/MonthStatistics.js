@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { format, toZonedTime } from "date-fns-tz";
+import { startOfMonth, endOfMonth } from "date-fns";
 
 import {
   createCategoryChart,
   createTop5PayChart,
   createPaymentMethodChart,
   createLast3MonthsChart,
-  createAverageComparison,
+  // createAverageComparison,
   createEarningsExpenses,
-  createGeneralComment,
+  // createGeneralComment,
 } from "../Components/chart/MonthChart.js";
 import MonthDatePick from "../Components/chart/MonthDatePick.js";
 
@@ -17,29 +18,162 @@ import "./reset.css";
 import "./MonthStatistics.css";
 
 const MonthStatistics = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const now = new Date();
+  const initialStartDate = startOfMonth(now);
+  const initialEndDate = endOfMonth(now);
+
+  const [startDate, setStartDate] = useState(initialStartDate);
+  const [endDate, setEndDate] = useState(initialEndDate);
+  const [chartData, setChartData] = useState(null);
+
+  const [maxCategory, setMaxCategory] = useState("");
+  const [maxExpense, setMaxExpense] = useState("");
+  const [topDescription, setTopDescription] = useState("");
+  const [topPaymentType, setTopPaymentTypeData] = useState("");
+  const [topExpense, setTopExpense] = useState("");
+  const [comparisonMessage, setComparisonMessage] = useState("");
+  const [earningsExpenseMessage, setEarningsExpenseMessage] = useState("");
 
   useEffect(() => {
-    createCategoryChart();
-    createTop5PayChart();
-    createPaymentMethodChart();
-    createLast3MonthsChart();
-    createAverageComparison();
-    createEarningsExpenses();
-    createGeneralComment();
-  }, []);
+    if (chartData) {
+      createCategoryChart(chartData.categoryData);
+      createTop5PayChart(chartData.descriptionData);
+      createPaymentMethodChart(chartData.paymentTypeData);
+      createLast3MonthsChart(chartData.threeMonthExpensesData);
+      // createAverageComparison();
+      createEarningsExpenses(chartData.totalIncomeAndExpenseDTOList);
+      // createGeneralComment();
+
+      if (chartData.categoryData && chartData.categoryData.length > 0) {
+        const maxCategoryData = chartData.categoryData.reduce((prev, curr) =>
+          prev.amount > curr.amount ? prev : curr
+        );
+        console.log("최대 지출 카테고리:", maxCategoryData);
+        setMaxCategory(maxCategoryData.categoryName);
+        setMaxExpense(maxCategoryData.amount);
+      }
+
+      if (chartData.descriptionData && chartData.descriptionData.length > 0) {
+        const topDescriptionData = chartData.descriptionData.reduce(
+          (prev, curr) => (prev.amount > curr.amount ? prev : curr)
+        );
+        console.log("최대 지출 소비항목:", topDescriptionData);
+        setTopDescription(topDescriptionData.description);
+      }
+
+      if (chartData.paymentTypeData && chartData.paymentTypeData.length > 0) {
+        const topPaymentTypeData = chartData.paymentTypeData.reduce(
+          (prev, curr) => (prev.amount > curr.amount ? prev : curr)
+        );
+        console.log("최대 지출 결제수단:", topPaymentTypeData);
+        setTopPaymentTypeData(topPaymentTypeData.paymentType);
+        setTopExpense(topPaymentTypeData.amount);
+      }
+
+      if (
+        chartData.threeMonthExpensesData &&
+        chartData.threeMonthExpensesData.length > 0
+      ) {
+        const data = chartData.threeMonthExpensesData.reduce((acc, item) => {
+          acc[item.monthPeriod] = item.amount;
+          return acc;
+        }, {});
+
+        const lastMonthExpense = data.LastMonth || 0;
+        const currentMonthExpense = data.CurrentMonth || 0;
+
+        const formatNumberWithComma = (number) => {
+          return number.toLocaleString();
+        };
+
+        let message = "";
+        if (currentMonthExpense > lastMonthExpense) {
+          message = `이번달은 지난달보다 <span>${formatNumberWithComma(
+            currentMonthExpense - lastMonthExpense
+          )}원</span> 더 지출하셨어요...`;
+        } else if (currentMonthExpense < lastMonthExpense) {
+          message = `이번달은 지난달보다 <span>${formatNumberWithComma(
+            lastMonthExpense - currentMonthExpense
+          )}원</span> 절약하셨어요!`;
+        } else {
+          message = `이번달과 지난달의 지출이 같습니다.`;
+        }
+        setComparisonMessage(message);
+      }
+
+      if (chartData.totalIncomeAndExpenseDTOList) {
+        const incomeData = chartData.totalIncomeAndExpenseDTOList.find(
+          (item) => item.incomeType === "income"
+        );
+        const expenseData = chartData.totalIncomeAndExpenseDTOList.find(
+          (item) => item.incomeType === "expense"
+        );
+
+        const income = incomeData ? incomeData.amount : 0;
+        const expense = expenseData ? expenseData.amount : 0;
+
+        const formatPercentageDifference = (value, total) => {
+          if (total === 0) return "0.00";
+          return ((value - total) / total * 100).toFixed(0);
+        };
+
+        let earningsExpenseMessage = "";
+        if (income > 0) {
+          const percentageDifference = formatPercentageDifference(expense, income);
+          if (percentageDifference > 0) {
+            earningsExpenseMessage = `수입보다 <span class="highlight">${percentageDifference}%</span> 많이 소비하셨어요...`;
+          } else if (percentageDifference < 0) {
+            earningsExpenseMessage = `수입보다 <span class="highlight">${Math.abs(percentageDifference)}%</span> 적게 소비하셨어요!`;
+          } else {
+            earningsExpenseMessage = `수입과 지출이 동일합니다.`;
+          }
+        } else {
+          earningsExpenseMessage = `수입이 없습니다.`;
+        }
+        setEarningsExpenseMessage(earningsExpenseMessage);
+      }
+    }
+  }, [chartData]);
+
+  useEffect(() => {
+    fetchChartData(startDate, endDate);
+  }, [startDate, endDate]);
 
   const handleDateChange = (start, end) => {
     setStartDate(start);
     setEndDate(end);
     sendDataToServer(start, end);
+    setMaxCategory("");
+    setMaxExpense("");
+    setTopDescription("");
+    setTopPaymentTypeData("");
+    setTopExpense("");
+    setComparisonMessage("");
+    setEarningsExpenseMessage("");
   };
 
   const formatDateToISO = (date) => {
     const timeZone = "Asia/Seoul";
     const zonedDate = toZonedTime(date, timeZone);
     return format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", { timeZone });
+  };
+
+  const fetchChartData = (startDate, endDate) => {
+    const startDateISO = formatDateToISO(startDate);
+    const endDateISO = formatDateToISO(endDate);
+
+    const userId = "test123";
+    const serverurl = `http://localhost:8080/monthchart?user_id=${userId}&start_date=${startDateISO}&end_date=${endDateISO}`;
+
+    axios
+      .get(serverurl)
+      .then((response) => {
+        console.log("데이터를 성공적으로 받았습니다:", response.data);
+        setChartData(response.data);
+      })
+      .catch((error) => {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+      });
   };
 
   const sendDataToServer = (startDate, endDate) => {
@@ -55,15 +189,15 @@ const MonthStatistics = () => {
       end_date: endDateISO,
     };
 
-    console.log("Sending data:", data);
+    console.log("서버로 보내는 데이터:", data);
 
     axios
       .post(url, data)
       .then((response) => {
-        console.log("Data sent successfully:", response);
+        console.log("데이터를 성공적으로 보냈습니다:", response);
       })
       .catch((error) => {
-        console.error("Error sending data:", error);
+        console.error("데이터를 보내는 중 오류 발생:", error);
       });
   };
 
@@ -84,14 +218,21 @@ const MonthStatistics = () => {
             </div>
             <ul className="chart_text">
               <li className="chart_text_category">최대 지출 카테고리</li>
-              <li className="chart_text_category_detail">식비</li>
-              <li className="chart_text_exprese">352,000원</li>
+              <li className="chart_text_category_detail">
+                {maxCategory || "데이터 없음"}
+              </li>
+              <li className="chart_text_exprese">
+                {maxExpense
+                  ? `${maxExpense.toLocaleString()}원`
+                  : "데이터 없음"}
+              </li>
             </ul>
           </div>
           <div className="top_5_pay_area">
             <h2 className="top_5_pay_title">주요 소비 항목</h2>
             <div className="top_5_pay_comment">
-              이번달은 <span>독서</span>에 가장 많이 소비하셨어요!
+              이번달은 <span>{topDescription || "데이터 없음"}</span> 에 가장
+              많이 소비하셨어요!
             </div>
             <div className="top_5_pay_wrap">
               <canvas id="top_5_pay"></canvas>
@@ -106,39 +247,59 @@ const MonthStatistics = () => {
             </div>
             <ul className="payment_method_chart_text_wrap">
               <li className="payment_method_chart_text">최대 지출 결제수단</li>
-              <li className="payment_method_chart_text_detail">신용카드</li>
-              <li className="payment_method_chart_text_exprese">520,000원</li>
+              <li className="payment_method_chart_text_detail">
+                {topPaymentType || "데이터없음"}
+              </li>
+              <li className="payment_method_chart_text_exprese">
+                {topExpense
+                  ? `${topExpense.toLocaleString()}원`
+                  : "데이터 없음"}
+              </li>
             </ul>
           </div>
           <div className="last_3_month_area">
             <h2 className="last_3_month_title">최근 3개월 지출</h2>
-            <div className="last_3_month_comment">
-              {/* 지난달 보다 <span>20%</span> 많이 지출하셨어요... */}
-              지난달 보다 <span>20%</span> 적게 지출하셨어요!
-            </div>
+            <div
+              className="last_3_month_comment"
+              dangerouslySetInnerHTML={{
+                __html: comparisonMessage || "데이터 없음",
+              }}
+            ></div>
             <div className="last_3_month_wrap">
               <canvas id="last_3_month"></canvas>
             </div>
           </div>
-          <div className="average_comparison_area">
+          {/* <div className="average_comparison_area">
             <h2 className="average_comparison_title">
               직업군 & 나이 대비 평균지출 비교
             </h2>
             <div className="average_comparison_comment">
               평균보다 <span>10%</span> 적게 소비하셨어요!
-              {/* 평균보다 <span>50%</span> 많이 소비하셨어요... */}
+              평균보다 <span>50%</span> 많이 소비하셨어요...
             </div>
             <div className="average_comparison_wrap">
               <canvas id="average_comparison"></canvas>
             </div>
+          </div> */}
+          <div className="earnings_expenses_area">
+            <h2 className="earnings_expenses_title">수입 지출 비교</h2>
+            <div
+              className="earnings_expenses_comment"
+              dangerouslySetInnerHTML={{
+                __html: earningsExpenseMessage || "데이터 없음",
+              }}
+            ></div>
+            <div className="earnings_expenses_wrap">
+              <canvas id="earnings_expenses"></canvas>
+            </div>
           </div>
         </div>
-        <div className="month_chart_flex">
+        {/* <div className="month_chart_flex">
           <div className="earnings_expenses_area">
             <h2 className="earnings_expenses_title">수입 지출 비교</h2>
             <div className="earnings_expenses_comment">
               수입보다 <span>50%</span> 많이 소비하셨어요...
-              {/* 수입보다 <span>10%</span> 적게 소비하셨어요! */}
+              수입보다 <span>10%</span> 적게 소비하셨어요!
             </div>
             <div className="earnings_expenses_wrap">
               <canvas id="earnings_expenses"></canvas>
@@ -158,7 +319,7 @@ const MonthStatistics = () => {
               유지하고 있다고 평가됩니다.
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

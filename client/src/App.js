@@ -18,6 +18,7 @@ import { formatMonth } from "./Utils/Utils.js";
 import TransactionCalendar from "./View/transaction/TransactionCalendar.js";
 export const CategoryContext = React.createContext();
 export const TransactionListContext = React.createContext();
+export const UserIdContext = React.createContext();
 function App() {
   // DB에서 카테고리 종류 가져오기
   const [categoryList, setCategoryList] = useState([]);
@@ -35,11 +36,15 @@ function App() {
       });
   };
 
+  // 로컬스토리지에서 userId 가져오기
+  const [userId, setUserId] = useState("");
+
   // DB에서 지출/수입 내역 가져오기(후에 사용자 id 반영해서 가져오기)
   const [transactionList, setTransactionList] = useState([]);
   const [originalList, setOriginalList] = useState([]);
-  const getTransactionList = async (item = formatMonth(new Date())) => {
-    call("/transactions/list", "POST", item)
+  const getTransactionList = async (item = formatMonth(new Date()),userId) => {
+    const requestData = { ...item, userId };
+    call("/transactions/list", "POST", requestData)
       .then((response) => {
         if (response) {
           console.log(response.data);
@@ -54,15 +59,24 @@ function App() {
       });
   };
   useEffect(() => {
-    getCategory();
-    getTransactionList();
+    const storageData = localStorage.getItem("user");
+    if(storageData){
+      const parsedData = JSON.parse(storageData);
+      const userId = parsedData.userid;
+      setUserId(userId);
+      console.log("로그인한 아이디::::::",userId);
+      if(userId){
+        getCategory();
+        const date = formatMonth(new Date());
+        getTransactionList(date,userId);
+      }
+    }
   }, []);
 
   return (
     <CategoryContext.Provider value={categoryList}>
-      <TransactionListContext.Provider
-        value={{ transactionList, getTransactionList }}
-      >
+      <TransactionListContext.Provider value={{ transactionList, getTransactionList }}>
+        <UserIdContext.Provider value={userId}>
         <BrowserRouter>
           <Header />
           <Routes>
@@ -159,6 +173,7 @@ function App() {
             />
           </Routes>
         </BrowserRouter>
+        </UserIdContext.Provider>
       </TransactionListContext.Provider>
     </CategoryContext.Provider>
   );

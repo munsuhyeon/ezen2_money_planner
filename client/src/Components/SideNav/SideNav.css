@@ -33,7 +33,6 @@
   padding-bottom: 2px;
 }
 
-/* 사이트네비게이션 밑줄 그어지는 효과 */
 .Side_Nav a::after {
   content: "";
   position: absolute;

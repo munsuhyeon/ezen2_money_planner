@@ -46,8 +46,7 @@ const MainChart3 = () => {
               <div className="main5None-Infoflex1">
                 <h4>월간보고서</h4>
                 <p>
-                  카테고리별 지출과 수입 / 지출을 <br />
-                  비교해서 볼 수 있어요.
+                  카테고리별 지출과 주요 소비 항목을 <br />볼 수 있어요.
                 </p>
               </div>
               <div className="main5None-Infoflex2">
