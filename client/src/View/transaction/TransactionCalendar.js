@@ -1,7 +1,7 @@
 import React, { useState,useContext, useEffect } from 'react';
 import Calendar from 'react-calendar';
-import {TransactionListContext,CategoryContext } from '../../App';
-import {formatPrice} from '../../Utils/Utils';
+import {TransactionListContext,CategoryContext,UserIdContext } from '../../App';
+import {formatMonth, formatPrice} from '../../Utils/Utils';
 import {CalendarDetailModal,AddDataModal} from '../../Components/Transaction/Modal';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-calendar/dist/Calendar.css';
@@ -10,6 +10,7 @@ import "./TransactionCalendar.css";
 const TransactionCalendar = () => {
     const {transactionList,getTransactionList} = useContext(TransactionListContext);
     const categoryList = useContext(CategoryContext);
+    const userId = useContext(UserIdContext);
     const [value, onChange] = useState(new Date()); 
     const [activeTab, setActiveTab] = useState("all");
     const [filteredTransactionMap, setFilteredTransactionMap] = useState({});
@@ -20,8 +21,13 @@ const TransactionCalendar = () => {
     const [expenseCategory, setExpenseCategory] = useState([]);
     const [incomeCategory, setIncomeCategory] = useState([]);
     const [assetsCategory, setAssetsCategory] = useState([]);
+    const [selectedDate, setSelectedDate] = useState({});
+    const [calendarDate, setCalendarDate] = useState(new Date());
 
     const handleDateClick = (date) => {
+        console.log("abcdefg")
+        setSelectedDate(formatMonth(date))
+        setCalendarDate(date);
         const transactionsArray = Object.values(filteredTransactionMap).flat(); // 객체의 값을 배열로 변환
         const filteredData = transactionsArray.filter(list => new Date(list.transactionDate).toDateString() === date.toDateString());
         if(filteredData.length > 0){
@@ -33,6 +39,7 @@ const TransactionCalendar = () => {
         }
     }
 
+    
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
     };
@@ -111,7 +118,8 @@ const TransactionCalendar = () => {
         const adjustedEndDate = new Date(endDate);
         adjustedEndDate.setDate(endDate.getDate() + (6 - endDate.getDay())); // 해당 주의 마지막 날 (토요일)
         const item = {startDate:adjustedStartDate, endDate:adjustedEndDate}
-        getTransactionList(item);
+        setSelectedDate(item)
+        getTransactionList(item,userId);
     }
 
     const tileContent = ({ date, view }) => {
@@ -154,9 +162,9 @@ const TransactionCalendar = () => {
             tileContent={tileContent} onActiveStartDateChange={handleActiveStartDateChange}
             onClickDay={handleDateClick}/> {/* 날짜를 클릭할 때마다 value가 해당 날짜로 변경된다 onActiveStartDateChange={handleActiveStartDateChange} // 날짜 범위 변경 이벤트 핸들러 추가*/}
             {isModalOpen && filterDataLength > 0 ? (
-                <CalendarDetailModal data={dataForSelectedDate} onClose={() => setIsModalOpen(false)} />  
+                <CalendarDetailModal data={dataForSelectedDate} onClose={() => setIsModalOpen(false)} selectedDate={selectedDate} calendarDate={calendarDate}/>  
             ) : (
-                addModalOpen ? (<AddDataModal setAddModalOpen={setAddModalOpen} expenseCategory={expenseCategory} incomeCategory={incomeCategory} assetsCategory={assetsCategory} />) :null
+                addModalOpen ? (<AddDataModal setAddModalOpen={setAddModalOpen} expenseCategory={expenseCategory} incomeCategory={incomeCategory} assetsCategory={assetsCategory} selectedDate={selectedDate} booleanCalendar="T" calendarDate={calendarDate}/>) :null
             )}  
         </div>
     )
