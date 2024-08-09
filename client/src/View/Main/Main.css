@@ -13,7 +13,7 @@
   background-repeat: no-repeat;
 }
 
-#Main-1 .Main1-Info {
+.Main1-Info {
   display: flex;
   flex-direction: column;
   justify-content: center;

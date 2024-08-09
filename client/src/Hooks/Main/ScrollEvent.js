@@ -29,6 +29,7 @@ const ScrollHandler = () => {
   const main3Ref = useRef(null);
   const main4Ref = useRef(null);
   const main3NoneRef = useRef(null);
+  const main5NoneRef = useRef(null);
 
   // 스크롤 이벤트 핸들러
   const scrollHandler = () => {
@@ -61,9 +62,14 @@ const ScrollHandler = () => {
       main4Ref.current?.querySelectorAll(".Main4-Graph2") || [];
     const Main4Card = main4Ref.current?.offsetTop || 0;
 
+    // None
     const Main3NoneContents =
       main3NoneRef.current?.querySelectorAll(".Main3None") || [];
     const Main3NoneContent = main3NoneRef.current?.offsetTop || 0;
+
+    const Main5NoneContents =
+      main5NoneRef.current?.querySelectorAll(".Main5None-Info") || [];
+    const Main5NoneContent = main5NoneRef.current?.offsetTop || 0;
 
     Main2Cards.forEach((card) => {
       if (browserScrollY >= MainCard - 300) {
@@ -94,6 +100,14 @@ const ScrollHandler = () => {
         card.classList.remove("fade-in");
       }
     });
+
+    Main5NoneContents.forEach((card) => {
+      if (browserScrollY >= Main5NoneContent - 300) {
+        card.classList.add("fade-up");
+      } else {
+        card.classList.remove("fade-up");
+      }
+    });
   };
 
   useEffect(() => {
@@ -114,6 +128,7 @@ const ScrollHandler = () => {
     main3Ref,
     main4Ref,
     main3NoneRef,
+    main5NoneRef,
   };
 };
 

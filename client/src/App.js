@@ -6,8 +6,8 @@ import Main from "./View/Main/Main.js";
 import MainNone from "./View/Main/MainNone.js";
 import MonthStatistics from "./Ui/MonthStatistics.js";
 import WeekStatistics from "./Ui/WeekStatistics.js";
-import SideNav from "./Components/SideNav/SideNav.js";
 import Header from "./Components/Header/Header.js";
+import SideNav from "./Components/SideNav/SideNav.js";
 import BudgetModification from "./Components/BudgetModification/BudgetModification.js";
 import BudgetPage from "./Components/BudgetPage/BudgetPage.js";
 import Login from "../src/Components/Login/Login.jsx";
@@ -65,34 +65,104 @@ function App() {
       >
         <BrowserRouter>
           <Header />
-
           <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/none" element={<MainNone />} />
+            <Route
+              path="/"
+              element={
+                <Layout>
+                  <Main />
+                </Layout>
+              }
+            />
+            <Route
+              path="/none"
+              element={
+                <LayoutWithoutSideNav>
+                  <MainNone />
+                </LayoutWithoutSideNav>
+              }
+            />
             <Route
               path="/transactionList"
               element={
-                <TransactionList
-                  setTransactionList={setTransactionList}
-                  originalList={originalList}
-                />
+                <Layout>
+                  <TransactionList
+                    setTransactionList={setTransactionList}
+                    originalList={originalList}
+                  />
+                </Layout>
               }
             />
-            <Route path="/monthly-report" element={<MonthStatistics />} />
-            <Route path="/weekly-report" element={<WeekStatistics />} />
+            <Route
+              path="/monthly-report"
+              element={
+                <Layout>
+                  <MonthStatistics />
+                </Layout>
+              }
+            />
+            <Route
+              path="/weekly-report"
+              element={
+                <Layout>
+                  <WeekStatistics />
+                </Layout>
+              }
+            />
             <Route
               path="/budgetmodification"
-              element={<BudgetModification />}
+              element={
+                <Layout>
+                  <BudgetModification />
+                </Layout>
+              }
             />
-            <Route path="/budgetpage" element={<BudgetPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/forgotpw" element={<Forgotpassword />} />
+            <Route
+              path="/budgetpage"
+              element={
+                <Layout>
+                  <BudgetPage />
+                </Layout>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <Layout>
+                  <Login />
+                </Layout>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <Layout>
+                  <Signup />
+                </Layout>
+              }
+            />
+            <Route
+              path="/forgotpw"
+              element={
+                <Layout>
+                  <Forgotpassword />
+                </Layout>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </TransactionListContext.Provider>
     </CategoryContext.Provider>
   );
 }
+
+const Layout = ({ children }) => (
+  <div>
+    <SideNav />
+    {children}
+  </div>
+);
+
+const LayoutWithoutSideNav = ({ children }) => <div>{children}</div>;
 
 export default App;

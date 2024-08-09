@@ -109,3 +109,31 @@
     font-size: 1em; /* 본문 폰트 크기 */
   }
 }
+/* -------------------------------Footer-------------------------------- */
+.NoneFooter {
+  width: 100%;
+  height: 200px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  font-size: 14px;
+  border-top: 2px solid #896ccb;
+  margin: 0;
+}
+
+.NoneFooter .FooterNone-content {
+  text-align: left;
+  color: #777;
+  line-height: 1.7;
+}
+.FooterNone-content p:nth-child(2) {
+  margin-bottom: 20px;
+}
+
+.FooterNone-content span {
+  font-weight: 600;
+  color: rgb(88, 88, 88);
+}
+/* -------------------------------Footer-------------------------------- */
