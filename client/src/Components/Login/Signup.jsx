@@ -99,8 +99,11 @@ function Signup() {
 
     return (
         <div className="signup_section">
-            <h2 className="signup_title_text">회원가입</h2>
             <div className="signup_input_container">
+                <div className="signup_image_box">
+                    <img className="signup_img" src={process.env.PUBLIC_URL + `assets/logo/coincat.png`} alt="" />
+                </div>
+                <h2 className="signup_title_text">회원가입</h2>
                 <div className="input_box">
                     <h4 className="input_title">ID
                         <button onClick={checkId}>중복 확인</button></h4>
