@@ -1,16 +1,21 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import "./Modal.css";
 import Checkbox from "../../Ui/Checkbox";
-import { formatDate, formatTime, formatPrice, convertToCustomDateFormat } from "../../Utils/Utils";
+import { formatDate, formatTime, formatPrice, convertToCustomDateFormat, formatMonth } from "../../Utils/Utils";
 import { call } from "../service/ApiService";
-import { TransactionListContext,CategoryContext } from "../../App";
+import { TransactionListContext,CategoryContext,UserIdContext } from "../../App";
 
 export const AddDataModal = ({
   setAddModalOpen,
   expenseCategory,
   incomeCategory,
   assetsCategory,
+  selectedDate,
+  booleanCalendar,
+  calendarDate
 }) => {
+  console.log("============123")
+  console.log(calendarDate)
   const { getTransactionList } = useContext(TransactionListContext);
   const closeModal = () => {
     setAddModalOpen(false);
@@ -19,7 +24,7 @@ export const AddDataModal = ({
     setPopupTab(tab);
   };
   const [popupTab, setPopupTab] = useState("expense");
-  const [nowDate, setNowDate] = useState(formatDate(new Date()));
+  const [nowDate, setNowDate] = useState(() => booleanCalendar === "F" ? (formatDate(new Date())) : (formatDate(calendarDate)));
   const handleDateChange = (e) => {
     setNowDate(e.target.value);
   };
@@ -44,7 +49,7 @@ export const AddDataModal = ({
   const assetRef = useRef(null);
   const installmentRef = useRef(null);
   const descriptionRef = useRef(null);
-  const userId = "test123";
+  const userId = useContext(UserIdContext);
   // assetRef의 값이 변경될 때 상태 업데이트
   useEffect(() => {
     if (assetRef.current) {
@@ -91,7 +96,7 @@ export const AddDataModal = ({
         .then((response) => {
           console.log(response);
           setAddModalOpen(false);
-          getTransactionList();
+          getTransactionList(selectedDate,userId);
         })
         .catch((error) => console.error("저장 실패", error));
     }
@@ -338,6 +343,7 @@ export const DataDetailModal = ({
   incomeCategory,
   assetsCategory,
   filterData,
+  selectedDate
 }) => {
   const closeModal = () => {
     setDataDetailModalOpen(false);
@@ -358,7 +364,7 @@ export const DataDetailModal = ({
     formatTime(filterData.transactionDate)
   );
   const [installment, setInstallment] = useState(filterData.installment);
-  const userId = "test123";
+  const userId = useContext(UserIdContext);
   const categoryIdRef = useRef(filterData.categoryId);
   const assetRef = useRef(paymentType);
   const handlePopupTab = (tab) => {
@@ -395,7 +401,7 @@ export const DataDetailModal = ({
         .then((response) => {
           console.log(response);
           setDataDetailModalOpen(false);
-          getTransactionList();
+          getTransactionList(formatMonth(new Date(formData.transactionDate)),userId);
         })
         .catch((error) => console.error("수정 실패", error));
     }
@@ -612,13 +618,16 @@ export const DataDetailModal = ({
   );
 };
 
-export const CalendarDetailModal = ({data,onClose}) => {
+export const CalendarDetailModal = ({data,onClose,selectedDate,calendarDate}) => {
   const { getTransactionList } = useContext(TransactionListContext);
   const categoryList = useContext(CategoryContext);
+  const userId = useContext(UserIdContext);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [expenseCategory, setExpenseCategory] = useState([]);
   const [incomeCategory, setIncomeCategory] = useState([]);
   const [assetsCategory, setAssetsCategory] = useState([]);
+  console.log("selectedDate::::",selectedDate)
+  console.log("calendarDate::::",calendarDate)
   useEffect(() => {
     if (categoryList && categoryList.length > 0) {
       const expense = categoryList.filter(
@@ -638,10 +647,18 @@ export const CalendarDetailModal = ({data,onClose}) => {
   const deleteData = (id) => {
     const formDataArray = [{ transactionId: Number(id) }];
     console.log(formDataArray)
-    call("/transactions","DELETE",formDataArray)
+    const date = formatMonth(calendarDate);
+    const requestBody = {
+      transactions: formDataArray,
+      startDate:date.startDate,
+      endDate:date.endDate,
+      userId:userId,
+    };
+    console.log(requestBody)
+    call("/transactions","DELETE",requestBody)
     .then(() => {
         onClose();
-        getTransactionList();
+        getTransactionList(selectedDate,userId);
     }) 
     .catch(error => console.error("삭제 실패", error));
   }
@@ -678,7 +695,7 @@ export const CalendarDetailModal = ({data,onClose}) => {
           </table>
           <button className="add-btn" onClick={()=>setAddModalOpen(true)}>작성</button>
           {addModalOpen && <AddDataModal setAddModalOpen={setAddModalOpen} expenseCategory={expenseCategory}
-            incomeCategory={incomeCategory} assetsCategory={assetsCategory}/>}
+            incomeCategory={incomeCategory} assetsCategory={assetsCategory} selectedDate={selectedDate} booleanCalendar="T" calendarDate={calendarDate}/>}
           <button className="close-btn" onClick={onClose}>닫기</button>
       </div>
     </div>
