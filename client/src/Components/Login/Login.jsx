@@ -47,15 +47,15 @@ function Login() {
   return (
     <div className="login_section">
       <div className="login_title_container">
+        <div className="login_title_box">
+          {/* <h1 className="login_title_text">로그인</h1> */}
+        </div>
         <div className="login_image_box">
           <img
             className="login_img"
-            src={process.env.PUBLIC_URL + `assets/login/logo.png`}
+            src={process.env.PUBLIC_URL + `assets/logo/Thicklogo.png`}
             alt=""
           />
-        </div>
-        <div className="login_title_box">
-          <h1 className="login_title_text">로그인</h1>
         </div>
       </div>
       <div className="login_detail_wrapper">
@@ -88,25 +88,19 @@ function Login() {
         </div>
       </div>
       <div className="social_login_container">
-        <div className="social_login_title_box">
-          <h3 className="social_login_title">소셜 로그인</h3>
-        </div>
         <div className="social_login_button_box">
-          <div className="social_login_button">
-            <img
-              className="social_login_img"
-              src={process.env.PUBLIC_URL + `assets/login/Kakao_logo.png`}
-              alt=""
-            />
-          </div>
+          <button className="kakao_button">카카오톡 로그인</button>
         </div>
       </div>
       <div className="forgot-signup_container">
         <div className="forgot_pw_box">
-          <Link to="/forgotpw">비밀번호를 잊으셨나요?</Link>
+          {/* <Link to="/forgotpw">비밀번호를 잊으셨나요?</Link> */}
         </div>
         <div className="signup_button_box">
-          <Link to="/signup"> 회원가입</Link>
+          <Link to="/signup">
+            {" "}
+            <button className="signup_button"> 회원가입</button>
+          </Link>
         </div>
       </div>
     </div>
