@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { format, toZonedTime } from 'date-fns-tz';
+import { format, toZonedTime } from "date-fns-tz";
 
 import {
   createCategoryChart,
@@ -37,7 +37,7 @@ const MonthStatistics = () => {
   };
 
   const formatDateToISO = (date) => {
-    const timeZone = 'Asia/Seoul';
+    const timeZone = "Asia/Seoul";
     const zonedDate = toZonedTime(date, timeZone);
     return format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", { timeZone });
   };

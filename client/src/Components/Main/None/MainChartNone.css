@@ -1,0 +1,433 @@
+#Main-3None {
+  height: auto;
+}
+
+.Main3None-Content {
+  background-color: #f7f3fa;
+  height: 500px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.Main3None-Content-Container {
+  width: 65%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+}
+
+.Main3None-CheckBox {
+  width: 60%;
+}
+.Main3None-CheckBox p:nth-child(1) {
+  font-size: 18px;
+  color: #603693;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.Main3None-CheckBox p:nth-child(2) {
+  font-size: 25px;
+  line-height: 40px;
+  margin-bottom: 30px;
+  color: rgb(46, 46, 46);
+}
+
+.Main3None-CheckBox p:nth-child(3) {
+  font-size: 16px;
+  margin-bottom: 40px;
+  color: rgb(82, 82, 82);
+}
+.Main3None-CheckBox span {
+  color: black;
+  font-weight: bold;
+  position: relative;
+}
+
+.Main3None-CheckBox span:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  display: block;
+  bottom: -2px;
+  left: 0;
+  background: #603693;
+  transition: width 1.2s ease, right 0.2s ease;
+}
+
+.Main3None.fade-in .Main3None-CheckBox span:after {
+  width: 100%;
+  right: 0;
+}
+
+.Main3None-CheckBox button {
+  background-color: #896ccb;
+  border-radius: 30px;
+  padding: 15px 45px;
+  color: white;
+}
+
+.Main3None-ContentImg img {
+  width: 450px;
+  height: auto;
+}
+
+/* -----------------------------소개시작------------------------------------- */
+
+#Main-3None .Main3-Graph1 {
+  height: 70%;
+  width: 70%;
+  justify-content: space-between;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Main3None-Img img {
+  width: 800px;
+  height: auto;
+  margin-bottom: 50px;
+}
+
+.Main3None-Info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateX(100px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.Main3None-coment {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.Main3None-coment p {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(73, 73, 73);
+  margin-bottom: 10px;
+}
+
+.Main3None-coment span {
+  font-size: 25px;
+  color: #896ccb;
+}
+.Main3None-Img {
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.Main3None.fade-in .Main3None-Img {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.Main3None.fade-in .Main3None-Info {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.Main3None-Info h2 {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.Main3None-Info p:nth-child(2) {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(167, 167, 167);
+  margin-bottom: 20px;
+}
+
+/* -------------------------------Section4-------------------------------- */
+
+#Main-4None {
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#Main-4None .Main4-Graph2 {
+  height: 70%;
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* 하단 정렬 */
+  position: relative;
+}
+
+.Main4None-Infobox {
+  width: auto;
+  height: 500px;
+  padding: 0 50px;
+}
+.Main4None-Info {
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: opacity 0.3s ease-out, transform 0.5s ease-out;
+}
+.Main4None-Info h2 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+.Main4None-Info p:nth-child(2) {
+  font-size: 23px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  margin-bottom: 30px;
+  line-height: 40px;
+}
+
+.Main4None-Info p:nth-child(3) {
+  font-size: 18px;
+  line-height: 25px;
+  color: #603693;
+  font-weight: bold;
+}
+.Main4None-Infobox span {
+  color: #896ccb;
+}
+.Main4None-ImgBox {
+  width: auto;
+  height: 500px;
+  position: absolute;
+  right: -10%;
+  bottom: -20%;
+  opacity: 0;
+  transform: translateX(100px);
+  transition: opacity 0.3s ease-out, transform 0.5s ease-out;
+}
+
+.Main4None-Img img {
+  width: auto;
+  height: 500px;
+}
+.Main4-Graph2.fade-in .Main4None-Info {
+  opacity: 1;
+  transform: translate(0);
+}
+
+.Main4-Graph2.fade-in .Main4None-ImgBox {
+  opacity: 1;
+  transform: translate(0);
+}
+
+/* -------------------------------Section4-------------------------------- */
+/* -------------------------------Section5-------------------------------- */
+#Main-5None {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Main5None-Info {
+  width: 100%;
+  height: 100%;
+  background-color: #f7f3fa;
+  padding: 80px 0;
+}
+
+.Main5None-fadeup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(100px);
+  transition: opacity 0.3s ease-out, transform 0.5s ease-out;
+}
+
+.Main5None-Info-1 {
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Main5None-Info.fade-up .Main5None-fadeup {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.Main5None-Info h2 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.Main5None-flex {
+  display: flex;
+  position: relative;
+  width: 950px;
+  height: 400px;
+}
+
+.Main5None-flex1,
+.Main5None-flex2,
+.Main5None-flex3 {
+  background-color: #ffffff;
+  border-radius: 50%;
+  width: 350px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  border: 2px solid rgb(231, 231, 231);
+}
+.Main5None-flex1 {
+  left: 0;
+}
+.Main5None-flex2 {
+  right: 32%;
+}
+.Main5None-flex3 {
+  right: 0;
+}
+
+.Main5None-flex h3 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.Main5None-flex p {
+  font-size: 20px;
+  color: #4b4b4b;
+}
+
+.Main5None-Infoflex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: stretch;
+  width: 1200px;
+  height: 150px;
+  margin: 30px 0;
+  border: 1px solid rgb(231, 231, 231);
+  border-collapse: collapse;
+}
+
+.Main5None-Infoflex > div {
+  flex: 1;
+  border-right: 1px solid rgb(231, 231, 231);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.Main5None-Infoflex > div:last-child {
+  border-right: none;
+}
+
+.main5None-Infoflex1,
+.main5None-Infoflex2,
+.main5None-Infoflex3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main5None-Infoflex1,
+.main5None-Infoflex2 {
+  background-color: white;
+}
+
+.main5None-Infoflex3 {
+  background-color: #cbbcf1;
+}
+
+.Main5None-Infoflex h4 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.Main5None-Infoflex p {
+  text-align: center;
+  margin: 0;
+  color: #4b4b4b;
+}
+.Main5None-CheckBox {
+  height: 400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.Main5None-CheckBoxin {
+  width: 60%;
+  height: 100%;
+  position: relative;
+}
+
+.Main5None-CheckBox-img {
+  position: absolute;
+  left: -10%;
+  bottom: -6.5%;
+}
+
+.Main5None-CheckBox-img img {
+  width: 450px;
+  height: auto;
+}
+
+.Main5None-CheckBox-Info {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  position: absolute;
+  left: 25%;
+  top: 25%;
+}
+
+.Main5None-CheckBox p:nth-child(1) {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.Main5None-CheckBox p:nth-child(2) {
+  margin-bottom: 60px;
+  color: #4b4b4b;
+}
+
+.Main5None-CheckBox span {
+  color: #603693;
+}
+
+.Main5None-CheckBox button {
+  border: 2px solid #896ccb;
+  border-radius: 10px;
+  padding: 15px 45px;
+  margin: 0 20px;
+  font-weight: bold;
+  color: black;
+}
+
+.Main5None-CheckBox button:hover {
+  background-color: #e6e1f1;
+}
+/* -------------------------------Section5-------------------------------- */

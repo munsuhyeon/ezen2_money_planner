@@ -1,22 +1,32 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import './Transaction.css';
-import { AddDataModal, SearchModal, DataDetailModal } from '../../Components/Transaction/Modal';
-import { call } from '../../Components/service/ApiService';
-import { CategoryContext, TransactionListContext } from '../../App';
-import {convertToCustomDateFormat, formatPrice, formatMonth} from '../../Utils/Utils';
-import Checkbox from '../../Ui/Checkbox';
+import React, { useState, useEffect, useContext, useRef } from "react";
+import "./Transaction.css";
+import {
+  AddDataModal,
+  SearchModal,
+  DataDetailModal,
+} from "../../Components/Transaction/Modal";
+import { call } from "../../Components/service/ApiService";
+import { CategoryContext, TransactionListContext } from "../../App";
+import {
+  convertToCustomDateFormat,
+  formatPrice,
+  formatMonth,
+} from "../../Utils/Utils";
+import Checkbox from "../../Ui/Checkbox";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from "date-fns/locale/ko";
-const TransactionList = ({setTransactionList,originalList}) => {
-    const categoryList = useContext(CategoryContext);
-    const {transactionList,getTransactionList} = useContext(TransactionListContext);
-    useEffect(() => {
-        // 화면 재 랜더링하기
-    },[transactionList])
-    // 'expense'의 총 합계 계산
-    const totalExpense = transactionList
-    .filter(item => item.incomeType === 'expense')
+const TransactionList = ({ setTransactionList, originalList }) => {
+  const categoryList = useContext(CategoryContext);
+  const { transactionList, getTransactionList } = useContext(
+    TransactionListContext
+  );
+  useEffect(() => {
+    // 화면 재 랜더링하기
+  }, [transactionList]);
+  // 'expense'의 총 합계 계산
+  const totalExpense = transactionList
+    .filter((item) => item.incomeType === "expense")
     .reduce((sum, item) => sum + item.amount, 0);
 
   // 'income'의 총 합계 계산
@@ -109,203 +119,391 @@ const TransactionList = ({setTransactionList,originalList}) => {
       updatedChecked[item.transactionId] = !isAllChecked;
     });
 
-        setIsChecked(updatedChecked);
-        setIsAllChecked(!isAllChecked);
-    };
-    const deleteList = () => {
-        const keys = Object.keys(isChecked);
-        const formDataArray = keys.map(key => ({ transactionId: Number(key) }));
-        console.log(formDataArray)
-        window.confirm("삭제하시겠습니까?")
-        call("/transactions","DELETE",formDataArray)
-        .then((response) => {
-            //console.log(response)
-            if(isAllChecked){
-                setIsAllChecked(false)
-            }
-            getTransactionList();
-        }) 
-        .catch(error => console.error("삭제 실패", error));
-    }
-    const detailData = (id) => {
-        const filterItem = transactionList.filter((list) => id === list.transactionId)
-        //console.log(filterItem)
-        setFilterData(filterItem[0])
-        showModal("detailData")
-    }
-    /* 현재 날짜 선택 */
-    const datePickerRef = useRef();
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
-    const handleChange = async (date) => {
-        setSelectedDate(date)
-        const item = formatMonth(date);
-        getTransactionList(item)
-      };
-      // 날짜옆에 아래화살표 클릭해도 달력 펼쳐짐
-    const handleImgClick = () => {
-        if (datePickerRef.current) {
-            datePickerRef.current.click();
+    setIsChecked(updatedChecked);
+    setIsAllChecked(!isAllChecked);
+  };
+  const deleteList = () => {
+    const keys = Object.keys(isChecked);
+    const formDataArray = keys.map((key) => ({ transactionId: Number(key) }));
+    console.log(formDataArray);
+    window.confirm("삭제하시겠습니까?");
+    call("/transactions", "DELETE", formDataArray)
+      .then((response) => {
+        //console.log(response)
+        if (isAllChecked) {
+          setIsAllChecked(false);
         }
-      };
-      const downloadExcel = async  () => {
-        const date = formatMonth(selectedDate);
-        const baseUrl = process.env.REACT_APP_backend_HOST;
-        const api = "/transactions/excel"
-        const url = `${baseUrl}${api}`;
-        let headers = new Headers({
-            "Content-Type": "application/json",
-          });
-        let options = {
-            headers: headers,
-            method: "POST",
-            body: JSON.stringify(date)
-          };
-          const month = selectedDate.getMonth() + 1;
-          const year = selectedDate.getFullYear();
-          try {
-            const response = await fetch(url, options);
-            if (response.ok) {
-              const blob = await response.blob();
-              const downloadUrl = window.URL.createObjectURL(new Blob([blob]));
-              const link = document.createElement("a");
-              link.href = downloadUrl;
-              link.setAttribute("download", `${year}년${month}월달 가계부 내역.xlsx`);
-              document.body.appendChild(link);
-              link.click();
-              link.remove();
-              alert("파일이 저장되었습니다")
-            }  else {
-              throw new Error(response.statusText);
-            }
-          } catch (error) {
-            console.error("엑셀 저장 API Call 에러 ::: ", error);
-          }
-
+        getTransactionList();
+      })
+      .catch((error) => console.error("삭제 실패", error));
+  };
+  const detailData = (id) => {
+    const filterItem = transactionList.filter(
+      (list) => id === list.transactionId
+    );
+    //console.log(filterItem)
+    setFilterData(filterItem[0]);
+    showModal("detailData");
+  };
+  /* 현재 날짜 선택 */
+  const datePickerRef = useRef();
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const handleChange = async (date) => {
+    setSelectedDate(date);
+    const item = formatMonth(date);
+    getTransactionList(item);
+  };
+  // 날짜옆에 아래화살표 클릭해도 달력 펼쳐짐
+  const handleImgClick = () => {
+    if (datePickerRef.current) {
+      datePickerRef.current.click();
+    }
+  };
+  const downloadExcel = async () => {
+    const date = formatMonth(selectedDate);
+    const baseUrl = process.env.REACT_APP_backend_HOST;
+    const api = "/transactions/excel";
+    const url = `${baseUrl}${api}`;
+    let headers = new Headers({
+      "Content-Type": "application/json",
+    });
+    let options = {
+      headers: headers,
+      method: "POST",
+      body: JSON.stringify(date),
+    };
+    const month = selectedDate.getMonth() + 1;
+    const year = selectedDate.getFullYear();
+    try {
+      const response = await fetch(url, options);
+      if (response.ok) {
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.setAttribute("download", `${year}년${month}월달 가계부 내역.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        alert("파일이 저장되었습니다");
+      } else {
+        throw new Error(response.statusText);
       }
-    return(
-            <div className="transcation" id="transcation">
-            <div className="content-header">
-                <h2 className="date-button">
-                    <DatePicker selected={selectedDate} onChange={handleChange} dateFormat="yyyy년 MM월" showMonthYearPicker locale={ko} ref={datePickerRef}/>
-                    <img src={process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`} alt="arrow-down" className="arrow-down" onClick={handleImgClick}/>
-                </h2>
-                <div className="btn-wrap">
-                    <div className="add-data" id="add-data" onClick={() => {showModal('addData')}}>
-                        <img src={process.env.PUBLIC_URL + `assets/plus-svgrepo-com.svg`} alt="plus"/>
-                    </div>
-                    <div className="circle-btn" id="search-btn" onClick={() => {showModal('search')}}>
-                        <img src={process.env.PUBLIC_URL + `assets/search-svgrepo-com.svg`} alt="search"/>
-                    </div>
-                    <div className="circle-btn" id="delete-btn" onClick={deleteList}>
-                        <img src={process.env.PUBLIC_URL + `assets/trash-bin-trash-svgrepo-com.svg`} alt="trash"/>
-                    </div>
-                    <div className="circle-btn" onClick={downloadExcel}>
-                        <img src={process.env.PUBLIC_URL + `assets/excel2-svgrepo-com.svg`} alt="excel"/>
-                    </div>
-                </div>
-            </div>
-            <div className="table-content">
-                <div className="tabs">
-                    <button className={`tab ${activeTab === 'all' ? 'active' : ''}`} onClick={() => handleTabClick('all')}>전체 ({countTotal})<br/><span className={`${totalAmount < 0 ? 'tab_expense' : 'tab_income'}`}>{formatPrice(totalAmount)} 원</span></button>
-                    <button className={`tab ${activeTab === 'income' ? 'active' : ''}`} onClick={() => handleTabClick('income')}>수입 ({countIncome})<br/><span className="tab_income">{formatPrice(totalIncome)} 원</span></button>
-                    <button className={`tab ${activeTab === 'expense' ? 'active' : ''}`} onClick={() => handleTabClick('expense')}>지출 ({countExpense})<span className="tab_expense">-{formatPrice(totalExpense)} 원</span></button>
-                </div>
-                <div>
-                    <table className="transcation-table">
-                        <thead>
-                            <tr>
-                                <th><Checkbox id="checkbox-all" checked={isAllChecked} onChange={(event) => handleAllCheckboxChange(event)}/>
-                                </th>
-                                <th>날짜</th>
-                                <th>자산</th>
-                                <th>분류</th>
-                                <th>금액</th>
-                                <th>내용</th>
-                                <th>할부</th>
-                            </tr>
-                        </thead>
-                        <tbody id="all" className="tab-content" style={{ display: activeTab === 'all' ? 'table-row-group' : 'none' }}>
-                                {transactionList && transactionList.length > 0 ? (
-                                    transactionList.map((item) => (
-                                        <tr key={item.transactionId} >
-                                            <td><Checkbox id={item.transactionId} checked={isChecked[item.transactionId] || false}  onChange={(event) => handleCheckboxChange(event, item.transactionId)}/></td>
-                                            <td onClick={() => detailData(item.transactionId)} style={{cursor:'pointer'}}>{convertToCustomDateFormat(item.transactionDate)}</td>
-                                            <td>{item.paymentType === 'card' ? '카드':'현금'}</td>
-                                            <td>{item.categoryName}</td>
-                                            <td className={`${item.incomeType === 'expense' ? 'tab_expense' : 'tab_income'}`}>{item.incomeType === 'expense' ? '-'+formatPrice(item.amount) : '+'+formatPrice(item.amount)}</td>
-                                            <td>{item.description}</td>
-                                            <td>{item.incomeType === 'income' ? '' : item.incomeType === "expense" && item.installment == 0 ? '일시불':item.installment +`개월`}</td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="7" className="no-data">
-                                            <div className="no-data-text">
-                                                데이터가 없습니다.
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )}
-                        </tbody>
-                        <tbody id="income" className="tab-content" style={{ display: activeTab === 'income' ? 'table-row-group' : 'none' }}>
-                            {transactionList && transactionList.filter(list => list.incomeType === 'income').length > 0 ? (
-                                transactionList.filter(list => list.incomeType === 'income').map((item) => (
-                                    <tr key={item.transactionId}>
-                                            <td><Checkbox id={item.transactionId} checked={isChecked[item.transactionId] || false}  onChange={(event) => handleCheckboxChange(event, item.transactionId)}/></td>
-                                            <td>{convertToCustomDateFormat(item.transactionDate)}</td>
-                                            <td>{item.paymentType == 'card' ? '카드':'현금'}</td>
-                                            <td>{item.categoryName}</td>
-                                            <td className={`${item.incomeType === 'expense' ? 'tab_expense' : 'tab_income'}`}>{item.incomeType === 'expense' ? '-'+formatPrice(item.amount) : '+'+formatPrice(item.amount)}</td>
-                                            <td>{item.description}</td>
-                                            <td>{item.incomeType === 'income' ? '' : item.incomeType === "expense" && item.installment == 0 ? '일시불':item.installment +`개월`}</td>
-                                        </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                        <td colSpan="7" className="no-data">
-                                            <div className="no-data-text">
-                                                데이터가 없습니다.
-                                            </div>
-                                        </td>
-                                    </tr>
-                            )}
-                        </tbody>
-                        <tbody id="expense" className="tab-content" style={{ display: activeTab === 'expense' ? 'table-row-group' : 'none' }}>
-                        {transactionList && transactionList.filter(list => list.incomeType === 'expense').length > 0 ? (
-                                transactionList.filter(list => list.incomeType === 'expense').map((item) => (
-                                    <tr key={item.transactionId}>
-                                            <td><Checkbox id={item.transactionId} checked={isChecked[item.transactionId] || false}  onChange={(event) => handleCheckboxChange(event, item.transactionId)}/></td>
-                                            <td>{convertToCustomDateFormat(item.transactionDate)}</td>
-                                            <td>{item.paymentType == 'card' ? '카드':'현금'}</td>
-                                            <td>{item.categoryName}</td>
-                                            <td className={`${item.incomeType === 'expense' ? 'tab_expense' : 'tab_income'}`}>{item.incomeType === 'expense' ? '-'+formatPrice(item.amount) : '+'+formatPrice(item.amount)}</td>
-                                            <td>{item.description}</td>
-                                            <td>{item.incomeType === 'income' ? '' : item.incomeType === "expense" && item.installment == 0 ? '일시불':item.installment +`개월`}</td>
-                                        </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                        <td colSpan="7" className="no-data">
-                                            <div className="no-data-text">
-                                                데이터가 없습니다.
-                                            </div>
-                                        </td>
-                                    </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        
-        {addModalOpen && <AddDataModal setAddModalOpen={setAddModalOpen} expenseCategory={expenseCategory}
-        incomeCategory={incomeCategory} assetsCategory={assetsCategory}/>}
+    } catch (error) {
+      console.error("엑셀 저장 API Call 에러 ::: ", error);
+    }
+  };
+  return (
+    <div className="transcation" id="transcation">
+      <div className="content-header">
+        <h2 className="date-button">
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleChange}
+            dateFormat="yyyy년 MM월"
+            showMonthYearPicker
+            locale={ko}
+            ref={datePickerRef}
+          />
+          <img
+            src={process.env.PUBLIC_URL + `assets/arrow-down-2-svgrepo-com.svg`}
+            alt="arrow-down"
+            className="arrow-down"
+            onClick={handleImgClick}
+          />
+        </h2>
+        <div className="btn-wrap">
+          <div
+            className="add-data"
+            id="add-data"
+            onClick={() => {
+              showModal("addData");
+            }}
+          >
+            <img
+              src={process.env.PUBLIC_URL + `assets/plus-svgrepo-com.svg`}
+              alt="plus"
+            />
+          </div>
+          <div
+            className="circle-btn"
+            id="search-btn"
+            onClick={() => {
+              showModal("search");
+            }}
+          >
+            <img
+              src={process.env.PUBLIC_URL + `assets/search-svgrepo-com.svg`}
+              alt="search"
+            />
+          </div>
+          <div className="circle-btn" id="delete-btn" onClick={deleteList}>
+            <img
+              src={
+                process.env.PUBLIC_URL +
+                `assets/trash-bin-trash-svgrepo-com.svg`
+              }
+              alt="trash"
+            />
+          </div>
+          <div className="circle-btn" onClick={downloadExcel}>
+            <img
+              src={process.env.PUBLIC_URL + `assets/excel2-svgrepo-com.svg`}
+              alt="excel"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="table-content">
+        <div className="tabs">
+          <button
+            className={`tab ${activeTab === "all" ? "active" : ""}`}
+            onClick={() => handleTabClick("all")}
+          >
+            전체 ({countTotal})<br />
+            <span
+              className={`${totalAmount < 0 ? "tab_expense" : "tab_income"}`}
+            >
+              {formatPrice(totalAmount)} 원
+            </span>
+          </button>
+          <button
+            className={`tab ${activeTab === "income" ? "active" : ""}`}
+            onClick={() => handleTabClick("income")}
+          >
+            수입 ({countIncome})<br />
+            <span className="tab_income">{formatPrice(totalIncome)} 원</span>
+          </button>
+          <button
+            className={`tab ${activeTab === "expense" ? "active" : ""}`}
+            onClick={() => handleTabClick("expense")}
+          >
+            지출 ({countExpense})
+            <span className="tab_expense">-{formatPrice(totalExpense)} 원</span>
+          </button>
+        </div>
+        <div>
+          <table className="transcation-table">
+            <thead>
+              <tr>
+                <th>
+                  <Checkbox
+                    id="checkbox-all"
+                    checked={isAllChecked}
+                    onChange={(event) => handleAllCheckboxChange(event)}
+                  />
+                </th>
+                <th>날짜</th>
+                <th>자산</th>
+                <th>분류</th>
+                <th>금액</th>
+                <th>내용</th>
+                <th>할부</th>
+              </tr>
+            </thead>
+            <tbody
+              id="all"
+              className="tab-content"
+              style={{
+                display: activeTab === "all" ? "table-row-group" : "none",
+              }}
+            >
+              {transactionList && transactionList.length > 0 ? (
+                transactionList.map((item) => (
+                  <tr key={item.transactionId}>
+                    <td>
+                      <Checkbox
+                        id={item.transactionId}
+                        checked={isChecked[item.transactionId] || false}
+                        onChange={(event) =>
+                          handleCheckboxChange(event, item.transactionId)
+                        }
+                      />
+                    </td>
+                    <td
+                      onClick={() => detailData(item.transactionId)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {convertToCustomDateFormat(item.transactionDate)}
+                    </td>
+                    <td>{item.paymentType === "card" ? "카드" : "현금"}</td>
+                    <td>{item.categoryName}</td>
+                    <td
+                      className={`${
+                        item.incomeType === "expense"
+                          ? "tab_expense"
+                          : "tab_income"
+                      }`}
+                    >
+                      {item.incomeType === "expense"
+                        ? "-" + formatPrice(item.amount)
+                        : "+" + formatPrice(item.amount)}
+                    </td>
+                    <td>{item.description}</td>
+                    <td>
+                      {item.incomeType === "income"
+                        ? ""
+                        : item.incomeType === "expense" && item.installment == 0
+                        ? "일시불"
+                        : item.installment + `개월`}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="no-data">
+                    <div className="no-data-text">데이터가 없습니다.</div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+            <tbody
+              id="income"
+              className="tab-content"
+              style={{
+                display: activeTab === "income" ? "table-row-group" : "none",
+              }}
+            >
+              {transactionList &&
+              transactionList.filter((list) => list.incomeType === "income")
+                .length > 0 ? (
+                transactionList
+                  .filter((list) => list.incomeType === "income")
+                  .map((item) => (
+                    <tr key={item.transactionId}>
+                      <td>
+                        <Checkbox
+                          id={item.transactionId}
+                          checked={isChecked[item.transactionId] || false}
+                          onChange={(event) =>
+                            handleCheckboxChange(event, item.transactionId)
+                          }
+                        />
+                      </td>
+                      <td>{convertToCustomDateFormat(item.transactionDate)}</td>
+                      <td>{item.paymentType == "card" ? "카드" : "현금"}</td>
+                      <td>{item.categoryName}</td>
+                      <td
+                        className={`${
+                          item.incomeType === "expense"
+                            ? "tab_expense"
+                            : "tab_income"
+                        }`}
+                      >
+                        {item.incomeType === "expense"
+                          ? "-" + formatPrice(item.amount)
+                          : "+" + formatPrice(item.amount)}
+                      </td>
+                      <td>{item.description}</td>
+                      <td>
+                        {item.incomeType === "income"
+                          ? ""
+                          : item.incomeType === "expense" &&
+                            item.installment == 0
+                          ? "일시불"
+                          : item.installment + `개월`}
+                      </td>
+                    </tr>
+                  ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="no-data">
+                    <div className="no-data-text">데이터가 없습니다.</div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+            <tbody
+              id="expense"
+              className="tab-content"
+              style={{
+                display: activeTab === "expense" ? "table-row-group" : "none",
+              }}
+            >
+              {transactionList &&
+              transactionList.filter((list) => list.incomeType === "expense")
+                .length > 0 ? (
+                transactionList
+                  .filter((list) => list.incomeType === "expense")
+                  .map((item) => (
+                    <tr key={item.transactionId}>
+                      <td>
+                        <Checkbox
+                          id={item.transactionId}
+                          checked={isChecked[item.transactionId] || false}
+                          onChange={(event) =>
+                            handleCheckboxChange(event, item.transactionId)
+                          }
+                        />
+                      </td>
+                      <td>{convertToCustomDateFormat(item.transactionDate)}</td>
+                      <td>{item.paymentType == "card" ? "카드" : "현금"}</td>
+                      <td>{item.categoryName}</td>
+                      <td
+                        className={`${
+                          item.incomeType === "expense"
+                            ? "tab_expense"
+                            : "tab_income"
+                        }`}
+                      >
+                        {item.incomeType === "expense"
+                          ? "-" + formatPrice(item.amount)
+                          : "+" + formatPrice(item.amount)}
+                      </td>
+                      <td>{item.description}</td>
+                      <td>
+                        {item.incomeType === "income"
+                          ? ""
+                          : item.incomeType === "expense" &&
+                            item.installment == 0
+                          ? "일시불"
+                          : item.installment + `개월`}
+                      </td>
+                    </tr>
+                  ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="no-data">
+                    <div className="no-data-text">데이터가 없습니다.</div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-        {searchModalOpen && <SearchModal setSearchModalOpen={setSearchModalOpen} expenseCategory={expenseCategory} originalList={originalList}
-        incomeCategory={incomeCategory} assetsCategory={assetsCategory} installmentCategory={installmentCategory} setTransactionList={setTransactionList}/>}
+      {addModalOpen && (
+        <AddDataModal
+          setAddModalOpen={setAddModalOpen}
+          expenseCategory={expenseCategory}
+          incomeCategory={incomeCategory}
+          assetsCategory={assetsCategory}
+        />
+      )}
 
-        {dataDetailModalOpen && <DataDetailModal setDataDetailModalOpen={setDataDetailModalOpen} expenseCategory={expenseCategory}
-        incomeCategory={incomeCategory} assetsCategory={assetsCategory} filterData={filterData}/>}
-        </div>       
-    )
-}
+      {searchModalOpen && (
+        <SearchModal
+          setSearchModalOpen={setSearchModalOpen}
+          expenseCategory={expenseCategory}
+          originalList={originalList}
+          incomeCategory={incomeCategory}
+          assetsCategory={assetsCategory}
+          installmentCategory={installmentCategory}
+          setTransactionList={setTransactionList}
+        />
+      )}
+
+      {dataDetailModalOpen && (
+        <DataDetailModal
+          setDataDetailModalOpen={setDataDetailModalOpen}
+          expenseCategory={expenseCategory}
+          incomeCategory={incomeCategory}
+          assetsCategory={assetsCategory}
+          filterData={filterData}
+        />
+      )}
+    </div>
+  );
+};
 export default TransactionList;

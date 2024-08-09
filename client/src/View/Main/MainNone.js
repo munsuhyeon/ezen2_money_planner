@@ -1,11 +1,10 @@
-import MainChart from "../../Components/Main/MainChart.js";
-import MainChart2 from "../../Components/Main/MainChart2.js";
-import MainChart3 from "../../Components/Main/MainChart3.js";
-import "./Main.css";
+import MainChartNone from "../../Components/Main/None/MainChartNone.js";
+import MainChart2None from "../../Components/Main/None/MainChart2None.js";
+import MainChart3None from "../../Components/Main/None/MainChart3None.js";
+import "./MainNone.css";
 import Scroll from "../../Components/ScrollTop&Bottom/Scroll.js";
-import SideNav from "../../Components/SideNav/SideNav.js";
 import ScrollHandler from "../../Hooks/Main/ScrollEvent.js";
-import MainTip from "../../Components/Main/MainTip.js";
+
 import Footer from "../../Components/Footer/Footer.js";
 
 const Main = () => {
@@ -14,9 +13,8 @@ const Main = () => {
   return (
     <>
       <Scroll />
-      <SideNav />
       {/* -- -------------------------------Section1-------------------------------- -- */}
-      <section id="Main-1">
+      <section id="Main-1None">
         <div className="Main1-Info">
           <p>지출은 계획적으로!</p>
           <p>
@@ -31,7 +29,7 @@ const Main = () => {
       </section>
       {/* -- -------------------------------Section1-------------------------------- -- */}
       {/* -- -------------------------------Section2-------------------------------- -- */}
-      <section id="Main-2" ref={main2Ref}>
+      <section id="Main-2None" ref={main2Ref}>
         <div className="Main-Allcard">
           <div className="Main2_card">
             <img src="/assets/Main/TransactionList.png" alt="Card 1" />
@@ -61,11 +59,22 @@ const Main = () => {
         </div>
       </section>
       {/* -- -------------------------------Section2-------------------------------- -- */}
-      <MainChart />
-      <MainChart2 />
-      <MainChart3 />
-      <MainTip />
-      <Footer />
+      <MainChartNone />
+      <MainChart2None />
+      <MainChart3None />
+      <footer className="NoneFooter">
+        <div className="FooterNone-content">
+          <p>
+            본사 <span>인천 남동구 인주대로 593 12층</span> | 대표이사
+            <span>TEAM2</span> | 사업자등록번호 <span>2024-07-15</span>
+          </p>
+          <p>ⓒ 2024 ㈜모으냥</p>
+          <p>
+            서비스 이용약관 | 개인정보 처리방침 | 민원센터 | 제휴문의
+            <span>TEAM2@모으냥.com</span>
+          </p>
+        </div>
+      </footer>
     </>
   );
 };

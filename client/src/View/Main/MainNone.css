@@ -1,64 +1,23 @@
 /* -------------------------------Section1-------------------------------- */
-#Main-1 {
-  width: calc(100% - 250px);
+#Main-1None {
+  width: 100%;
   height: 100%;
-  margin-left: 250px;
 }
-.Main_Img {
+#Main-1None .Main_Img {
   width: 100%;
   height: 100vh; /* 전체 뷰포트 높이를 차지하도록 설정 */
   background-image: url("../../../public/assets/Main/mainbackground.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.Main1-Info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: absolute;
-  top: 34%;
-  left: 22%;
-}
-
-.Main1-Info p {
-  font-size: 50px;
-  margin-bottom: 10px;
-}
-
-.Main1-Info p:nth-child(2) {
-  font-weight: bold;
-}
-
-.Main1-Info p span {
-  font-size: 55px;
-  font-weight: 900;
-  color: #896ccb;
-}
-
-.Main1-Info p:nth-child(3) {
-  font-size: 20px;
-  color: #777;
-}
-
-.Main1-Info .Main1-ka {
-  font-size: 20px;
-  color: #896ccb;
-}
-
-.Main1-Info .Main1-ex {
-  font-size: 20px;
-  color: #896ccb;
+  margin-left: 0;
 }
 /* -------------------------------Section1-------------------------------- */
 /* -------------------------------Section2-------------------------------- */
 
-#Main-2 {
-  width: calc(100% - 250px);
-  height: calc(100vh - 60px);
-  margin-left: 250px;
-  padding: 200px 0 0;
+#Main-2None {
+  height: calc(100vh - 150px);
+  padding: 150px 0 0;
   background-image: url(../../../public/assets/Main/background1.jpg);
   background-repeat: no-repeat;
   background-size: contain;
@@ -66,14 +25,14 @@
   background-position: 50% 50%; /* 퍼센트로 위치 지정 */
 }
 
-.Main-Allcard {
+#Main-2None .Main-Allcard {
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
   width: 80%;
 }
 
-.Main2_card {
+#Main-2None .Main2_card {
   width: 250px;
   margin: 0 40px;
   opacity: 0;
@@ -82,41 +41,41 @@
   transition: opacity 0.3s ease-out, transform 0.5s ease-out;
 }
 
-.Main2_card.fade-up {
+#Main-2None .Main2_card.fade-up {
   opacity: 1;
   transform: translateY(0);
 }
 
-.Main2_card img {
+#Main-2None .Main2_card img {
   width: 250px;
 }
 
-.Main2_card h5 {
+#Main-2None .Main2_card h5 {
   padding: 30px 0;
   font-size: 20px;
   font-weight: 600;
   line-height: 31px;
 }
 
-.Main2_card p {
+#Main-2None .Main2_card p {
   font-size: 16px;
   color: #777;
 }
 
 /* 카드별 딜레이 설정 */
-.Main2_card:nth-child(1) {
+#Main-2None .Main2_card:nth-child(1) {
   transition-delay: 0.1s;
 }
 
-.Main2_card:nth-child(2) {
+#Main-2None .Main2_card:nth-child(2) {
   transition-delay: 0.3s;
 }
 
-.Main2_card:nth-child(3) {
+#Main-2None .Main2_card:nth-child(3) {
   transition-delay: 0.5s;
 }
 
-.Main2_card:nth-child(4) {
+#Main-2None .Main2_card:nth-child(4) {
   transition-delay: 0.7s;
 }
 /* -------------------------------Section2-------------------------------- */
@@ -150,3 +109,31 @@
     font-size: 1em; /* 본문 폰트 크기 */
   }
 }
+/* -------------------------------Footer-------------------------------- */
+.NoneFooter {
+  width: 100%;
+  height: 200px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  font-size: 14px;
+  border-top: 2px solid #896ccb;
+  margin: 0;
+}
+
+.NoneFooter .FooterNone-content {
+  text-align: left;
+  color: #777;
+  line-height: 1.7;
+}
+.FooterNone-content p:nth-child(2) {
+  margin-bottom: 20px;
+}
+
+.FooterNone-content span {
+  font-weight: 600;
+  color: rgb(88, 88, 88);
+}
+/* -------------------------------Footer-------------------------------- */

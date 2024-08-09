@@ -11,7 +11,7 @@ const SideNav = () => {
   const item = formatMonth(new Date());
   const navItems = [
     {
-      to: "/",
+      to: "/main",
       imgSrc: "/assets/sideNav/document-svgrepo-com.svg",
       imgAlt: "대시보드아이콘",
       text: "대시보드",
