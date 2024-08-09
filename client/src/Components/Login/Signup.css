@@ -40,7 +40,7 @@ margin-bottom: 2rem;
 
 /* 가입 정보 기재 박스 */
 .signup_section .signup_input_container .input_box {
-    padding-bottom: 2rem;
+    padding-bottom: 1.5rem;
 }
 
 .signup_section .signup_input_container .input_box:last-child{
@@ -75,15 +75,13 @@ margin-bottom: 2rem;
 
 /* 가입하기 버튼 */
 .signup_section .signup_button_container .signup_button_box {
-    display: grid;
-    justify-content: end;
     padding: 0 4px 0 0;
 }
 
 .signup_section .signup_button_container .signup_button_box .signup_button {
     background-color: #603693;
     color: white;
-    width: 135px;
+    width: 100%;
     height: 55px;
     text-align: center;
     font-size: 18px;

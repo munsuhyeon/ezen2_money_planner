@@ -41,7 +41,7 @@ function Login() {
             localStorage.setItem('user', JSON.stringify(data));
 
             // 홈 페이지로 이동
-            navigate('/');
+            navigate('/main');
         } catch (error) {
             console.error('로그인 오류:', error);
             setError("아이디나 비밀번호가 올바르지 않습니다."); // 에러 메시지 설정
