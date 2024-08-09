@@ -6,7 +6,7 @@
 #Main-1None .Main_Img {
   width: 100%;
   height: 100vh; /* 전체 뷰포트 높이를 차지하도록 설정 */
-  background-image: url("../../../public/assets/Main/test.png");
+  background-image: url("../../../public/assets/Main/mainbackground.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -17,6 +17,16 @@ const Main = () => {
       <SideNav />
       {/* -- -------------------------------Section1-------------------------------- -- */}
       <section id="Main-1">
+        <div className="Main1-Info">
+          <p>지출은 계획적으로!</p>
+          <p>
+            재정의 첫걸음, <span>모으냥</span>
+          </p>
+          <p>
+            <span className="Main1-ka">카카오톡</span>으로 로그인하고,
+            <span className="Main1-ex"> 엑셀</span>로 저장해보세요!
+          </p>
+        </div>
         <div className="Main_Img"></div>
       </section>
       {/* -- -------------------------------Section1-------------------------------- -- */}
