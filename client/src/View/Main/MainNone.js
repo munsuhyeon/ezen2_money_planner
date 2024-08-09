@@ -5,8 +5,6 @@ import "./MainNone.css";
 import Scroll from "../../Components/ScrollTop&Bottom/Scroll.js";
 import ScrollHandler from "../../Hooks/Main/ScrollEvent.js";
 
-import Footer from "../../Components/Footer/Footer.js";
-
 const Main = () => {
   const { main2Ref } = ScrollHandler();
 
