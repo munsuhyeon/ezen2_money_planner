@@ -6,8 +6,7 @@ import { faBell } from "@fortawesome/free-regular-svg-icons";
 import ScrollEvent from "../../Hooks/Main/ScrollEvent";
 // 날짜 계산을 위해 date-fns 라이브러리를 불러옵니다.
 import { startOfMonth, endOfMonth } from "date-fns";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 // 새로고침시 안읽은 알림이 아닌 새로운 알림만 뱃지로 추가해줌
 
@@ -227,7 +226,6 @@ const Header = () => {
     localStorage.setItem(`${userId}`, JSON.stringify(updatedNotifications));
     // 알림 목록을 업데이트합니다.
 
-
     // 상태 업데이트
     setNotifications(updatedNotifications);
     // 읽지 않은 알림의 수를 업데이트합니다.
@@ -236,51 +234,64 @@ const Header = () => {
     );
   };
 
-  // 로그인 여부 확인 
-  const [loggedIn, setLoggedIn] = useState(false)
+  // 로그인 여부 확인
+  const [loggedIn, setLoggedIn] = useState(false);
   // console.log(user)
   useEffect(() => {
-    // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.  
+    // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.
     const user = localStorage.getItem("user");
     // user의 데이터가 있다면 loggedIn = true, 데이터가 없다면 loggedIn = false
     if (user) {
-      setLoggedIn(true)
+      setLoggedIn(true);
     } else {
-      setLoggedIn(false)
+      setLoggedIn(false);
     }
-  })
+  });
 
   const navigate = useNavigate();
 
   // 로그아웃 함수
   function reqLogout() {
     // 로컬스토리지에서 사용자 데이터를 제거함으로 로그아웃
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
     alert("로그아웃 되었습니다.");
     // 로그아웃후 로그인페이지로 이동
-    navigate('/login');
-
+    navigate("/login");
   }
 
   // 로그아웃 버튼에 들어갈 로그인페이지로 이동 함수
 
   function loginPage() {
-    navigate('/login')
-  };
+    navigate("/login");
+  }
 
   return (
     <header ref={headerRef}>
       <div className="Header_div">
         <div>
-          <a href="/">
-            <img src="/assets/logo/Thicklogo.png" alt="모으냥로고" />
-          </a>
+          {loggedIn ? (
+            <a href="/main">
+              <img src="/assets/logo/Thicklogo.png" alt="모으냥로고" />
+            </a>
+          ) : (
+            <a href="/">
+              <img src="/assets/logo/Thicklogo.png" alt="모으냥로고" />
+            </a>
+          )}
         </div>
         <div>
           <ul className="Header_Right">
             <li>닉네임</li>
             <li>
-              {loggedIn ? (<button className="Header_logout" onClick={reqLogout}>로그아웃</button>) : (<button className="Header_logout" onClick={loginPage}>로그인</button>)}
+              {loggedIn ? (
+                <button className="Header_logout" onClick={reqLogout}>
+                  로그아웃
+                </button>
+              ) : (
+                <button className="Header_logout" onClick={loginPage}>
+                  로그인
+                </button>
+              )}
             </li>
             <li>
               <FontAwesomeIcon
@@ -296,8 +307,9 @@ const Header = () => {
                 </div>
               )}
               <div
-                className={`notification ${isNotificationVisible ? "active" : ""
-                  }`}
+                className={`notification ${
+                  isNotificationVisible ? "active" : ""
+                }`}
                 ref={notificationRef}
               >
                 <div className="notification-header">

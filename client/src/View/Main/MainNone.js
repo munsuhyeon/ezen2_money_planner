@@ -5,8 +5,6 @@ import "./MainNone.css";
 import Scroll from "../../Components/ScrollTop&Bottom/Scroll.js";
 import ScrollHandler from "../../Hooks/Main/ScrollEvent.js";
 
-import Footer from "../../Components/Footer/Footer.js";
-
 const Main = () => {
   const { main2Ref } = ScrollHandler();
 
@@ -40,7 +38,7 @@ const Main = () => {
             </p>
           </div>
           <div className="Main2_card">
-            <img src="/assets/Main/ttest.png" alt="Card 2" />
+            <img src="/assets/Main/calendar.png" alt="Card 2" />
             <h5>달력으로도 편하게 확인할 수 있습니다.</h5>
             <p>날짜 별로 보기 쉬워 일별 지출을 한 눈에 확인할 수 있습니다.</p>
           </div>
@@ -70,7 +68,7 @@ const Main = () => {
           </p>
           <p>ⓒ 2024 ㈜모으냥</p>
           <p>
-            서비스 이용약관 | 개인정보 처리방침 | 민원센터 | 제휴문의
+            서비스 이용약관 | 개인정보 처리방침 | 제휴문의
             <span>TEAM2@모으냥.com</span>
           </p>
         </div>
