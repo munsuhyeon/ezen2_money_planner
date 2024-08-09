@@ -1,14 +1,46 @@
 import Chart from "chart.js/auto";
 
-export const createCategoryChart = () => {
+let categoryChartInstance = null;
+let weekPayInstance = null;
+let dayPayInstance = null;
+
+const destroyChart = (chartInstance) => {
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+};
+
+const transformData1 = (data) => {
+  const labels = data.map((item) => item.categoryName || item.label);
+  const values = data.map((item) => item.amount || item.value);
+  return { labels, values };
+};
+
+const transformData2 = (data) => {
+  const labels = data.map((item) => item.weekRange || item.label);
+  const values = data.map((item) => item.totalExpense || item.value);
+  return { labels, values };
+};
+
+const transformData3 = (data) => {
+  const labels = data.map((item) => item.dayOfWeek || item.label);
+  const values = data.map((item) => item.totalAmount || item.value);
+  return { labels, values };
+};
+
+export const createCategoryChart = (data) => {
   const ctx = document.getElementById("week_category_chart");
-  return new Chart(ctx, {
+  console.log("크아아아아악:", data);
+  destroyChart(categoryChartInstance);
+  const { labels, values } = transformData1(data);
+
+  categoryChartInstance = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: ["식비", "주거비", "교통비", "의료비", "여가비", "기타"],
+      labels: labels,
       datasets: [
         {
-          data: [25000, 25000, 10000, 15000, 15000, 10000],
+          data: values,
           backgroundColor: [
             "rgba(255, 99, 132, 0.6)",
             "rgba(54, 162, 235, 0.6)", 
@@ -75,15 +107,19 @@ export const createCategoryChart = () => {
   });
 };
 
-export const createWeekPayChart = () => {
+export const createWeekPayChart = (data) => {
   const wpctx = document.getElementById("week_pay");
-  return new Chart(wpctx, {
+  console.log("크아아아아악:", data);
+  destroyChart(weekPayInstance);
+  const { labels, values } = transformData2(data);
+
+  weekPayInstance = new Chart(wpctx, {
     type: "bar",
     data: {
-      labels: ["7월 1주차", "7월 2주차", "7월 3주차", "7월 4주차"],
+      labels: labels,
       datasets: [
         {
-          data: [300000, 700000, 800000, 300000, 500000],
+          data: values,
           borderWidth: 0,
         },
       ],
@@ -130,23 +166,27 @@ export const createWeekPayChart = () => {
   });
 };
 
-export const createDayPayChart = () => {
+export const createDayPayChart = (data) => {
   const wpctx = document.getElementById("day_pay");
-  return new Chart(wpctx, {
+  console.log("크아아아아악:", data);
+  destroyChart(dayPayInstance);
+  const { labels, values } = transformData3(data);
+
+  dayPayInstance = new Chart(wpctx, {
     type: "line",
     data: {
       labels: [
-        "일요일",
         "월요일",
         "화요일",
         "수요일",
         "목요일",
         "금요일",
         "토요일",
+        "일요일",
       ],
       datasets: [
         {
-          data: [150000, 50000, 20000, 200000, 70000, 90000, 60000],
+          data: values,
           borderWidth: 2,
           pointRadius: 6,
         },

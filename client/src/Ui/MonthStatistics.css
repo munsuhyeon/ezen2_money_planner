@@ -12,7 +12,6 @@
   font-size: 20px;
   font-weight: 600;
   cursor: pointer;
-  border: rgba(0, 0, 0, 0.2) 1px solid;
   caret-color: transparent;
   padding: 5px;
 }
@@ -65,7 +64,7 @@
 .chart_text {
   position: absolute;
   top: 215px;
-  left: 205px;
+  left: 195px;
   text-align: center;
   line-height: 30px;
   z-index: -1;
@@ -131,8 +130,8 @@
 
 .payment_method_chart_text_wrap {
   position: absolute;
-  top: 185px;
-  left: 74px;
+  top: 187px;
+  left: 83px;
   text-align: center;
   line-height: 30px;
   z-index: -1;
@@ -166,8 +165,10 @@
 
 /* earnings_expenses */
 .earnings_expenses_area {
-  width: 545px;
-  height: 455px;
+  /* width: 545px;
+  height: 455px; */
+  width: 425px;
+  height: 400px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 10px;
   background-color: rgb(255, 255, 255);
@@ -175,8 +176,10 @@
 }
 
 .earnings_expenses_wrap {
-  width: 500px;
-  height: 305px;
+  /* width: 500px;
+  height: 305px; */
+  width: 390px;
+  height: 250px;
   margin: 0 auto;
 }
 /* earnings_expenses */
