@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { format, toZonedTime } from "date-fns-tz";
 import { startOfMonth, endOfMonth } from "date-fns";
@@ -13,6 +13,7 @@ import {
   // createGeneralComment,
 } from "../Components/chart/MonthChart.js";
 import MonthDatePick from "../Components/chart/MonthDatePick.js";
+import { UserIdContext } from "../App.js";
 
 import "./reset.css";
 import "./MonthStatistics.css";
@@ -33,6 +34,8 @@ const MonthStatistics = () => {
   const [topExpense, setTopExpense] = useState("");
   const [comparisonMessage, setComparisonMessage] = useState("");
   const [earningsExpenseMessage, setEarningsExpenseMessage] = useState("");
+
+  const ctxUserId = useContext(UserIdContext);
 
   useEffect(() => {
     if (chartData) {
@@ -193,7 +196,7 @@ const MonthStatistics = () => {
     const startDateISO = formatDateToISO(startDate);
     const endDateISO = formatDateToISO(endDate);
 
-    const userId = "test123";
+    const userId = ctxUserId;
     const serverurl = `http://localhost:8080/monthchart?user_id=${userId}&start_date=${startDateISO}&end_date=${endDateISO}`;
 
     axios
@@ -208,7 +211,7 @@ const MonthStatistics = () => {
   };
 
   const sendDataToServer = (startDate, endDate) => {
-    const userId = "test123";
+    const userId = ctxUserId;
     const url = "http://localhost:8080/monthchart";
 
     const startDateISO = formatDateToISO(startDate);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { format, toZonedTime } from "date-fns-tz";
 import { startOfWeek, endOfWeek } from "date-fns";
@@ -9,6 +9,7 @@ import {
   createDayPayChart,
 } from "../Components/chart/WeekChart.js";
 import WeekDatePick from "../Components/chart/WeekDatePick.js";
+import { UserIdContext } from "../App.js";
 
 import "./reset.css";
 import "./WeekStatistics.css";
@@ -26,6 +27,8 @@ const WeekStatistics = () => {
   const [maxExpense, setMaxExpense] = useState("");
   const [totalWeekExpense, setTotalWeekExpense] = useState(0);
   const [maxDayExpense, setMaxDayExpense] = useState({ day: "", amount: 0 });
+
+  const ctxUserId = useContext(UserIdContext);
 
   const getDayName = (dayNumber) => {
     const dayNames = [
@@ -95,7 +98,7 @@ const WeekStatistics = () => {
     const startDateISO = formatDateToISO(startDate);
     const endDateISO = formatDateToISO(endDate);
 
-    const userId = "test123";
+    const userId = ctxUserId;
     const serverurl = `http://localhost:8080/weekchart?user_id=${userId}&start_date=${startDateISO}&end_date=${endDateISO}`;
 
     axios
@@ -110,7 +113,7 @@ const WeekStatistics = () => {
   };
 
   const sendDataToServer = (startDate, endDate) => {
-    const userId = "test123";
+    const userId = ctxUserId;
     const url = "http://localhost:8080/weekchart";
 
     const startDateISO = formatDateToISO(startDate);

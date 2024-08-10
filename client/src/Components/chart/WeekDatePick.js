@@ -54,7 +54,7 @@ export default class WeekDatePick extends Component {
 
   render() {
     return (
-      <div>
+      <div className="week_date_pick">
         <DatePicker
           selectsRange
           className= 'react-datepicker'
