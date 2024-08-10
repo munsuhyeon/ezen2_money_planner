@@ -101,6 +101,38 @@ const MonthStatistics = () => {
         setComparisonMessage(message);
       }
 
+      // if (chartData.totalIncomeAndExpenseDTOList) {
+      //   const incomeData = chartData.totalIncomeAndExpenseDTOList.find(
+      //     (item) => item.incomeType === "income"
+      //   );
+      //   const expenseData = chartData.totalIncomeAndExpenseDTOList.find(
+      //     (item) => item.incomeType === "expense"
+      //   );
+
+      //   const income = incomeData ? incomeData.amount : 0;
+      //   const expense = expenseData ? expenseData.amount : 0;
+
+      //   const formatPercentageDifference = (value, total) => {
+      //     if (total === 0) return "0.00";
+      //     return ((value - total) / total * 100).toFixed(0);
+      //   };
+
+      //   let earningsExpenseMessage = "";
+      //   if (income > 0) {
+      //     const percentageDifference = formatPercentageDifference(expense, income);
+      //     if (percentageDifference > 0) {
+      //       earningsExpenseMessage = `수입보다 <span class="highlight">${percentageDifference}%</span> 많이 소비하셨어요...`;
+      //     } else if (percentageDifference < 0) {
+      //       earningsExpenseMessage = `수입보다 <span class="highlight">${Math.abs(percentageDifference)}%</span> 적게 소비하셨어요!`;
+      //     } else {
+      //       earningsExpenseMessage = `수입과 지출이 동일합니다.`;
+      //     }
+      //   } else {
+      //     earningsExpenseMessage = `수입이 없습니다.`;
+      //   }
+      //   setEarningsExpenseMessage(earningsExpenseMessage);
+      // }
+
       if (chartData.totalIncomeAndExpenseDTOList) {
         const incomeData = chartData.totalIncomeAndExpenseDTOList.find(
           (item) => item.incomeType === "income"
@@ -108,22 +140,20 @@ const MonthStatistics = () => {
         const expenseData = chartData.totalIncomeAndExpenseDTOList.find(
           (item) => item.incomeType === "expense"
         );
-
+      
         const income = incomeData ? incomeData.amount : 0;
         const expense = expenseData ? expenseData.amount : 0;
-
-        const formatPercentageDifference = (value, total) => {
-          if (total === 0) return "0.00";
-          return ((value - total) / total * 100).toFixed(0);
+      
+        const formatNumberWithComma = (number) => {
+          return number.toLocaleString();
         };
-
+      
         let earningsExpenseMessage = "";
         if (income > 0) {
-          const percentageDifference = formatPercentageDifference(expense, income);
-          if (percentageDifference > 0) {
-            earningsExpenseMessage = `수입보다 <span class="highlight">${percentageDifference}%</span> 많이 소비하셨어요...`;
-          } else if (percentageDifference < 0) {
-            earningsExpenseMessage = `수입보다 <span class="highlight">${Math.abs(percentageDifference)}%</span> 적게 소비하셨어요!`;
+          if (expense > income) {
+            earningsExpenseMessage = `수입보다 <span class="highlight">${formatNumberWithComma(expense - income)}원</span> 많이 소비하셨어요...`;
+          } else if (expense < income) {
+            earningsExpenseMessage = `수입보다 <span class="highlight">${formatNumberWithComma(income - expense)}원</span> 적게 소비하셨어요!`;
           } else {
             earningsExpenseMessage = `수입과 지출이 동일합니다.`;
           }
@@ -132,6 +162,7 @@ const MonthStatistics = () => {
         }
         setEarningsExpenseMessage(earningsExpenseMessage);
       }
+
     }
   }, [chartData]);
 
