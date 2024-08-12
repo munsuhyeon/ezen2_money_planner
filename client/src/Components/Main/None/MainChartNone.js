@@ -23,8 +23,8 @@ const MainChart = () => {
                   달력과 자세한 통계를 통해 지출과 수입을 볼 수 있고,
                   <br /> 사용할 예산을 미리 설정할 수 있어요.
                 </p>
-                <Link to="/login">
-                  <button>로그인 하기</button>
+                <Link to="/signup">
+                  <button>회원가입 하기</button>
                 </Link>
               </div>
               <div className="Main3None-ContentImg">
@@ -38,10 +38,7 @@ const MainChart = () => {
               <p>월별로 지출 / 수입 내역을 꼼꼼하게 확인할 수 있어요.</p>
             </div>
             <div className="Main3None-Img">
-              <img
-                src="/assets/Maintest/purple-computer.png"
-                alt="calendarImg"
-              />
+              <img src="/assets/Main/calendar.png" alt="calendarImg" />
             </div>
             <div className="Main3None-coment">
               <p>
