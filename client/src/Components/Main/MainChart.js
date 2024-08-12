@@ -17,13 +17,22 @@ const MainChart = () => {
     const fetchTransactionData = async () => {
       try {
         const today = formatMonth(new Date());
+        // 로컬스토리지에서 userId 가져오기
+        const storageData = localStorage.getItem("user");
+        if (!storageData) {
+          console.error("No user found in localStorage");
+          return;
+        }
+        const parsedData = JSON.parse(storageData);
+        const userId = parsedData.userid;
+        const requestData = { ...today, userId };
         /*
         {
           startDate: "2024-08-01",
           endDate: "2024-08-31"
         }
         */
-        const response = await call("/transactions/list", "POST", today);
+        const response = await call("/transactions/list", "POST", requestData);
         const transactions = response.data;
 
         // 선택한 날짜를 기준으로 데이터를 필터링하고 집계

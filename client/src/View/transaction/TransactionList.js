@@ -6,7 +6,11 @@ import {
   DataDetailModal,
 } from "../../Components/Transaction/Modal";
 import { call } from "../../Components/service/ApiService";
-import { CategoryContext, TransactionListContext, UserIdContext } from "../../App";
+import {
+  CategoryContext,
+  TransactionListContext,
+  UserIdContext,
+} from "../../App";
 import {
   convertToCustomDateFormat,
   formatPrice,
@@ -131,9 +135,9 @@ const TransactionList = ({ setTransactionList, originalList }) => {
     console.log(formDataArray);
     const requestBody = {
       transactions: formDataArray,
-      startDate:date.startDate,
-      endDate:date.endDate,
-      userId:userId,
+      startDate: date.startDate,
+      endDate: date.endDate,
+      userId: userId,
     };
     window.confirm("삭제하시겠습니까?");
     call("/transactions", "DELETE", requestBody)
@@ -143,7 +147,7 @@ const TransactionList = ({ setTransactionList, originalList }) => {
           setIsAllChecked(false);
         }
         const item = formatMonth(selectedDate);
-        getTransactionList(item,userId);
+        getTransactionList(item, userId);
       })
       .catch((error) => console.error("삭제 실패", error));
   };
@@ -161,7 +165,7 @@ const TransactionList = ({ setTransactionList, originalList }) => {
   const handleChange = async (date) => {
     setSelectedDate(date);
     const item = formatMonth(date);
-    getTransactionList(item,userId);
+    getTransactionList(item, userId);
   };
   // 날짜옆에 아래화살표 클릭해도 달력 펼쳐짐
   const handleImgClick = () => {
@@ -171,7 +175,7 @@ const TransactionList = ({ setTransactionList, originalList }) => {
   };
   const downloadExcel = async () => {
     const date = formatMonth(selectedDate);
-    console.log(date)
+    console.log(date);
     const baseUrl = process.env.REACT_APP_backend_HOST;
     const api = "/transactions/excel";
     const url = `${baseUrl}${api}`;
@@ -179,9 +183,9 @@ const TransactionList = ({ setTransactionList, originalList }) => {
       "Content-Type": "application/json",
     });
     const requestBody = {
-      startDate:date.startDate,
-      endDate:date.endDate,
-      userId:userId,
+      startDate: date.startDate,
+      endDate: date.endDate,
+      userId: userId,
     };
     let options = {
       headers: headers,

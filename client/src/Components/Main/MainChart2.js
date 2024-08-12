@@ -16,8 +16,22 @@ const MainChart2 = () => {
   useEffect(() => {
     const fetchTransactionData = async () => {
       try {
+        // 로컬스토리지에서 userId 가져오기
+        const storageData = localStorage.getItem("user");
+        if (!storageData) {
+          console.error("No user found in localStorage");
+          return;
+        }
+
+        const parsedData = JSON.parse(storageData);
+        const userId = parsedData.userid;
+
+        // userId와 날짜를 포함하여 요청 데이터 구성
         const today = formatMonth(new Date());
-        const response = await call("/transactions/list", "POST", today);
+        const requestData = { ...today, userId };
+
+        // API 호출
+        const response = await call("/transactions/list", "POST", requestData);
         const transactions = response.data;
 
         // 카테고리별 지출 총액 및 개수 계산
@@ -66,7 +80,7 @@ const MainChart2 = () => {
     fetchTransactionData();
   }, [selectedMonth]);
 
-  // 가장 높은 지출 횟수를 가진 카테고리(들)를 찾기
+  // 최대 지출 횟수를 가진 카테고리(들)를 찾기
   const maxCount = topCategories.length > 0 ? topCategories[0][1] : 0;
   const topCountCategories = topCategories.filter(
     ([, count]) => count === maxCount
@@ -90,30 +104,34 @@ const MainChart2 = () => {
         <div className="Main4-Graph2">
           <div className="Graph2-Info">
             <h2>월간 주요 지출내역</h2>
-            {topCountCategories.length > 0 ? (
-              <p>
-                자주 지출이 발생하는 곳은 <br />
-                <span>
-                  {topCountCategories.map(([category], index) => (
-                    <span key={index}>
-                      {category}
-                      {index < topCountCategories.length - 1 && ", "}
-                    </span>
-                  ))}
-                </span>
-                입니다.
-              </p>
+            {topCategories.length > 0 ? (
+              <>
+                {/* 지출 횟수가 가장 많은 카테고리(들) 표시 */}
+                <p>
+                  자주 지출이 발생하는 곳은 <br />
+                  <span>
+                    {topCountCategories.map(([category], index) => (
+                      <span key={index}>
+                        {category}
+                        {index < topCountCategories.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </span>
+                  입니다.
+                </p>
+
+                {/* 상위 3개의 카테고리에 대한 정보 모두 표시 */}
+                {topCategories.map(([category, count], index) => (
+                  <p key={index} className="Graph2-Info-Detail">
+                    {category}에 {count}번 지출하였고,{" "}
+                    <span>총 {categoryTotals[category].toLocaleString()}</span>
+                    원을 사용하셨습니다.
+                  </p>
+                ))}
+              </>
             ) : (
               <p>아직 지출 내역이 없습니다.</p>
             )}
-            {topCountCategories.length > 0 &&
-              topCountCategories.map(([category, count]) => (
-                <p key={category} className="Graph2-Info-Detail">
-                  {category}에 총 {count}번 지출하였고,{" "}
-                  <span>{categoryTotals[category].toLocaleString()}</span>원을
-                  사용하셨습니다.
-                </p>
-              ))}
           </div>
           <div className="Main4Graph2">
             <div className="Graph2-scale">

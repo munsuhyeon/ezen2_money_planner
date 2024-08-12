@@ -38,11 +38,13 @@ function App() {
 
   // 로컬스토리지에서 userId 가져오기
   const [userId, setUserId] = useState("");
+  const [username, setUsername] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // DB에서 지출/수입 내역 가져오기(후에 사용자 id 반영해서 가져오기)
   const [transactionList, setTransactionList] = useState([]);
   const [originalList, setOriginalList] = useState([]);
-  const getTransactionList = async (item = formatMonth(new Date()),userId) => {
+  const getTransactionList = async (item = formatMonth(new Date()), userId) => {
     const requestData = { ...item, userId };
     call("/transactions/list", "POST", requestData)
       .then((response) => {
@@ -60,119 +62,126 @@ function App() {
   };
   useEffect(() => {
     const storageData = localStorage.getItem("user");
-    if(storageData){
+    if (storageData) {
       const parsedData = JSON.parse(storageData);
       const userId = parsedData.userid;
+      const username = parsedData.username;
       setUserId(userId);
-      console.log("로그인한 아이디::::::",userId);
-      if(userId){
+      setUsername(username);
+      setLoggedIn(true);
+      console.log("로그인한 아이디::::::", userId);
+      if (userId) {
         getCategory();
         const date = formatMonth(new Date());
-        getTransactionList(date,userId);
+        getTransactionList(date, userId);
       }
+    } else {
+      setLoggedIn(false);
     }
   }, []);
 
   return (
     <CategoryContext.Provider value={categoryList}>
-      <TransactionListContext.Provider value={{ transactionList, getTransactionList }}>
+      <TransactionListContext.Provider
+        value={{ transactionList, getTransactionList }}
+      >
         <UserIdContext.Provider value={userId}>
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route
-              path="/main"
-              element={
-                <Layout>
-                  <Main />
-                </Layout>
-              }
-            />
-            <Route
-              path="/"
-              element={
-                <LayoutWithoutSideNav>
-                  <MainNone />
-                </LayoutWithoutSideNav>
-              }
-            />
-            <Route
-              path="/transactionList"
-              element={
-                <Layout>
-                  <TransactionList
-                    setTransactionList={setTransactionList}
-                    originalList={originalList}
-                  />
-                </Layout>
-              }
-            />
-            <Route
-              path="/calendar"
-              element={
-                <Layout>
-                  <TransactionCalendar />
-                </Layout>
-              }
-            />
-            <Route
-              path="/monthly-report"
-              element={
-                <Layout>
-                  <MonthStatistics />
-                </Layout>
-              }
-            />
-            <Route
-              path="/weekly-report"
-              element={
-                <Layout>
-                  <WeekStatistics />
-                </Layout>
-              }
-            />
-            <Route
-              path="/budgetmodification"
-              element={
-                <Layout>
-                  <BudgetModification />
-                </Layout>
-              }
-            />
-            <Route
-              path="/budgetpage"
-              element={
-                <Layout>
-                  <BudgetPage />
-                </Layout>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <LayoutWithoutSideNav>
-                  <Login />
-                </LayoutWithoutSideNav>
-              }
-            />
-            <Route
-              path="/signup"
-              element={
-                <LayoutWithoutSideNav>
-                  <Signup />
-                </LayoutWithoutSideNav>
-              }
-            />
-            <Route
-              path="/forgotpw"
-              element={
-                <Layout>
-                  <Forgotpassword />
-                </Layout>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+          <BrowserRouter>
+            <Header userId={userId} username={username} loggedIn={loggedIn} />
+            <Routes>
+              <Route
+                path="/main"
+                element={
+                  <Layout>
+                    <Main />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/"
+                element={
+                  <LayoutWithoutSideNav>
+                    <MainNone />
+                  </LayoutWithoutSideNav>
+                }
+              />
+              <Route
+                path="/transactionList"
+                element={
+                  <Layout>
+                    <TransactionList
+                      setTransactionList={setTransactionList}
+                      originalList={originalList}
+                    />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/calendar"
+                element={
+                  <Layout>
+                    <TransactionCalendar />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/monthly-report"
+                element={
+                  <Layout>
+                    <MonthStatistics />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/weekly-report"
+                element={
+                  <Layout>
+                    <WeekStatistics />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/budgetmodification"
+                element={
+                  <Layout>
+                    <BudgetModification />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/budgetpage"
+                element={
+                  <Layout>
+                    <BudgetPage />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <LayoutWithoutSideNav>
+                    <Login />
+                  </LayoutWithoutSideNav>
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <LayoutWithoutSideNav>
+                    <Signup />
+                  </LayoutWithoutSideNav>
+                }
+              />
+              <Route
+                path="/forgotpw"
+                element={
+                  <Layout>
+                    <Forgotpassword />
+                  </Layout>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
         </UserIdContext.Provider>
       </TransactionListContext.Provider>
     </CategoryContext.Provider>

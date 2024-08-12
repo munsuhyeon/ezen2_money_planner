@@ -16,6 +16,15 @@ const MainChart3 = () => {
   useEffect(() => {
     const fetchTransactionData = async () => {
       try {
+        const storageData = localStorage.getItem("user");
+        if (!storageData) {
+          console.error("No user found in localStorage");
+          return;
+        }
+
+        const parsedData = JSON.parse(storageData);
+        const userId = parsedData.userid;
+
         // 함수 사용 예
         const dates = getDatesFromToday();
         console.log("오늘 날짜:", new Date());
@@ -28,11 +37,13 @@ const MainChart3 = () => {
         const twoMonthsAgo = formatMonth(dates.twoMonthsAgo);
         // 한달전 날짜 startDate:"2024-07-01", endDate:"2024-07-31"
         const oneMonthAgo = formatMonth(dates.oneMonthAgo);
+
         const [response1, response2, response3] = await Promise.all([
-          call("/transactions/list", "POST", today),
-          call("/transactions/list", "POST", oneMonthAgo),
-          call("/transactions/list", "POST", twoMonthsAgo),
+          call("/transactions/list", "POST", { ...today, userId }),
+          call("/transactions/list", "POST", { ...oneMonthAgo, userId }),
+          call("/transactions/list", "POST", { ...twoMonthsAgo, userId }),
         ]);
+
         const transactions = [
           ...response1.data,
           ...response2.data,

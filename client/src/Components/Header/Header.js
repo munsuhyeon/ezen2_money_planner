@@ -8,8 +8,6 @@ import ScrollEvent from "../../Hooks/Main/ScrollEvent";
 import { startOfMonth, endOfMonth } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
-// 새로고침시 안읽은 알림이 아닌 새로운 알림만 뱃지로 추가해줌
-
 const Header = () => {
   // 트랜잭션 리스트 컨텍스트에서 트랜잭션 리스트를 가져옵니다.
   const { transactionList } = useContext(TransactionListContext);
@@ -29,8 +27,62 @@ const Header = () => {
   // 알림 창의 DOM 참조를 저장하기 위한 ref입니다.
   const notificationRef = useRef(null);
 
-  // 테스트를 위한 가데이터 입니다.
-  const userId = "test123";
+  // 로컬스토리지에서 userId를 가져옵니다.
+  const [userId, setUserId] = useState("");
+  const [username, setUsername] = useState("");
+
+  // 로그인 여부 확인
+  const [loggedIn, setLoggedIn] = useState(false);
+  // console.log(user)
+  useEffect(() => {
+    // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.
+    const user = localStorage.getItem("user");
+    // user의 데이터가 있다면 loggedIn = true, 데이터가 없다면 loggedIn = false
+    if (user) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  });
+
+  const navigate = useNavigate();
+
+  // 로그아웃 함수
+  const reqLogout = () => {
+    localStorage.removeItem("user");
+    setUserId(""); // 로그아웃 시 userId 상태를 초기화합니다.
+    setUsername(""); // 로그아웃 시 username 상태를 초기화합니다.
+    setLoggedIn(false); // 로그인 상태를 false로 설정합니다.
+    alert("로그아웃 되었습니다.");
+    navigate("/login");
+  };
+
+  // 로그아웃 버튼에 들어갈 로그인페이지로 이동 함수
+
+  function loginPage() {
+    navigate("/login");
+  }
+
+  function Signup() {
+    navigate("/signup");
+  }
+
+  useEffect(() => {
+    console.log("Header 컴포넌트 업데이트:", { userId, username, loggedIn });
+  }, [userId, username, loggedIn]);
+
+  useEffect(() => {
+    const storageData = localStorage.getItem("user");
+    if (storageData) {
+      const parsedData = JSON.parse(storageData);
+      setUserId(parsedData.userid);
+      setUsername(parsedData.username);
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, [loggedIn]);
+
   // 테스트를 위한 가예산입니다.
   const userBudget = 50000;
 
@@ -137,10 +189,9 @@ const Header = () => {
     if (newNotifications.length === 0) return;
 
     // 로컬 스토리지에서 사용자 알림 목록을 가져옵니다.
-    const listString = localStorage.getItem(`${userId}`);
+    const listString = localStorage.getItem(`${userId}_notifications`);
     let storageList = [];
     if (listString) {
-      // 문자열로 저장된 알림 목록을 JSON 형식으로 변환합니다.
       storageList = JSON.parse(listString);
     }
 
@@ -174,7 +225,10 @@ const Header = () => {
     const newNotificationCount = newNotifications.length;
 
     // 로컬 스토리지에 업데이트된 알림 목록을 저장합니다.
-    localStorage.setItem(`${userId}`, JSON.stringify(updatedNotifications));
+    localStorage.setItem(
+      `${userId}_notifications`,
+      JSON.stringify(updatedNotifications)
+    );
 
     setUnreadNotificationCount(
       // 읽지 않은 알림의 수를 업데이트합니다.
@@ -190,7 +244,9 @@ const Header = () => {
   useEffect(() => {
     const loadNotifications = () => {
       // 사용자 ID를 기반으로 로컬 저장소에서 알림 데이터를 가져옵니다.
-      const storedNotifications = localStorage.getItem(`${userId}`);
+      const storedNotifications = localStorage.getItem(
+        `${userId}_notifications`
+      );
 
       // 로컬 저장소에서 알림 데이터가 존재하는지 확인합니다.
       if (storedNotifications) {
@@ -206,24 +262,27 @@ const Header = () => {
         );
       }
     };
-    // 저장된 알림을 불러와 state를 업데이트합니다.
-    loadNotifications();
-    // 의존성 배열이 비어 있으므로, 컴포넌트가 처음 렌더링될 때만 호출됩니다.
-  }, []);
+    if (userId) {
+      loadNotifications();
+    }
+  }, [userId]);
 
   // 트랜잭션 리스트가 변경될 때 예산을 확인하고 알림을 추가하는 함수입니다.
   useEffect(() => {
-    const newNotifications = checkBudget(userBudget, transactionList);
-    // 새로운 알림을 추가합니다.
-    addNotifications(newNotifications);
-    // 트랜잭션 리스트가 변경될 때마다 실행됩니다.
-  }, [transactionList]);
+    if (userId) {
+      const newNotifications = checkBudget(userBudget, transactionList);
+      addNotifications(newNotifications);
+    }
+  }, [transactionList, userId]);
 
   // 알림을 삭제하는 함수입니다.
   const handleDeleteNotification = (index) => {
     const updatedNotifications = notifications.filter((_, i) => i !== index);
     // 로컬 스토리지에 업데이트된 알림 목록을 저장합니다.
-    localStorage.setItem(`${userId}`, JSON.stringify(updatedNotifications));
+    localStorage.setItem(
+      `${userId}_notifications`,
+      JSON.stringify(updatedNotifications)
+    );
     // 알림 목록을 업데이트합니다.
 
     // 상태 업데이트
@@ -233,37 +292,6 @@ const Header = () => {
       updatedNotifications.filter((notification) => !notification.read).length
     );
   };
-
-  // 로그인 여부 확인
-  const [loggedIn, setLoggedIn] = useState(false);
-  // console.log(user)
-  useEffect(() => {
-    // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.
-    const user = localStorage.getItem("user");
-    // user의 데이터가 있다면 loggedIn = true, 데이터가 없다면 loggedIn = false
-    if (user) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  });
-
-  const navigate = useNavigate();
-
-  // 로그아웃 함수
-  function reqLogout() {
-    // 로컬스토리지에서 사용자 데이터를 제거함으로 로그아웃
-    localStorage.removeItem("user");
-    alert("로그아웃 되었습니다.");
-    // 로그아웃후 로그인페이지로 이동
-    navigate("/login");
-  }
-
-  // 로그아웃 버튼에 들어갈 로그인페이지로 이동 함수
-
-  function loginPage() {
-    navigate("/login");
-  }
 
   return (
     <header ref={headerRef}>
@@ -281,7 +309,13 @@ const Header = () => {
         </div>
         <div>
           <ul className="Header_Right">
-            <li>닉네임</li>
+            {loggedIn ? (
+              <li>{username || "닉네임"}</li>
+            ) : (
+              <button className="Header_signup" onClick={Signup}>
+                회원가입
+              </button>
+            )}
             <li>
               {loggedIn ? (
                 <button className="Header_logout" onClick={reqLogout}>
