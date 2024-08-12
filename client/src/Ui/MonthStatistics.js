@@ -143,20 +143,24 @@ const MonthStatistics = () => {
         const expenseData = chartData.totalIncomeAndExpenseDTOList.find(
           (item) => item.incomeType === "expense"
         );
-      
+
         const income = incomeData ? incomeData.amount : 0;
         const expense = expenseData ? expenseData.amount : 0;
-      
+
         const formatNumberWithComma = (number) => {
           return number.toLocaleString();
         };
-      
+
         let earningsExpenseMessage = "";
         if (income > 0) {
           if (expense > income) {
-            earningsExpenseMessage = `수입보다 <span class="highlight">${formatNumberWithComma(expense - income)}원</span> 많이 소비하셨어요...`;
+            earningsExpenseMessage = `수입보다 <span class="highlight">${formatNumberWithComma(
+              expense - income
+            )}원</span> 많이 소비하셨어요...`;
           } else if (expense < income) {
-            earningsExpenseMessage = `수입보다 <span class="highlight">${formatNumberWithComma(income - expense)}원</span> 적게 소비하셨어요!`;
+            earningsExpenseMessage = `수입보다 <span class="highlight">${formatNumberWithComma(
+              income - expense
+            )}원</span> 적게 소비하셨어요!`;
           } else {
             earningsExpenseMessage = `수입과 지출이 동일합니다.`;
           }
@@ -165,13 +169,14 @@ const MonthStatistics = () => {
         }
         setEarningsExpenseMessage(earningsExpenseMessage);
       }
-
     }
   }, [chartData]);
 
   useEffect(() => {
-    fetchChartData(startDate, endDate);
-  }, [startDate, endDate]);
+    if (ctxUserId) {
+      fetchChartData(startDate, endDate);
+    }
+  }, [startDate, endDate, ctxUserId]);
 
   const handleDateChange = (start, end) => {
     setStartDate(start);

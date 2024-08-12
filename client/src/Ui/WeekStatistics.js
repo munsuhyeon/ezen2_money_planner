@@ -17,7 +17,7 @@ import "./WeekStatistics.css";
 const WeekStatistics = () => {
   const now = new Date();
   const initialStartDate = startOfWeek(now, { weekStartsOn: 1 });
-  const initialEndDate = endOfWeek(now, { weekStartsOn: 1 }); 
+  const initialEndDate = endOfWeek(now, { weekStartsOn: 1 });
 
   const [startDate, setStartDate] = useState(initialStartDate);
   const [endDate, setEndDate] = useState(initialEndDate);
@@ -79,8 +79,10 @@ const WeekStatistics = () => {
   }, [chartData]);
 
   useEffect(() => {
-    fetchChartData(startDate, endDate);
-  }, [startDate, endDate]);
+    if (ctxUserId) {
+      fetchChartData(startDate, endDate);
+    }
+  }, [startDate, endDate, ctxUserId]);
 
   const handleDateChange = (start, end) => {
     setStartDate(start);
