@@ -17,8 +17,7 @@ const Header = () => {
   const [newNotificationCount, setNewNotificationCount] = useState(0);
   const notificationIconRef = useRef(null);
   const notificationRef = useRef(null);
-  // 컴포넌트의 상태 및 로컬스토리지에서 이전 트랜잭션 목록 불러오기
-  const [previousTransactionList, setPreviousTransactionList] = useState([]);
+
   const userBudget = 50000;
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
@@ -33,7 +32,7 @@ const Header = () => {
     } else {
       setLoggedIn(false);
     }
-  });
+  }, []);
 
   useEffect(() => {
     const storageData = localStorage.getItem("user");
@@ -42,10 +41,21 @@ const Header = () => {
       setUserId(parsedData.userid);
       setUsername(parsedData.username);
       setLoggedIn(true);
+      loadNotifications(parsedData.userid); // 알림 로드
     } else {
       setLoggedIn(false);
     }
   }, [loggedIn]);
+
+  const loadNotifications = (userId) => {
+    const storedNotifications = JSON.parse(
+      localStorage.getItem(`${userId}_notifications`) || "[]"
+    );
+    setNotifications(storedNotifications);
+    setUnreadNotificationCount(
+      storedNotifications.filter((notification) => !notification.read).length
+    );
+  };
 
   const reqLogout = () => {
     localStorage.removeItem("user");
@@ -63,13 +73,13 @@ const Header = () => {
     navigate("/login");
   };
 
-  function loginPage() {
+  const loginPage = () => {
     navigate("/login");
-  }
+  };
 
-  function Signup() {
+  const Signup = () => {
     navigate("/signup");
-  }
+  };
 
   useEffect(() => {
     console.log("Header 컴포넌트 업데이트:", { userId, username, loggedIn });
@@ -148,7 +158,6 @@ const Header = () => {
     return notificationsToAdd;
   };
 
-  // 새로운 알림 추가
   const addNotifications = (newNotifications) => {
     if (newNotifications.length === 0) return;
 
@@ -162,19 +171,18 @@ const Header = () => {
       (n) => n.title + n.detail
     );
 
-    // 기존 알림과 비교하여 새로운 알림만 추가
     const updatedNotifications = [
+      ...newNotifications.map((notification) => ({
+        ...notification,
+        timestamp: Date.now(),
+        read: false,
+      })),
       ...storageList.filter(
         (notification) =>
           !newNotificationTitles.includes(
             notification.title + notification.detail
           )
       ),
-      ...newNotifications.map((notification) => ({
-        ...notification,
-        timestamp: Date.now(),
-        read: false,
-      })),
     ].sort((a, b) => b.timestamp - a.timestamp);
 
     const newNotificationCount = newNotifications.length;
@@ -185,117 +193,14 @@ const Header = () => {
     );
 
     setUnreadNotificationCount(
-      updatedNotifications.filter((notification) => !notification.read).length
+      (prevCount) =>
+        prevCount +
+        newNotifications.filter((notification) => !notification.read).length
     );
     setNewNotificationCount((prevCount) => prevCount + newNotificationCount);
     setNotifications(updatedNotifications);
   };
 
-  // 컴포넌트 마운트 시 저장된 알림 불러오기 및 읽은 상태 유지
-  useEffect(() => {
-    if (userId) {
-      const storedNotifications = localStorage.getItem(
-        `${userId}_notifications`
-      );
-      if (storedNotifications) {
-        const parsedNotifications = JSON.parse(storedNotifications);
-        setNotifications(parsedNotifications);
-        setUnreadNotificationCount(
-          parsedNotifications.filter((notification) => !notification.read)
-            .length
-        );
-      }
-
-      // 이전 트랜잭션 목록 불러오기
-      const previousListString = localStorage.getItem(
-        `${userId}_previousTransactionList`
-      );
-      if (previousListString) {
-        setPreviousTransactionList(JSON.parse(previousListString));
-      }
-    }
-  }, [userId]);
-  // 트랜잭션 리스트가 변경될 때 예산 확인 및 알림 추가
-  useEffect(() => {
-    if (userId) {
-      // 현재 트랜잭션 목록과 이전 목록 비교
-      const newTransactions = transactionList.filter(
-        (transaction) =>
-          !previousTransactionList.some((prev) => prev.id === transaction.id) &&
-          transaction.incomeType === "expense"
-      );
-
-      if (newTransactions.length > 0) {
-        const newNotifications = checkBudget(userBudget, transactionList);
-        addNotifications(newNotifications);
-      }
-
-      // 현재 트랜잭션 목록을 이전 목록으로 저장
-      localStorage.setItem(
-        `${userId}_previousTransactionList`,
-        JSON.stringify(transactionList)
-      );
-      setPreviousTransactionList(transactionList);
-    }
-  }, [transactionList, userId]);
-
-  const handleDeleteNotification = (index) => {
-    const updatedNotifications = notifications.filter((_, i) => i !== index);
-    localStorage.setItem(
-      `${userId}_notifications`,
-      JSON.stringify(updatedNotifications)
-    );
-    setNotifications(updatedNotifications);
-    setUnreadNotificationCount(
-      updatedNotifications.filter((notification) => !notification.read).length
-    );
-  };
-  const updateNotificationReadStatus = () => {
-    const updatedNotifications = notifications.map((notification) => ({
-      ...notification,
-      read: true,
-    }));
-
-    localStorage.setItem(
-      `${userId}_notifications`,
-      JSON.stringify(updatedNotifications)
-    );
-    setNotifications(updatedNotifications);
-  };
-
-  const markNotificationAsRead = (index) => {
-    const updatedNotifications = [...notifications];
-    updatedNotifications[index].read = true;
-
-    localStorage.setItem(
-      `${userId}_notifications`,
-      JSON.stringify(updatedNotifications)
-    );
-
-    setNotifications(updatedNotifications);
-    setUnreadNotificationCount(
-      updatedNotifications.filter((notification) => !notification.read).length
-    );
-  };
-
-  // 컴포넌트 마운트 시 저장된 알림 불러오기 및 읽은 상태 유지
-  useEffect(() => {
-    if (userId) {
-      const storedNotifications = localStorage.getItem(
-        `${userId}_notifications`
-      );
-      if (storedNotifications) {
-        const parsedNotifications = JSON.parse(storedNotifications);
-        setNotifications(parsedNotifications);
-        setUnreadNotificationCount(
-          parsedNotifications.filter((notification) => !notification.read)
-            .length
-        );
-      }
-    }
-  }, [userId]);
-
-  // 컴포넌트 마운트 시 지출 내역 및 알림 확인
   useEffect(() => {
     if (userId) {
       let previousTransactionList = JSON.parse(
@@ -318,7 +223,47 @@ const Header = () => {
         JSON.stringify(transactionList)
       );
     }
-  }, [transactionList, userId]);
+  }, [transactionList, userId]); // transactionList 변경 시마다 실행되도록 함
+
+  const handleDeleteNotification = (index) => {
+    const updatedNotifications = notifications.filter((_, i) => i !== index);
+    localStorage.setItem(
+      `${userId}_notifications`,
+      JSON.stringify(updatedNotifications)
+    );
+    setNotifications(updatedNotifications);
+    setUnreadNotificationCount(
+      updatedNotifications.filter((notification) => !notification.read).length
+    );
+  };
+
+  const markNotificationAsRead = (index) => {
+    const updatedNotifications = [...notifications];
+    updatedNotifications[index].read = true;
+
+    localStorage.setItem(
+      `${userId}_notifications`,
+      JSON.stringify(updatedNotifications)
+    );
+
+    setNotifications(updatedNotifications);
+    setUnreadNotificationCount(
+      updatedNotifications.filter((notification) => !notification.read).length
+    );
+  };
+
+  const updateNotificationReadStatus = () => {
+    const updatedNotifications = notifications.map((notification) => ({
+      ...notification,
+      read: true,
+    }));
+
+    localStorage.setItem(
+      `${userId}_notifications`,
+      JSON.stringify(updatedNotifications)
+    );
+    setNotifications(updatedNotifications);
+  };
 
   return (
     <header ref={headerRef}>
