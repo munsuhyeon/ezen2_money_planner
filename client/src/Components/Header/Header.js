@@ -8,7 +8,9 @@ import ScrollEvent from "../../Hooks/Main/ScrollEvent";
 import { startOfMonth, endOfMonth } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+// 새로고침시 안읽은 알림이 아닌 새로운 알림만 뱃지로 추가해줌
+
+const Header = ({ setTransactionList }) => {
   // 트랜잭션 리스트 컨텍스트에서 트랜잭션 리스트를 가져옵니다.
   const { transactionList } = useContext(TransactionListContext);
   // 스크롤 이벤트 커스텀 훅을 사용하여 headerRef를 가져옵니다.
@@ -31,8 +33,6 @@ const Header = () => {
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
 
-  // 로그인 여부 확인
-  const [loggedIn, setLoggedIn] = useState(false);
   // console.log(user)
   useEffect(() => {
     // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.
@@ -44,8 +44,6 @@ const Header = () => {
       setLoggedIn(false);
     }
   });
-
-  const navigate = useNavigate();
 
   // 로그아웃 함수
   const reqLogout = () => {
@@ -292,6 +290,39 @@ const Header = () => {
       updatedNotifications.filter((notification) => !notification.read).length
     );
   };
+
+  // 로그인 여부 확인
+  const [loggedIn, setLoggedIn] = useState(false);
+  // console.log(user)
+  useEffect(() => {
+    // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.
+    const user = localStorage.getItem("user");
+    // user의 데이터가 있다면 loggedIn = true, 데이터가 없다면 loggedIn = false
+    if (user) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  });
+
+  const navigate = useNavigate();
+
+  // 로그아웃 함수
+  function reqLogout() {
+    // 로컬스토리지에서 사용자 데이터를 제거함으로 로그아웃
+    localStorage.removeItem("user");
+    // 지출내역 초기화
+    setTransactionList([]);
+    alert("로그아웃 되었습니다.");
+    // 로그아웃후 로그인페이지로 이동
+    navigate("/login");
+  }
+
+  // 로그아웃 버튼에 들어갈 로그인페이지로 이동 함수
+
+  function loginPage() {
+    navigate("/login");
+  }
 
   return (
     <header ref={headerRef}>
