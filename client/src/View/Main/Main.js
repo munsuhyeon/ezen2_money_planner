@@ -7,10 +7,25 @@ import SideNav from "../../Components/SideNav/SideNav.js";
 import ScrollHandler from "../../Hooks/Main/ScrollEvent.js";
 import MainTip from "../../Components/Main/MainTip.js";
 import Footer from "../../Components/Footer/Footer.js";
-
+import { TransactionListContext, UserIdContext } from "../../App.js";
+import { useEffect,useContext } from "react";
+import { formatMonth } from "../../Utils/Utils.js";
 const Main = () => {
   const { main2Ref } = ScrollHandler();
-
+  const { getTransactionList } = useContext(TransactionListContext);
+  useEffect(() => {
+    const storageData = localStorage.getItem("user");
+    if(storageData){
+      const parsedData = JSON.parse(storageData);
+      const userId = parsedData.userid;
+      console.log("로그인한 아이디::::::",userId);
+      if(userId){
+        const item = formatMonth(new Date());
+        console.log("유저 아이디:::::", userId)
+        getTransactionList(item,userId);
+      }
+    }
+  },[])
   return (
     <>
       <Scroll />
