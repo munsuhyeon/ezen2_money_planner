@@ -44,8 +44,16 @@ function App() {
   // DB에서 지출/수입 내역 가져오기(후에 사용자 id 반영해서 가져오기)
   const [transactionList, setTransactionList] = useState([]);
   const [originalList, setOriginalList] = useState([]);
+
   const getTransactionList = async (item = formatMonth(new Date()), userId) => {
-    const requestData = { ...item, userId };
+    const storageData = localStorage.getItem("user");
+    let requestData = {};
+    if (storageData) {
+      const parsedData = JSON.parse(storageData);
+      const userId = parsedData.userid;
+      requestData = { ...item, userId };
+    }
+    //console.log("여기인가?    ", userId)
     call("/transactions/list", "POST", requestData)
       .then((response) => {
         if (response) {
@@ -87,7 +95,7 @@ function App() {
       >
         <UserIdContext.Provider value={userId}>
           <BrowserRouter>
-            <Header userId={userId} username={username} loggedIn={loggedIn} />
+            <Header setTransactionList={setTransactionList} />
             <Routes>
               <Route
                 path="/main"
