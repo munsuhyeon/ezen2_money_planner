@@ -38,10 +38,7 @@ const MainChart = () => {
               <p>월별로 지출 / 수입 내역을 꼼꼼하게 확인할 수 있어요.</p>
             </div>
             <div className="Main3None-Img">
-              <img
-                src="/assets/Maintest/purple-computer.png"
-                alt="calendarImg"
-              />
+              <img src="/assets/Main/calendar.png" alt="calendarImg" />
             </div>
             <div className="Main3None-coment">
               <p>
