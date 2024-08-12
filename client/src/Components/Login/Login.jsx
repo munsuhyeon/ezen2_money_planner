@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import KakaoLogin from "./KakaoLogin.jsx";
+
 import "../../assets/css/reset.css";
 import "./Login.css";
 
@@ -88,9 +90,7 @@ function Login() {
         </div>
       </div>
       <div className="social_login_container">
-        <div className="social_login_button_box">
-          <button className="kakao_button">카카오톡 로그인</button>
-        </div>
+      <KakaoLogin/>
       </div>
       <div className="forgot-signup_container">
         <div className="forgot_pw_box">

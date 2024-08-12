@@ -18,9 +18,9 @@
 /* 회원가입 텍스트 */
 .signup_section .signup_title_text {
     text-align: center;
-    padding-bottom: 24px;
-    font-size: 22px;
-    font-weight: 500;
+    padding-bottom: 8px;
+    font-size: 20px;
+    font-weight: 600;
 }
 /* 회원가입 텍스트 F */
 
@@ -28,12 +28,12 @@
 .signup_image_box {
 display: flex;
 justify-content: center;
-margin-bottom: 2rem;
+margin-bottom: 8px;
 }
 /* 이미지 F */
 
 .signup_image_box .signup_img{
-    width: 159px;
+    width: 180px;
 }
 
 
@@ -50,7 +50,7 @@ margin-bottom: 2rem;
 .signup_section .signup_input_container .input_box input {
     /* background-color: white; */
     border: 2px solid rgb(202, 202, 202);
-    width: 430px;
+    width: 434px;
     border-radius: 6px;
     padding: 8px 4px 8px 4px;
 }
@@ -60,6 +60,7 @@ margin-bottom: 2rem;
     font-size: 18px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .signup_section .signup_input_container .input_box .input_title button{
