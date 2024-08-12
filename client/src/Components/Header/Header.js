@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 // 새로고침시 안읽은 알림이 아닌 새로운 알림만 뱃지로 추가해줌
 
-const Header = () => {
+const Header = ({setTransactionList}) => {
   // 트랜잭션 리스트 컨텍스트에서 트랜잭션 리스트를 가져옵니다.
   const { transactionList } = useContext(TransactionListContext);
   // 스크롤 이벤트 커스텀 훅을 사용하여 headerRef를 가져옵니다.
@@ -254,6 +254,8 @@ const Header = () => {
   function reqLogout() {
     // 로컬스토리지에서 사용자 데이터를 제거함으로 로그아웃
     localStorage.removeItem("user");
+    // 지출내역 초기화
+    setTransactionList([])
     alert("로그아웃 되었습니다.");
     // 로그아웃후 로그인페이지로 이동
     navigate("/login");
