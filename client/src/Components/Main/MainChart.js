@@ -102,14 +102,14 @@ const MainChart = () => {
                   labels={chartData.labels}
                   dataValues={chartData.dataValues}
                   backgroundColor={[
-                    "rgba(254, 240, 214, 0.8)",
-                    "rgba(250, 207, 207, 0.8)",
-                    "rgba(210, 218, 233, 0.8)",
+                    "rgba(255, 99, 132, 0.6)",
+                    "rgba(54, 162, 235, 0.6)",
+                    "rgba(255, 206, 86, 0.6)",
                   ]}
                   borderColor={[
-                    "rgba(254, 240, 214, 1)",
-                    "rgba(250, 207, 207, 1)",
-                    "rgba(210, 218, 233, 1)",
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
                   ]}
                 />
               ) : (
