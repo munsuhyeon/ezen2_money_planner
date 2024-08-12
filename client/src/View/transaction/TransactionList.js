@@ -24,6 +24,7 @@ const TransactionList = ({ setTransactionList, originalList }) => {
   const userId = useContext(UserIdContext);
   useEffect(() => {
     // 화면 재 랜더링하기
+    //console.log("TransactionList가 업데이트되었습니다:", transactionList);
   }, [transactionList]);
   // 'expense'의 총 합계 계산
   const totalExpense = transactionList
@@ -85,7 +86,7 @@ const TransactionList = ({ setTransactionList, originalList }) => {
       setInstallmentCategory(installment);
     }
   }, [categoryList]);
-  useEffect(() => {}, [expenseCategory]);
+  //useEffect(() => {}, [expenseCategory]);
   const showModal = (btn) => {
     if (btn == "addData") {
       setAddModalOpen(true);

@@ -14,8 +14,7 @@ export const AddDataModal = ({
   booleanCalendar,
   calendarDate
 }) => {
-  console.log("============123")
-  console.log(calendarDate)
+  console.log("selectedDate============",selectedDate)
   const { getTransactionList } = useContext(TransactionListContext);
   const closeModal = () => {
     setAddModalOpen(false);
@@ -96,7 +95,7 @@ export const AddDataModal = ({
         .then((response) => {
           console.log(response);
           setAddModalOpen(false);
-          getTransactionList(selectedDate,userId);
+          getTransactionList(formatMonth(selectedDate),userId);
         })
         .catch((error) => console.error("저장 실패", error));
     }
