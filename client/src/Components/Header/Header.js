@@ -307,23 +307,6 @@ const Header = ({ setTransactionList }) => {
 
   const navigate = useNavigate();
 
-  // 로그아웃 함수
-  function reqLogout() {
-    // 로컬스토리지에서 사용자 데이터를 제거함으로 로그아웃
-    localStorage.removeItem("user");
-    // 지출내역 초기화
-    setTransactionList([]);
-    alert("로그아웃 되었습니다.");
-    // 로그아웃후 로그인페이지로 이동
-    navigate("/login");
-  }
-
-  // 로그아웃 버튼에 들어갈 로그인페이지로 이동 함수
-
-  function loginPage() {
-    navigate("/login");
-  }
-
   return (
     <header ref={headerRef}>
       <div className="Header_div">
