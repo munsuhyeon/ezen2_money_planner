@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState} from "react";
 import axios from "axios";
 import { format, toZonedTime } from "date-fns-tz";
 import { startOfMonth, endOfMonth } from "date-fns";
@@ -13,7 +13,6 @@ import {
   // createGeneralComment,
 } from "../Components/chart/MonthChart.js";
 import MonthDatePick from "../Components/chart/MonthDatePick.js";
-import { UserIdContext } from "../App.js";
 
 import "./reset.css";
 import "./MonthStatistics.css";
@@ -26,6 +25,7 @@ const MonthStatistics = () => {
   const [startDate, setStartDate] = useState(initialStartDate);
   const [endDate, setEndDate] = useState(initialEndDate);
   const [chartData, setChartData] = useState(null);
+  const [userIdls, setUserIdls] = useState("");
 
   const [maxCategory, setMaxCategory] = useState("");
   const [maxExpense, setMaxExpense] = useState("");
@@ -35,7 +35,15 @@ const MonthStatistics = () => {
   const [comparisonMessage, setComparisonMessage] = useState("");
   const [earningsExpenseMessage, setEarningsExpenseMessage] = useState("");
 
-  const ctxUserId = useContext(UserIdContext);
+  useEffect(() => {
+    const storageData = localStorage.getItem("user");
+    if (storageData) {
+      const parsedData = JSON.parse(storageData);
+      const userId = parsedData.userid;
+      setUserIdls(userId);
+      console.log("로그인한 아이디:", userId);
+    }
+  }, []);
 
   useEffect(() => {
     if (chartData) {
@@ -173,10 +181,10 @@ const MonthStatistics = () => {
   }, [chartData]);
 
   useEffect(() => {
-    if (ctxUserId) {
+    if (userIdls) {
       fetchChartData(startDate, endDate);
     }
-  }, [startDate, endDate, ctxUserId]);
+  }, [startDate, endDate, userIdls]);
 
   const handleDateChange = (start, end) => {
     setStartDate(start);
@@ -201,7 +209,7 @@ const MonthStatistics = () => {
     const startDateISO = formatDateToISO(startDate);
     const endDateISO = formatDateToISO(endDate);
 
-    const userId = ctxUserId;
+    const userId = userIdls;
     const serverurl = `http://localhost:8080/monthchart?user_id=${userId}&start_date=${startDateISO}&end_date=${endDateISO}`;
 
     axios
@@ -216,7 +224,7 @@ const MonthStatistics = () => {
   };
 
   const sendDataToServer = (startDate, endDate) => {
-    const userId = ctxUserId;
+    const userId = userIdls;
     const url = "http://localhost:8080/monthchart";
 
     const startDateISO = formatDateToISO(startDate);

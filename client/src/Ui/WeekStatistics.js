@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState} from "react";
 import axios from "axios";
 import { format, toZonedTime } from "date-fns-tz";
 import { startOfWeek, endOfWeek } from "date-fns";
@@ -9,7 +9,6 @@ import {
   createDayPayChart,
 } from "../Components/chart/WeekChart.js";
 import WeekDatePick from "../Components/chart/WeekDatePick.js";
-import { UserIdContext } from "../App.js";
 
 import "./reset.css";
 import "./WeekStatistics.css";
@@ -22,13 +21,22 @@ const WeekStatistics = () => {
   const [startDate, setStartDate] = useState(initialStartDate);
   const [endDate, setEndDate] = useState(initialEndDate);
   const [chartData, setChartData] = useState(null);
+  const [userIdls, setUserIdls] = useState("");
 
   const [maxCategory, setMaxCategory] = useState("");
   const [maxExpense, setMaxExpense] = useState("");
   const [totalWeekExpense, setTotalWeekExpense] = useState(0);
   const [maxDayExpense, setMaxDayExpense] = useState({ day: "", amount: 0 });
 
-  const ctxUserId = useContext(UserIdContext);
+  useEffect(() => {
+    const storageData = localStorage.getItem("user");
+    if (storageData) {
+      const parsedData = JSON.parse(storageData);
+      const userId = parsedData.userid;
+      setUserIdls(userId);
+      console.log("로그인한 아이디:", userId);
+    }
+  }, []);
 
   const getDayName = (dayNumber) => {
     const dayNames = [
@@ -79,10 +87,10 @@ const WeekStatistics = () => {
   }, [chartData]);
 
   useEffect(() => {
-    if (ctxUserId) {
+    if (userIdls) {
       fetchChartData(startDate, endDate);
     }
-  }, [startDate, endDate, ctxUserId]);
+  }, [startDate, endDate, userIdls]);
 
   const handleDateChange = (start, end) => {
     setStartDate(start);
@@ -100,7 +108,7 @@ const WeekStatistics = () => {
     const startDateISO = formatDateToISO(startDate);
     const endDateISO = formatDateToISO(endDate);
 
-    const userId = ctxUserId;
+    const userId = userIdls;
     const serverurl = `http://localhost:8080/weekchart?user_id=${userId}&start_date=${startDateISO}&end_date=${endDateISO}`;
 
     axios
@@ -115,7 +123,7 @@ const WeekStatistics = () => {
   };
 
   const sendDataToServer = (startDate, endDate) => {
-    const userId = ctxUserId;
+    const userId = userIdls;
     const url = "http://localhost:8080/weekchart";
 
     const startDateISO = formatDateToISO(startDate);
