@@ -4,36 +4,25 @@ import { TransactionListContext } from "../../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import ScrollEvent from "../../Hooks/Main/ScrollEvent";
-// 날짜 계산을 위해 date-fns 라이브러리를 불러옵니다.
 import { startOfMonth, endOfMonth } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
-// 새로고침시 안읽은 알림이 아닌 새로운 알림만 뱃지로 추가해줌
-
-const Header = ({ setTransactionList }) => {
-  // 트랜잭션 리스트 컨텍스트에서 트랜잭션 리스트를 가져옵니다.
+const Header = () => {
   const { transactionList } = useContext(TransactionListContext);
-  // 스크롤 이벤트 커스텀 훅을 사용하여 headerRef를 가져옵니다.
   const { headerRef } = ScrollEvent();
-
-  // 알림 창의 표시 상태를 관리하는 state입니다.
   const [isNotificationVisible, setNotificationVisible] = useState(false);
-  // 알림 목록을 관리하는 state입니다.
   const [notifications, setNotifications] = useState([]);
-  // 읽지 않은 알림의 수를 관리하는 state입니다.
   const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
-  // 새로 추가된 알림의 수를 관리하는 state입니다.
   const [newNotificationCount, setNewNotificationCount] = useState(0);
-  // 알림 아이콘의 DOM 참조를 저장하기 위한 ref입니다.
   const notificationIconRef = useRef(null);
-  // 알림 창의 DOM 참조를 저장하기 위한 ref입니다.
   const notificationRef = useRef(null);
-
-  // 로컬스토리지에서 userId를 가져옵니다.
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [lastTransactionIds, setLastTransactionIds] = useState(new Set());
 
-  // console.log(user)
+  const userBudget = 50000;
+
   useEffect(() => {
     // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.
     const user = localStorage.getItem("user");
@@ -45,17 +34,20 @@ const Header = ({ setTransactionList }) => {
     }
   });
 
-  // 로그아웃 함수
+  const navigate = useNavigate();
+
   const reqLogout = () => {
     localStorage.removeItem("user");
-    setUserId(""); // 로그아웃 시 userId 상태를 초기화합니다.
-    setUsername(""); // 로그아웃 시 username 상태를 초기화합니다.
-    setLoggedIn(false); // 로그인 상태를 false로 설정합니다.
+    localStorage.removeItem(`${userId}_lastTransactionIds`);
+    setUserId("");
+    setUsername("");
+    setLoggedIn(false);
+    setNotifications([]);
+    setUnreadNotificationCount(0);
+    setNewNotificationCount(0);
     alert("로그아웃 되었습니다.");
     navigate("/login");
   };
-
-  // 로그아웃 버튼에 들어갈 로그인페이지로 이동 함수
 
   function loginPage() {
     navigate("/login");
@@ -76,13 +68,17 @@ const Header = ({ setTransactionList }) => {
       setUserId(parsedData.userid);
       setUsername(parsedData.username);
       setLoggedIn(true);
+      loadNotifications(parsedData.userid); // 알림을 불러옵니다.
+      const storedTransactionIds = localStorage.getItem(
+        `${parsedData.userid}_lastTransactionIds`
+      );
+      if (storedTransactionIds) {
+        setLastTransactionIds(new Set(JSON.parse(storedTransactionIds)));
+      }
     } else {
       setLoggedIn(false);
     }
   }, [loggedIn]);
-
-  // 테스트를 위한 가예산입니다.
-  const userBudget = 50000;
 
   // 알림 아이콘 클릭 시 알림 창을 토글하는 함수입니다.
   const toggleNotification = (event) => {
@@ -117,39 +113,27 @@ const Header = ({ setTransactionList }) => {
 
   // 컴포넌트가 마운트될 때와 언마운트될 때 이벤트 리스너를 설정합니다.
   useEffect(() => {
-    // 문서 전체에 클릭 이벤트 리스너를 추가합니다.
     document.addEventListener("click", handleDocumentClick);
-
-    // 컴포넌트가 언마운트될 때 (또는 이펙트가 재실행될 때)
-    // 클릭 이벤트 리스너를 제거합니다.
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-    // 빈 의존성 배열을 사용하여 컴포넌트가 처음 마운트될 때만 이펙트가 실행되도록 합니다.
   }, []);
 
   // 예산과 지출 내역을 비교하여 알림을 생성하는 함수입니다.
   const checkBudget = (budget, expenses) => {
     const now = new Date();
-    // 이번 달의 시작 날짜를 계산합니다.
     const startOfThisMonth = startOfMonth(now);
-    // 이번 달의 마지막 날짜를 계산합니다.
     const endOfThisMonth = endOfMonth(now);
 
     // 이번 달의 총 지출을 계산합니다.
     const totalExpenses = expenses
-      // expense 타입의 거래만 필터링합니다.
       .filter((item) => item.incomeType === "expense")
-      // 현재 월 내에 발생한 거래만 필터링합니다.
       .filter(
         (item) =>
-          // item.transactionDate를 Date 객체로 변환 후 날짜가  startOfThisMonth,  endOfThisMonth 사이에 있는지 확인합니다.
           new Date(item.transactionDate) >= startOfThisMonth &&
           new Date(item.transactionDate) <= endOfThisMonth
       )
-      // 각 거래의 금액을 핪나하여 총 지출 금액을 계산합니다.
       .reduce((acc, expense) => acc + expense.amount, 0);
-
     // 새로운 알림을 추가할 배열을 초기화합니다.
     const notificationsToAdd = [];
 
@@ -158,154 +142,130 @@ const Header = ({ setTransactionList }) => {
       notificationsToAdd.push({
         title: "예산 초과",
         detail: "<span class='highlight'>설정하신 예산을 초과했어요. 🙀</span>",
+        triggerPercentage: 100,
       });
     } else if (totalExpenses === budget) {
       notificationsToAdd.push({
         title: "예산 경고",
         detail:
           "<span class='highlight'>설정하신 예산을 전부 사용하셨어요.😹</span>",
+        triggerPercentage: 100,
       });
     } else if (totalExpenses >= budget * 0.9) {
       notificationsToAdd.push({
         title: "예산 경고",
         detail:
           "설정하신 <span class='highlight'>예산의 90%에 도달</span>했어요.😿",
+        triggerPercentage: 90,
       });
     } else if (totalExpenses >= budget * 0.5) {
       notificationsToAdd.push({
         title: "예산 경고",
         detail:
           "설정하신 <span class='highlight'>예산의 50%에 도달</span>했어요.😽",
+        triggerPercentage: 50,
       });
     }
+
     return notificationsToAdd;
   };
 
-  // 새로운 알림을 추가하는 함수입니다.
+  const loadNotifications = (userId) => {
+    const storedNotifications = localStorage.getItem(`${userId}_notifications`);
+    if (storedNotifications) {
+      const parsedNotifications = JSON.parse(storedNotifications);
+      setNotifications(parsedNotifications);
+      setUnreadNotificationCount(
+        parsedNotifications.filter((notification) => !notification.read).length
+      );
+    }
+  };
+
   const addNotifications = (newNotifications) => {
-    // 추가할 새로운 알림이 없는 경우 함수 종료
     if (newNotifications.length === 0) return;
 
-    // 로컬 스토리지에서 사용자 알림 목록을 가져옵니다.
     const listString = localStorage.getItem(`${userId}_notifications`);
     let storageList = [];
     if (listString) {
       storageList = JSON.parse(listString);
     }
 
-    const newNotificationTitles = newNotifications.map(
-      // 새로운 알림의 제목과 내용을 결합한 문자열 배열을 생성합니다.
-      (n) => n.title + n.detail
-    );
-
-    // 중복을 제거하고 새로운 알림을 상단에 추가하여 업데이트된 알림 목록을 생성합니다.
+    // 중복 알림을 방지하기 위해 기존 알림과 비교합니다.
     const updatedNotifications = [
-      // 새로운 알림 목록을 추가합니다.
+      ...storageList,
       ...newNotifications.map((notification) => ({
         ...notification,
-        // 현재 시간을 타임스탬프로 추가합니다.
         timestamp: Date.now(),
-        // 읽음 상태를 false로 설정합니다.
         read: false,
       })),
-      // 기존 알림 목록에서 새 알림 목록에 포함되지 않은 알림들을 필터링하여 추가합니다.
-      ...storageList.filter(
-        (notification) =>
-          // 새 알림 목록에 해당 알림의 제목과 세부 정보를 결합한 문자열이 포함되어 있지 않은 경우에만 해당 알림을 유지합니다.
-          !newNotificationTitles.includes(
-            notification.title + notification.detail
-          )
-      ),
-      // 타임스탬프를 기준으로 알림을 내림차순으로 정렬합니다.
-    ].sort((a, b) => b.timestamp - a.timestamp);
+    ]
+      .filter(
+        (notif, index, self) =>
+          index === self.findIndex((t) => t.timestamp === notif.timestamp)
+      )
+      .sort((a, b) => b.timestamp - a.timestamp);
 
-    // 새로운 알림의 수를 계산합니다.
     const newNotificationCount = newNotifications.length;
 
-    // 로컬 스토리지에 업데이트된 알림 목록을 저장합니다.
     localStorage.setItem(
       `${userId}_notifications`,
       JSON.stringify(updatedNotifications)
     );
 
     setUnreadNotificationCount(
-      // 읽지 않은 알림의 수를 업데이트합니다.
       updatedNotifications.filter((notification) => !notification.read).length
     );
-    // 새로운 알림의 수를 업데이트합니다.
     setNewNotificationCount((prevCount) => prevCount + newNotificationCount);
-    // 알림 목록을 업데이트합니다.
     setNotifications(updatedNotifications);
   };
 
-  // 컴포넌트가 마운트될 때 저장된 알림을 불러오는 함수입니다.
   useEffect(() => {
-    const loadNotifications = () => {
-      // 사용자 ID를 기반으로 로컬 저장소에서 알림 데이터를 가져옵니다.
-      const storedNotifications = localStorage.getItem(
-        `${userId}_notifications`
+    if (userId) {
+      const currentTransactionIds = new Set(
+        transactionList.map((txn) => txn.transactionId)
+      );
+      const isNewTransaction = [...currentTransactionIds].some(
+        (id) => !lastTransactionIds.has(id)
       );
 
-      // 로컬 저장소에서 알림 데이터가 존재하는지 확인합니다.
-      if (storedNotifications) {
-        // 로컬 저장소에서 가져온 JSON 문자열을 객체로 변환합니다.
-        const parsedNotifications = JSON.parse(storedNotifications);
-        // 상태를 업데이트하여 알림 목록을 설정합니다.
-        setNotifications(parsedNotifications);
-        // 읽지 않은 알림의 개수를 계산하여 상태를 업데이트합니다.
-        setUnreadNotificationCount(
-          // 읽지 않은 알림의 개수를 계산합니다.
-          parsedNotifications.filter((notification) => !notification.read)
-            .length
+      if (isNewTransaction) {
+        const newNotifications = checkBudget(userBudget, transactionList);
+
+        const highestLevelNotification = newNotifications.reduce(
+          (prev, curr) => {
+            if (!prev) return curr;
+            return curr.triggerPercentage > prev.triggerPercentage
+              ? curr
+              : prev;
+          },
+          null
+        );
+
+        const notificationsToAdd = highestLevelNotification
+          ? [highestLevelNotification]
+          : [];
+        addNotifications(notificationsToAdd);
+        setLastTransactionIds(currentTransactionIds);
+        // 트랜잭션 ID를 로컬 스토리지에 저장합니다.
+        localStorage.setItem(
+          `${userId}_lastTransactionIds`,
+          JSON.stringify([...currentTransactionIds])
         );
       }
-    };
-    if (userId) {
-      loadNotifications();
-    }
-  }, [userId]);
-
-  // 트랜잭션 리스트가 변경될 때 예산을 확인하고 알림을 추가하는 함수입니다.
-  useEffect(() => {
-    if (userId) {
-      const newNotifications = checkBudget(userBudget, transactionList);
-      addNotifications(newNotifications);
     }
   }, [transactionList, userId]);
 
-  // 알림을 삭제하는 함수입니다.
   const handleDeleteNotification = (index) => {
     const updatedNotifications = notifications.filter((_, i) => i !== index);
-    // 로컬 스토리지에 업데이트된 알림 목록을 저장합니다.
     localStorage.setItem(
       `${userId}_notifications`,
       JSON.stringify(updatedNotifications)
     );
-    // 알림 목록을 업데이트합니다.
-
-    // 상태 업데이트
     setNotifications(updatedNotifications);
-    // 읽지 않은 알림의 수를 업데이트합니다.
     setUnreadNotificationCount(
       updatedNotifications.filter((notification) => !notification.read).length
     );
   };
-
-  // 로그인 여부 확인
-  const [loggedIn, setLoggedIn] = useState(false);
-  // console.log(user)
-  useEffect(() => {
-    // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.
-    const user = localStorage.getItem("user");
-    // user의 데이터가 있다면 loggedIn = true, 데이터가 없다면 loggedIn = false
-    if (user) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  });
-
-  const navigate = useNavigate();
 
   return (
     <header ref={headerRef}>
@@ -324,23 +284,24 @@ const Header = ({ setTransactionList }) => {
         <div>
           <ul className="Header_Right">
             {loggedIn ? (
-              <li>{username || "닉네임"}</li>
+              <>
+                <li>{username || "닉네임"}</li>
+                <li>
+                  <button className="Header_logout" onClick={reqLogout}>
+                    로그아웃
+                  </button>
+                </li>
+              </>
             ) : (
-              <button className="Header_signup" onClick={Signup}>
-                회원가입
-              </button>
-            )}
-            <li>
-              {loggedIn ? (
-                <button className="Header_logout" onClick={reqLogout}>
-                  로그아웃
+              <>
+                <button className="Header_signup" onClick={Signup}>
+                  회원가입
                 </button>
-              ) : (
                 <button className="Header_logout" onClick={loginPage}>
                   로그인
                 </button>
-              )}
-            </li>
+              </>
+            )}
             <li>
               <FontAwesomeIcon
                 id="notification-icon"
@@ -397,7 +358,6 @@ const Header = ({ setTransactionList }) => {
                       </div>
                     ))
                   ) : (
-                    // 알림에 내용이 없을 때만 띄워줍니다.
                     <p className="NotAlarm">알림이 없습니다.</p>
                   )}
                 </div>
