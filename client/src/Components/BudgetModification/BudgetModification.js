@@ -1,70 +1,66 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { call } from "../service/ApiService";
 import "./BudgetModification.css";
 
-// call 함수 정의
-const call = async (url, method, data) => {
-  try {
-    // axious를 사용하여 HTTP 요청을 보냄.
-    const response = await axios({
-      url,
-      method,
-      data,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response;
-  } catch (error) {
-    // HTTP 요청 중 오류 발생 시 오류 메시지 출력
-    console.error("HTTP 요청 오류:", error);
-    throw error; // 오류를 호출자에게 전달
-  }
-};
-
 const BudgetModification = () => {
-  // 상태 변수: 입력된 예산 값
-  const [budget, setBudget] = useState(""); // 빈 문자열로 초기화
+  const [userId, setUserId] = useState("");
+  const [budget, setBudget] = useState("");
+  const [budgets, setBudgets] = useState([]);
 
-  // 입력값 변경 처리 함수 (숫자만 포함되도록 확인하고 음수를 차단)
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    // 입력값이 비어 있거나 숫자만 포함된 경우 업데이트
+  useEffect(() => {
+    // localStorage에서 userId를 가져옴
+    const storageData = localStorage.getItem("user");
+    if (storageData) {
+      try {
+        const parsedData = JSON.parse(storageData);
+        const storedUserId = parsedData.userid;
+        setUserId(storedUserId);
+      } catch (error) {
+        console.error("localStorage 데이터 파싱 오류:", error);
+      }
+    }
+    fetchBudgets();
+  }, []);
+
+  const fetchBudgets = async () => {
+    try {
+      const data = await call("/budget", "GET"); // GET 요청
+      setBudgets(data);
+    } catch (error) {
+      console.error("예산 데이터 조회 오류:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    let value = e.target.value.replace(/,/g, "");
     if (/^\d*$/.test(value)) {
+      value = formatNumber(value);
       setBudget(value);
     }
   };
 
-  // 숫자를 쉼표로 형식화 하는 함수
-  const formatNumber = (number) => {
-    if (number === "") return "";
-    return new Intl.NumberFormat().format(number);
-  };
-
-  // 형식화된 숫자를 입력 필드에 다시 설정 (제출 처리 함수)
   const handleSubmit = async () => {
     try {
-      // 서버에 예산 데이터 전송
-      await call("http://localhost:8080/api/budget", "POST", {
-        amount: parseFloat(budget.replace(/,/g, "")), // 쉼표를 제거하고 숫자 변환
-        budgetDate: new Date().toISOString().split("T")[0], // 예산 날짜 추가
+      if (!userId) {
+        alert("사용자 ID를 확인할 수 없습니다. 로그인 상태를 확인해주세요.");
+        return;
+      }
+      await call("/budget", "POST", {
+        userId, // userId 추가
+        monthlyBudget: parseFloat(budget.replace(/,/g, "")),
+        budgetDate: new Date().toISOString().split("T")[0],
       });
-      // 성공 메시지 처리
       alert("예산이 성공적으로 저장되었습니다!");
-      setBudget(""); // 입력 필드 초기화
+      setBudget("");
+      fetchBudgets(); // 데이터 저장 후 예산 목록 다시 가져오기
     } catch (error) {
-      // 제출 실패 시 오류 메시지 처리
       alert("예산 저장에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
-  // 입력값에 쉼표를 추가하는 함수
-  const handleChange = (e) => {
-    let value = e.target.value.replace(/,/g, ""); // 기존 쉼표 제거
-    if (/^\d*$/.test(value)) {
-      value = formatNumber(value); // 새 형식 적용
-      setBudget(value);
-    }
+  const formatNumber = (number) => {
+    if (number === "") return "";
+    return new Intl.NumberFormat().format(number);
   };
 
   return (
