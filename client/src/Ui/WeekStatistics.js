@@ -96,6 +96,10 @@ const WeekStatistics = () => {
     setStartDate(start);
     setEndDate(end);
     sendDataToServer(start, end);
+    setMaxCategory("");
+    setMaxExpense("");
+    setTotalWeekExpense("");
+    setMaxDayExpense("");
   };
 
   const formatDateToISO = (date) => {
