@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const KakaoToken = () => {
-    const location = useLocation();
-    const code = new URLSearchParams(location.search).get('code');
+    const navigate = useNavigate();
+
+    // URL에서 'code' 파라미터 가져오기
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = searchParams.get('code');
 
     useEffect(() => {
         const getToken = async () => {
-            const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY
-            const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI
+            const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+            const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
             const TOKEN_URL = 'https://kauth.kakao.com/oauth/token';
 
             const params = {
@@ -22,11 +25,7 @@ const KakaoToken = () => {
             try {
                 const response = await axios.post(TOKEN_URL, null, { params });
                 const { access_token } = response.data;
-
-                // 이후에 access_token을 사용하여 사용자 정보를 가져올 수 있습니다.
                 console.log('Access Token:', access_token);
-
-                // 사용자 정보를 요청하는 코드 예시
                 const userInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
                     headers: {
                         Authorization: `Bearer ${access_token}`,
@@ -34,14 +33,31 @@ const KakaoToken = () => {
                 });
 
                 console.log('User Info:', userInfo.data);
+
+                // 백엔드에 사용자 정보 전송
+                await axios.post('http://localhost:8080/sns/kakao',
+                    {
+                        username: userInfo.data.kakao_account.profile.nickname,
+                        email: userInfo.data.kakao_account.email,
+                        logintype : "K"
+                    },
+                    {
+                        headers: { 'Content-Type': 'application/json' }
+                    }
+                );
+
+                console.log('User saved successfully');
+                localStorage.setItem("kakao_token", JSON.stringify(access_token));
+                localStorage.setItem("user", JSON.stringify(userInfo));
+                navigate('/main')
             } catch (error) {
-                console.error('Error fetching access token:', error);
+                console.error('Error fetching access token or saving user:', error);
             }
         };
-        console.log(code, "akakak")
 
+        // code가 있을 경우에만 getToken 호출
         if (code) {
-            getToken();
+            getToken();      
         }
     }, [code]);
 
