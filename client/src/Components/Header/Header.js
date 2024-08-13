@@ -80,13 +80,27 @@ const Header = () => {
     }
   }, [loggedIn]);
 
-  // 알림 아이콘 클릭 시 알림 창을 토글하는 함수입니다.
   const toggleNotification = (event) => {
     setNotificationVisible((prev) => !prev);
+
     if (!isNotificationVisible) {
-      // 알림 창이 열리면 새 알림 수를 0으로 초기화합니다.
-      setNewNotificationCount(0);
+      // 알림 창이 열릴 때 모든 알림의 read 상태를 true로 설정합니다.
+      const updatedNotifications = notifications.map((notification) => ({
+        ...notification,
+        read: true,
+      }));
+
+      setNotifications(updatedNotifications);
+      setUnreadNotificationCount(0); // 읽지 않은 알림 수를 0으로 설정합니다.
+      setNewNotificationCount(0); // 새 알림 수를 0으로 초기화합니다.
+
+      // 로컬 스토리지에 업데이트된 알림을 저장합니다.
+      localStorage.setItem(
+        `${userId}_notifications`,
+        JSON.stringify(updatedNotifications)
+      );
     }
+
     // 이벤트 전파를 중지시킵니다.
     event.stopPropagation();
   };
@@ -176,6 +190,9 @@ const Header = () => {
       const parsedNotifications = JSON.parse(storedNotifications);
       setNotifications(parsedNotifications);
       setUnreadNotificationCount(
+        parsedNotifications.filter((notification) => !notification.read).length
+      );
+      setNewNotificationCount(
         parsedNotifications.filter((notification) => !notification.read).length
       );
     }
