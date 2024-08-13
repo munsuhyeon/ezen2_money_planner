@@ -56,8 +56,6 @@ function App() {
       requestData = { ...item, userId };
     }
     //console.log("여기인가?    ", userId)
-  const getTransactionList = async (item = formatMonth(new Date()), userId) => {
-    const requestData = { ...item, userId };
     call("/transactions/list", "POST", requestData)
       .then((response) => {
         if (response) {
@@ -100,7 +98,6 @@ function App() {
         <UserIdContext.Provider value={userId}>
           <BrowserRouter>
             <Header setTransactionList={setTransactionList} />
-            <Header />
             <Routes>
               <Route
                 path="/main"
@@ -193,8 +190,8 @@ function App() {
                   </Layout>
                 }
               />
-              <Route path="/user/kakao" element={<KakaoLogin />} />
-              <Route path="/user" element={<KakaoToken />} />
+                           <Route path="/user/kakao" element={<KakaoLogin />} />
+                           <Route path="/user" element={<KakaoToken />} />
             </Routes>
           </BrowserRouter>
         </UserIdContext.Provider>
@@ -211,6 +208,5 @@ const Layout = ({ children }) => (
 );
 
 const LayoutWithoutSideNav = ({ children }) => <div>{children}</div>;
-}
 
 export default App;
