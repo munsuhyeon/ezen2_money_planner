@@ -33,7 +33,11 @@ const KakaoToken = () => {
                 });
 
                 console.log('User Info:', userInfo.data);
-
+                const kakaoUserInfo = {
+                    username : userInfo.data.properties.nickname,
+                    userid : userInfo.data.id
+                }
+                console.log('kakaoUserInfo:', kakaoUserInfo);
                 // 백엔드에 사용자 정보 전송
                 await axios.post('http://localhost:8080/sns/kakao',
                     {
@@ -50,9 +54,9 @@ const KakaoToken = () => {
                         alert('이미 가입한 이력이 있습니다.');
             }})
 
-                    console.log('User saved successfully');
+                    console.log(kakaoUserInfo);
                     localStorage.setItem("kakao_token", JSON.stringify(access_token));
-                    localStorage.setItem("user", JSON.stringify(userInfo));
+                    localStorage.setItem("user", JSON.stringify(kakaoUserInfo));
                     navigate('/main')
                 } catch (error) {
                     console.error('Error fetching access token or saving user:', error);

@@ -35,7 +35,11 @@ function Login() {
       const data = await response.json();
       console.log(data); // 서버에서 받은 데이터를 콘솔에 출력
       // 로컬 스토리지에 로그인 정보 저장
-      localStorage.setItem("user", JSON.stringify(data));
+      const userData = {
+        userid: data.userid,
+        username: data.username
+      }
+      localStorage.setItem("user", JSON.stringify(userData));
 
       // 홈 페이지로 이동
       navigate("/main");
