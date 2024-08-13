@@ -284,6 +284,35 @@ const Header = () => {
     );
   };
 
+  // 로그인 여부 확인
+  // console.log(user)
+  useEffect(() => {
+    // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.
+    const user = localStorage.getItem("user");
+    // user의 데이터가 있다면 loggedIn = true, 데이터가 없다면 loggedIn = false
+    if (user) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  });
+
+  // 로그아웃 함수
+  function reqLogout() {
+    // 로컬스토리지에서 사용자 데이터를 제거함으로 로그아웃
+    localStorage.removeItem("user");
+    localStorage.removeItem("kakao_token");
+    alert("로그아웃 되었습니다.");
+    // 로그아웃후 로그인페이지로 이동
+    navigate("/login");
+  }
+
+  // 로그아웃 버튼에 들어갈 로그인페이지로 이동 함수
+
+  function loginPage() {
+    navigate("/login");
+  }
+
   return (
     <header ref={headerRef}>
       <div className="Header_div">

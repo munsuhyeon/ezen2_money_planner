@@ -1,0 +1,18 @@
+/* 소셜 로그인 */
+.social_login_container .social_login_button_box {
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .social_login_container .social_login_button_box .kakao_button {
+    background-color: #fee500;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 600;
+    width: 358px;
+    height: 50px;
+    text-align: center;
+  }
+  /* 소셜 로그인 F */

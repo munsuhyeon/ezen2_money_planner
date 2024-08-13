@@ -1,5 +1,5 @@
 .login_section {
-  margin: 160px auto;
+  margin: 120px auto;
   max-width: 500px;
   width: 500px;
   /* max-height: 750px;
@@ -7,12 +7,11 @@
   /* border:solid 1px rgba(0, 0, 0, 0.2);; */
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.07), 
-  0 2px 4px rgba(0,0,0,0.07), 
-  0 4px 8px rgba(0,0,0,0.07), 
-  0 8px 16px rgba(0,0,0,0.07),
-  0 16px 32px rgba(0,0,0,0.07)
-;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07),
+    0 2px 4px rgba(0, 0, 0, 0.07),
+    0 4px 8px rgba(0, 0, 0, 0.07),
+    0 8px 16px rgba(0, 0, 0, 0.07),
+    0 16px 32px rgba(0, 0, 0, 0.07);
 }
 
 /* 로그인화면 로고 이미지 */
@@ -88,27 +87,7 @@
 /* 로그인 버튼 F */
 
 
-/* 소셜 로그인 */
-.social_login_container .social_login_button_box {
-  padding: 12px;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
 
-.social_login_container .social_login_button_box .kakao_button {
-  background-color: #fee500;
-  border-radius: 8px;
-  font-size: 20px;
-  font-weight: bold;
-  width: 358px;
-  height: 50px;
-  text-align: center;
-}
-
-
-
-/* 소셜 로그인 F */
 
 /* 비번 찾기, 회원가입*/
 .login_section .forgot-signup_container {
@@ -123,11 +102,12 @@
   cursor: pointer;
 }
 
-.login_section .forgot-signup_container .signup_button_box{
-width: 358px;
-background-color: #896ccb;
-border-radius: 8px;
-text-align: center;
+.login_section .forgot-signup_container .signup_button_box {
+  width: 358px;
+  background-color: #896ccb;
+  border-radius: 8px;
+  text-align: center;
+
 
 
 
@@ -137,9 +117,10 @@ text-align: center;
   width: 358px;
   height: 50px;
   cursor: pointer;
-  font-weight: 400;
   color: white;
   padding: 12px 16px 12px 16px;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 /* 비번 찾기, 회원가입 F*/
