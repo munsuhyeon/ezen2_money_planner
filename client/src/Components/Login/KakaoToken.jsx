@@ -39,27 +39,31 @@ const KakaoToken = () => {
                     {
                         username: userInfo.data.kakao_account.profile.nickname,
                         email: userInfo.data.kakao_account.email,
-                        logintype : "K"
+                        logintype: "K"
                     },
                     {
                         headers: { 'Content-Type': 'application/json' }
                     }
-                );
+                ).catch(error => {
+                    if (error.response && error.response.status === 400) {
+                        // 이미 가입한 이력이 있을 경우
+                        alert('이미 가입한 이력이 있습니다.');
+            }})
 
-                console.log('User saved successfully');
-                localStorage.setItem("kakao_token", JSON.stringify(access_token));
-                localStorage.setItem("user", JSON.stringify(userInfo));
-                navigate('/main')
-            } catch (error) {
-                console.error('Error fetching access token or saving user:', error);
+                    console.log('User saved successfully');
+                    localStorage.setItem("kakao_token", JSON.stringify(access_token));
+                    localStorage.setItem("user", JSON.stringify(userInfo));
+                    navigate('/main')
+                } catch (error) {
+                    console.error('Error fetching access token or saving user:', error);
+                }
+            };
+
+            // code가 있을 경우에만 getToken 호출
+            if (code) {
+                getToken();
             }
-        };
-
-        // code가 있을 경우에만 getToken 호출
-        if (code) {
-            getToken();      
-        }
-    }, [code]);
+        }, [code]);
 
     return <div>로그인 처리 중...</div>;
 };
