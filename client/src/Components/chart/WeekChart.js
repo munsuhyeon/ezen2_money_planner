@@ -30,7 +30,7 @@ const transformData3 = (data) => {
 
 export const createCategoryChart = (data) => {
   const ctx = document.getElementById("week_category_chart");
-  console.log("크아아아아악:", data);
+  console.log("카테고리차트:", data);
   destroyChart(categoryChartInstance);
   const { labels, values } = transformData1(data);
 
@@ -109,7 +109,7 @@ export const createCategoryChart = (data) => {
 
 export const createWeekPayChart = (data) => {
   const wpctx = document.getElementById("week_pay");
-  console.log("크아아아아악:", data);
+  console.log("주간지출차트:", data);
   destroyChart(weekPayInstance);
   const { labels, values } = transformData2(data);
 
@@ -168,7 +168,7 @@ export const createWeekPayChart = (data) => {
 
 export const createDayPayChart = (data) => {
   const wpctx = document.getElementById("day_pay");
-  console.log("크아아아아악:", data);
+  console.log("요일지출차트:", data);
   destroyChart(dayPayInstance);
   const { labels, values } = transformData3(data);
 

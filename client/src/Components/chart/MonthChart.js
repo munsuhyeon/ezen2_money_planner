@@ -46,7 +46,7 @@ const transformData5 = (data) => {
 
 export const createCategoryChart = (data) => {
   const ctx = document.getElementById("category_chart");
-  console.log("크아아아아악:", data);
+  console.log("카레고리차트:", data);
   destroyChart(categoryChartInstance);
   const { labels, values } = transformData1(data);
 
@@ -126,7 +126,7 @@ export const createCategoryChart = (data) => {
 
 export const createTop5PayChart = (data) => {
   const t5mctx = document.getElementById("top_5_pay");
-  console.log("크아아아아악:", data);
+  console.log("주요소비차트:", data);
   destroyChart(top5PayChartInstance);
   const { labels, values } = transformData2(data);
 
@@ -185,7 +185,7 @@ export const createTop5PayChart = (data) => {
 
 export const createPaymentMethodChart = (data) => {
   const pmctx = document.getElementById("payment_method");
-  console.log("크아아아아악:", data);
+  console.log("결제수단차트:", data);
   destroyChart(paymentMethodChartInstance);
   const { labels, values } = transformData3(data);
 
@@ -264,7 +264,7 @@ export const createPaymentMethodChart = (data) => {
 
 export const createLast3MonthsChart = (data) => {
   const l3mctx = document.getElementById("last_3_month");
-  console.log("크아아아아악:", data);
+  console.log("3개월지출차트:", data);
   destroyChart(last3MonthsChartInstance);
   const { labels, values } = transformData4(data);
 
@@ -370,7 +370,7 @@ export const createLast3MonthsChart = (data) => {
 
 export const createEarningsExpenses = (data) => {
   const eectx = document.getElementById("earnings_expenses");
-  console.log("크아아아아악:", data);
+  console.log("수입지출차트:", data);
   destroyChart(earningsExpensesChartInstance);
   const { labels, values } = transformData5(data);
 
