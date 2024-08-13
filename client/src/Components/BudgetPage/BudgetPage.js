@@ -1,258 +1,373 @@
-import React, { useState } from "react";
-import { Bar, Doughnut } from "react-chartjs-2";
-import Chart from "chart.js/auto";
-import ChartDataLabels from "chartjs-plugin-datalabels";
-import CustomDatePicker from "../BudgetDate/BudgetDate"; // CustomDatePicker를 임포트합니다.
+import React, { useState, useEffect } from "react";
+import { call } from "../service/ApiService";
+import LeftSection from "./LeftSection";
+import RightSection from "./RightSection";
+import EndSection from "./EndSection";
+import CustomDatePicker from "../BudgetDate/BudgetDate";
+import BudgetModal from "../BudgetModal/BudgetModal";
+import BudgetCatModal from "../BudgetCategoryModal/BudgetCatModal";
 import "./BudgetPage.css";
+import { formatMonth } from "../../Utils/Utils";
 
-// 막대 그래프 데이터
-const barChartData = {
-  labels: ["2024-05", "2024-06", "2024-07"], // 최근 3개월
-  datasets: [
-    {
-      data: [100000, 150000, 200000], // 예제 데이터
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.75)",
-        "rgba(54, 162, 235, 0.75)",
-        "rgba(255, 206, 86, 0.75)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-      ],
-      borderWidth: 1,
-    },
-  ],
+const fetchMonthlyData = async (userId, year, month) => {
+  try {
+    const response = await call(`/budget/${userId}/${year}/${month}`, "GET");
+    if (!response) {
+      console.warn(`응답 데이터가 비어있습니다: ${year}-${month}`);
+      return { monthlyBudget: 0, budgetId: null };
+    }
+    return response;
+  } catch (error) {
+    console.error(`월별 데이터 요청 오류:`, error.message);
+    return { monthlyBudget: 0, budgetId: null };
+  }
 };
 
-// 막대 그래프 설정
-const barChartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  layout: {
-    padding: {
-      left: 20,
-      right: 20,
-      top: 20,
-      bottom: 20,
-    },
-  },
-  scales: {
-    x: {
-      beginAtZero: true,
-      ticks: {
-        padding: 10,
-      },
-    },
-    y: {
-      beginAtZero: true,
-      ticks: {
-        stepSize: 50000,
-        callback: function (value) {
-          return value.toLocaleString("ko-KR") + "원";
-        },
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      callbacks: {
-        label: function (tooltipItem) {
-          return `${tooltipItem.label}: ${tooltipItem.raw.toLocaleString()} 원`;
-        },
-      },
-    },
-  },
-  barThickness: 30,
+const fetchRecentThreeMonthsData = async (
+  userId,
+  selectedMonth,
+  setMonthlyBudget,
+  setCategories,
+  setBudgetId
+) => {
+  try {
+    if (!userId) {
+      throw new Error("User ID가 정의되지 않았습니다.");
+    }
+
+    const now = selectedMonth || new Date();
+    const requests = [];
+
+    for (let i = 0; i < 3; i++) {
+      const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      requests.push(fetchMonthlyData(userId, year, month));
+    }
+
+    const responses = await Promise.all(requests);
+    const data = responses.filter(Boolean);
+
+    const categoriesData = data.map((item, index) => ({
+      name: `${
+        new Date(now.getFullYear(), now.getMonth() - index, 1).getMonth() + 1
+      }월`,
+      amount: item?.monthlyBudget || 0,
+    }));
+
+    setCategories(categoriesData);
+    if (categoriesData.length > 0) {
+      setMonthlyBudget(categoriesData[0].amount);
+      setBudgetId(data[0]?.budgetId || null);
+    } else {
+      setMonthlyBudget(0);
+      setBudgetId(null);
+    }
+  } catch (error) {
+    console.error("최근 3개월 예산 데이터 불러오기 오류:", error.message);
+    setCategories([]);
+    setMonthlyBudget(0);
+    setBudgetId(null);
+  }
 };
 
-// 도넛 차트 데이터
-const donutData = (categories) => ({
-  labels: categories.map((cat) => cat.name),
-  datasets: [
-    {
-      data: categories.map((cat) => cat.amount),
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.6)",
-        "rgba(54, 162, 235, 0.6)",
-        "rgba(255, 206, 86, 0.6)",
-        "rgba(75, 192, 192, 0.6)",
-        "rgba(153, 102, 255, 0.6)",
-        "rgba(255, 159, 64, 0.6)",
-      ],
-    },
-  ],
-});
-
-// 도넛 차트 설정
-const donutOptions = (totalBudget) => ({
-  responsive: true,
-  maintainAspectRatio: false,
-  layout: {
-    padding: {
-      left: 20,
-      right: 20,
-      top: 20,
-      bottom: 20,
-    },
-  },
-  plugins: {
-    legend: {
-      position: "bottom",
-      align: "center",
-      labels: {
-        padding: 26,
-      },
-    },
-    tooltip: {
-      enabled: false,
-    },
-    datalabels: {
-      formatter: function (value, context) {
-        const total = context.dataset.data.reduce((acc, curr) => acc + curr, 0);
-        const percentage = ((value / total) * 100).toFixed(2);
-        return `${
-          context.chart.data.labels[context.dataIndex]
-        }\n${percentage}%`;
-      },
-      color: "#000",
-      font: {
-        weight: "bold",
-        size: 12,
-      },
-      anchor: "center",
-      align: "center",
-      offset: 0,
-    },
-    beforeDraw: (chart) => {
-      const { ctx, chartArea } = chart;
-      ctx.save();
-      ctx.font = "bold 16px 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "#000";
-      const total = chart.data.datasets[0].data.reduce(
-        (acc, curr) => acc + curr,
-        0
-      );
-      const centerX = (chartArea.left + chartArea.right) / 2;
-      const centerY = (chartArea.top + chartArea.bottom) / 2;
-      ctx.fillText("총 예산", centerX, centerY - 10);
-      ctx.font = "bold 24px 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
-      ctx.fillText(`${total.toLocaleString()}원`, centerX, centerY + 10);
-      ctx.restore();
-    },
-  },
-});
+const saveCategories = async (userId, newCategories) => {
+  try {
+    await Promise.all(
+      newCategories.map((category) => {
+        const url = category.catBudgetId
+          ? `/catbudget/${category.catBudgetId}`
+          : `/catbudget`;
+        return call(url, "PUT", { ...category, userId });
+      })
+    );
+  } catch (error) {
+    console.error("카테고리 업데이트 오류:", error);
+  }
+};
 
 const BudgetPage = () => {
-  const [totalBudget, setTotalBudget] = useState(300000);
+  const [userId, setUserId] = useState("");
+  const [monthlyBudget, setMonthlyBudget] = useState(0);
   const [month, setMonth] = useState(new Date());
-  const [categories, setCategories] = useState([
-    { name: "식비", amount: 50000 },
-    { name: "카페 / 디저트", amount: 50000 },
-    { name: "문화생활", amount: 50000 },
-    { name: "교통비", amount: 50000 },
-    { name: "통신비", amount: 50000 },
-    { name: "기타 비용", amount: 50000 },
-  ]);
+  const [categories, setCategories] = useState([]);
+  const [budgetId, setBudgetId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCatModalOpen, setIsCatModalOpen] = useState(false);
+  const [error, setError] = useState("");
+  const [categoryData, setCategoryData] = useState([]);
+
+  // Fetch userId from localStorage when component mounts
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("user");
+    if (storedUserId) {
+      try {
+        const parsedData = JSON.parse(storedUserId);
+        setUserId(parsedData.userid);
+      } catch (error) {
+        console.error("로컬스토리지에서 사용자 ID 가져오기 오류:", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      fetchRecentThreeMonthsData(
+        userId,
+        month,
+        setMonthlyBudget,
+        setCategories,
+        setBudgetId
+      );
+      getBudget_by_category(); // 카테고리별 예산 가져오기
+    }
+  }, [userId, month]);
+
+  const handleMonthChange = (date) => {
+    setMonth(date);
+    fetchMonthlyData(userId, date.getFullYear(), date.getMonth() + 1).then(
+      (data) => {
+        setMonthlyBudget(data.monthlyBudget);
+        setBudgetId(data.budgetId);
+      }
+    );
+  };
+
+  const handleSaveCategories = async (newCategories) => {
+    try {
+      await saveCategories(userId, newCategories);
+      setCategories(newCategories);
+      // Directly update categoryData for immediate effect
+      setCategoryData(newCategories);
+      setIsCatModalOpen(false);
+    } catch (error) {
+      setError(`카테고리 저장 실패: ${error.message}`);
+    }
+  };
+
+  const getBudget_by_category = () => {
+    const date = formatMonth(month);
+    const request = {
+      userId: userId,
+      startDate: date.startDate,
+      endDate: date.endDate,
+    };
+    call(`/catbudget/user/${userId}`, "POST", request)
+      .then((response) => {
+        setCategoryData(response);
+      })
+      .catch((error) => console.error("카테고리별 예산 가져오기 실패", error));
+  };
+
+  const barChartData = {
+    labels: Array.isArray(categories) ? categories.map((cat) => cat.name) : [],
+    datasets: [
+      {
+        label: "예산 (원)",
+        data: Array.isArray(categories)
+          ? categories.map((cat) => cat.amount || 0)
+          : [],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.6)",
+          "rgba(75, 192, 192, 0.6)",
+          "rgba(255, 206, 86, 0.6)",
+        ],
+      },
+    ],
+  };
+
+  const barChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        reverse: true,
+      },
+      y: {
+        beginAtZero: true,
+        suggestedMax:
+          Math.max(
+            ...(Array.isArray(categories)
+              ? categories.map((cat) => cat.amount || 0)
+              : [0])
+          ) * 1.2,
+        ticks: {
+          callback: function (value) {
+            return value.toLocaleString() + "원";
+          },
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
 
   return (
     <section id="budget_page">
       <div className="container_budget">
         <div className="budget_top">
-          <CustomDatePicker
-            selectedDate={month}
-            onChange={(date) => setMonth(date)}
-          />
+          <CustomDatePicker selectedDate={month} onChange={handleMonthChange} />
           <div className="buttons">
-            <button className="edit-button">수정</button>
-            <button className="confirm-button">확인</button>
+            <button
+              className="page-edit-button"
+              onClick={() => setIsModalOpen(true)}
+            >
+              예산 설정
+            </button>
+            <button
+              className="middle-button"
+              onClick={() => setIsCatModalOpen(true)}
+            >
+              카테고리 설정
+            </button>
           </div>
         </div>
         <div className="content_budget">
-          <div className="left-section">
-            <div className="budget1">
-              <div className="section-title">설정한 예산 데이터</div>
-              <div className="budget-setting">
-                <img
-                  src="/assets/logo/pocketcat.png"
-                  alt="프로필 이미지"
-                  className="profile-image-left"
-                />
-                <p className="profile-content-right">
-                  <span>김영산</span>님<br />
-                  설정하신 예산은 <br />
-                  <span id="total-budget">
-                    {totalBudget.toLocaleString()}
-                  </span>{" "}
-                  원입니다.
-                </p>
-              </div>
-            </div>
-            <div className="budget2">
-              <div className="section-title1">최근 3개월 예산 그래프</div>
-              <div className="chart-container">
-                <Bar data={barChartData} options={barChartOptions} />
-              </div>
-            </div>
-          </div>
-          <div className="right-section">
-            <div className="budget3">
-              <div className="section-title">카테고리별 예산</div>
-              <div className="chart-container">
-                <Doughnut
-                  data={donutData(categories)}
-                  options={donutOptions(totalBudget)}
-                  plugins={[ChartDataLabels]} // 데이터 레이블 플러그인 추가
-                />
-              </div>
-              <div className="budget-table-container">
-                <table className="budget-table">
-                  <tbody>
-                    {categories.map((cat, index) => (
-                      <tr key={index}>
-                        <td>{cat.name}</td>
-                        <td>{cat.amount.toLocaleString()}원</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div className="end-section">
-            <div className="budget4">
-              <div className="section-title2">예산 분석</div>
-              <div className="section-subtitle2">
-                <h3>카테고리 총 금액</h3>
-                <p className="sub_title1">
-                  <span>{totalBudget.toLocaleString()}</span>원
-                </p>
-                <div className="month-budget">
-                  <p className="sub_title2">
-                    {month.toLocaleDateString("ko-KR", {
-                      year: "numeric",
-                      month: "long",
-                    })}{" "}
-                    금액
-                  </p>
-                  <p className="sub_title3">
-                    <span>{totalBudget.toLocaleString()}</span>원
-                  </p>
-                  <p className="sub-title4">
-                    (이번달 총 예상 금액은 : 300,000원)
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <LeftSection
+            userId={userId}
+            month={month}
+            monthlyBudget={monthlyBudget}
+            barChartData={barChartData}
+            barChartOptions={barChartOptions}
+          />
+          <RightSection
+            categories={categoryData}
+            donutData={() => ({
+              labels: categoryData.map((cat) => cat.catBudgetName),
+              datasets: [
+                {
+                  data: categoryData.map(
+                    (cat) => cat.categoryBudgetAmount || 0
+                  ),
+                  backgroundColor: [
+                    "rgba(255, 99, 132, 0.6)",
+                    "rgba(54, 162, 235, 0.6)",
+                    "rgba(255, 206, 86, 0.6)",
+                    "rgba(75, 192, 192, 0.6)",
+                    "rgba(153, 102, 255, 0.6)",
+                    "rgba(255, 159, 64, 0.6)",
+                  ],
+                },
+              ],
+            })}
+            donutOptions={{
+              responsive: true,
+              maintainAspectRatio: false,
+              layout: {
+                padding: {
+                  left: 20,
+                  right: 20,
+                  top: 20,
+                  bottom: 20,
+                },
+              },
+              plugins: {
+                legend: {
+                  position: "bottom",
+                  align: "center",
+                  labels: {
+                    padding: 26,
+                  },
+                },
+                tooltip: {
+                  enabled: false,
+                },
+                datalabels: {
+                  formatter: (value, context) => {
+                    const total = context.dataset.data.reduce(
+                      (acc, curr) => acc + curr,
+                      0
+                    );
+                    const percentage = ((value / total) * 100).toFixed(2);
+                    return `${
+                      context.chart.data.labels[context.dataIndex]
+                    }\n${percentage}%`;
+                  },
+                  color: "#000",
+                  font: {
+                    weight: "bold",
+                    size: 12,
+                  },
+                  anchor: "center",
+                  align: "center",
+                },
+                beforeDraw: (chart) => {
+                  const { ctx, chartArea } = chart;
+                  ctx.save();
+                  ctx.font =
+                    "bold 16px 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
+                  ctx.textAlign = "center";
+                  ctx.textBaseline = "middle";
+                  ctx.fillStyle = "#000";
+                  const total = chart.data.datasets[0].data.reduce(
+                    (acc, curr) => acc + curr,
+                    0
+                  );
+                  const centerX = (chartArea.left + chartArea.right) / 2;
+                  const centerY = (chartArea.top + chartArea.bottom) / 2;
+                  ctx.fillText("총 예산", centerX, centerY - 10);
+                  ctx.font =
+                    "bold 24px 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
+                  ctx.fillText(
+                    `${total.toLocaleString()}원`,
+                    centerX,
+                    centerY + 10
+                  );
+                  ctx.restore();
+                },
+              },
+            }}
+          />
+
+          <EndSection monthlyBudget={monthlyBudget} month={month} />
         </div>
       </div>
+
+      <BudgetModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          // Refresh data after closing modal
+          fetchRecentThreeMonthsData(
+            userId,
+            month,
+            setMonthlyBudget,
+            setCategories,
+            setBudgetId
+          );
+        }}
+        userId={userId}
+        onSave={(newBudget) => {
+          setMonthlyBudget(newBudget.monthlyBudget);
+          setBudgetId(newBudget.budgetId);
+          // Fetch recent data after saving
+          fetchRecentThreeMonthsData(
+            userId,
+            month,
+            setMonthlyBudget,
+            setCategories,
+            setBudgetId
+          );
+        }}
+        initialBudget={monthlyBudget}
+      />
+
+      <BudgetCatModal
+        isOpen={isCatModalOpen}
+        onClose={() => {
+          setIsCatModalOpen(false);
+          // Refresh category data after closing modal
+          getBudget_by_category();
+        }}
+        onSave={(newCategories) => {
+          handleSaveCategories(newCategories);
+        }}
+        userId={userId}
+        budgetMonth={month} // month를 budgetMonth로 전달
+      />
     </section>
   );
 };

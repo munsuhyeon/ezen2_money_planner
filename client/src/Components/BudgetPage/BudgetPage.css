@@ -67,7 +67,7 @@
 
 .section-title,
 .section-title1 {
-  font-size: 27px;
+  font-size: 22px;
   font-weight: bold;
   margin-bottom: 20px;
   color: #000000;
@@ -166,8 +166,8 @@
   font-weight: bold;
 }
 
-.edit-button,
-.confirm-button {
+.page-edit-button,
+.middle-button {
   color: white;
   padding: 6px;
   font-size: 14px;
@@ -182,11 +182,15 @@
   background-color: #603693;
 }
 
-.edit-button {
+.middle-button {
+  background-color: #af9adf;
+}
+.page-edit-button {
   background-color: #af9adf;
 }
 
-.edit-button:hover,
+.page-edit-button:hover,
+.middle-button:hover,
 .confirm-button:hover {
   background-color: #896ccb;
 }
