@@ -58,7 +58,7 @@ const LeftSection = ({
         <div className="section-title">설정한 예산 데이터</div>
         <div className="budget-setting">
           <img
-            src="/assets/logo/nocoincat.png"
+            src="/assets/logo/coincat.png"
             alt="프로필 이미지"
             className="profile-image-left"
           />
