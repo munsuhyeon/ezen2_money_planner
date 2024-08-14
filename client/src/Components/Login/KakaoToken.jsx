@@ -13,7 +13,6 @@ const KakaoToken = () => {
         const getToken = async () => {
             const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
             const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
-            const TOKEN_URL = 'https://kauth.kakao.com/oauth/token';
 
             const params = {
                 grant_type: 'authorization_code',
@@ -23,9 +22,11 @@ const KakaoToken = () => {
             };
 
             try {
-                const response = await axios.post(TOKEN_URL, null, { params });
+                // 카카오에서 토큰 받기
+                const response = await axios.post('https://kauth.kakao.com/oauth/token', null, { params });
                 const { access_token } = response.data;
                 console.log('Access Token:', access_token);
+                // 카카오에서 받은 정보를 변수 userInfo 에 저장
                 const userInfo = await axios.get('https://kapi.kakao.com/v2/user/me', {
                     headers: {
                         Authorization: `Bearer ${access_token}`,
@@ -33,16 +34,21 @@ const KakaoToken = () => {
                 });
 
                 console.log('User Info:', userInfo.data);
+                // 변수 kakaoUserInfo 에 카카오에서 받은 정보중 username, userid 저장
                 const kakaoUserInfo = {
                     username : userInfo.data.properties.nickname,
                     userid : userInfo.data.id
                 }
                 console.log('kakaoUserInfo:', kakaoUserInfo);
-                // 백엔드에 사용자 정보 전송
+
+                // 카카오에서 받은 정보가 저장된 userInfo 에서 userid, username, email 을 
+                // 백엔드에 전송하여 데이터베이스에 저장
+                // logintype 는 데이터베이스에 알맞게 직접 키와 값을 설정함
                 await axios.post('http://localhost:8080/sns/kakao',
                     {
+                        userid : userInfo.data.id,
                         username: userInfo.data.kakao_account.profile.nickname,
-                        email: userInfo.data.kakao_account.email,
+                        email : userInfo.data.kakao_account.email,
                         logintype: "K"
                     },
                     {
@@ -50,13 +56,16 @@ const KakaoToken = () => {
                     }
                 ).catch(error => {
                     if (error.response && error.response.status === 400) {
-                        // 이미 가입한 이력이 있을 경우
                         alert('이미 가입한 이력이 있습니다.');
             }})
 
+
                     console.log(kakaoUserInfo);
+                    // 로컬스토리지에 토큰 값 저장
                     localStorage.setItem("kakao_token", JSON.stringify(access_token));
+                    // 로컬스토리지에 카카오에서 받은 id 값과 가입자 이름 저장
                     localStorage.setItem("user", JSON.stringify(kakaoUserInfo));
+                    // 로그인 후 메인페이지로 이동
                     navigate('/main')
                 } catch (error) {
                     console.error('Error fetching access token or saving user:', error);
