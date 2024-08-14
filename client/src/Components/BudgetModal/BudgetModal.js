@@ -70,6 +70,15 @@ const BudgetModal = ({
     setInputValue(formatNumber(numericValue));
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      const newRawValue = rawValue.slice(0, -1);
+      setRawValue(newRawValue);
+      setInputValue(formatNumber(newRawValue));
+    }
+  };
+
   const handleSave = async () => {
     const numericValue = parseNumber(inputValue);
     if (!isNaN(numericValue) && numericValue >= 0 && userId) {
@@ -109,29 +118,30 @@ const BudgetModal = ({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <button className="close-button" onClick={onClose}>
+    <div className="budget-modal-overlay">
+      <div className="budget-modal-content">
+        <button className="budget-close-button" onClick={onClose}>
           &times;
         </button>
-        <h2 className="modal-header-h2">예산 설정</h2>
+        <h2 className="budget-modal-header-h2">예산 설정</h2>
         <img
           src="/assets/logo/pocketcat.png"
           alt="프로필 이미지"
-          className="profile-image-modal"
+          className="budget-profile-image-modal"
         />
-        <p className="profile-content-modal">
+        <p className="budget-profile-content-modal">
           <span>앗!</span> 한달 사용할 예산을 다시 설정해주세요!
         </p>
         <input
           type="text"
           value={inputValue}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           placeholder="예산을 입력하세요"
         />
-        <div className="modal-buttons">
+        <div className="budget-modal-buttons">
           <button onClick={handleSave}>저장</button>
-          <button className="cancel-button" onClick={onClose}>
+          <button className="budget-cancel-button" onClick={onClose}>
             닫기
           </button>
         </div>
