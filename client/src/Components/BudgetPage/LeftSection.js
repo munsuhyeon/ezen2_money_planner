@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -21,12 +21,20 @@ ChartJS.register(
 );
 
 const LeftSection = ({
-  userId,
   monthlyBudget,
   month,
   barChartData,
   barChartOptions,
 }) => {
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const storageData = localStorage.getItem("user");
+    if (storageData) {
+      const parsedData = JSON.parse(storageData);
+      setUsername(parsedData.username || ""); // `username`이 없을 경우 빈 문자열 설정
+    }
+  }, []); // 빈 배열을 의존성으로 주어 컴포넌트 마운트 시 한 번만 실행
   // 바 차트 데이터 및 옵션 로그
   //console.log("LeftSection barChartData:", barChartData);
   //console.log("LeftSection barChartOptions:", barChartOptions);
@@ -48,7 +56,7 @@ const LeftSection = ({
             className="profile-image-left"
           />
           <p className="profile-content-right">
-            <span>{userId || "사용자"}</span>
+            <span>{username || "사용자"}</span>
             <br />
             {month
               ? `${month.getFullYear()}년 ${month.getMonth() + 1}월`

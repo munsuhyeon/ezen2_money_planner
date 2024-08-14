@@ -215,7 +215,7 @@ const MainChart3 = () => {
               ]}
             />
           ) : (
-            <div className="no-data-message2">
+            <div className="no-data-message3">
               저장된 예산 내역이 없어요! 예산 내역을 저장해주세요!
             </div>
           )}
