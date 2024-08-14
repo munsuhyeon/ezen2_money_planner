@@ -318,16 +318,25 @@
 }
 
 .no-data-message2 {
-  margin-top: 30px;
   font-size: 20px;
-  transform: translate(-50%, -50%);
   color: #2c2c2c;
   padding: 30px 20px;
   background-color: #f9f9f9;
   border: 2px solid #ececec;
   border-radius: 10px;
   margin-left: 50px;
-  height: 87px;
+  height: auto;
+}
+
+.no-data-message3 {
+  font-size: 20px;
+  color: #2c2c2c;
+  padding: 30px 20px;
+  background-color: #f9f9f9;
+  border: 2px solid #ececec;
+  border-radius: 10px;
+  margin-left: 50px;
+  height: auto;
 }
 /* -------------------------------Section5-------------------------------- */
 
