@@ -16,28 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `budget`
+-- Table structure for table `catbudget`
 --
 
-DROP TABLE IF EXISTS `budget`;
+DROP TABLE IF EXISTS `catbudget`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `budget` (
-  `budget_id` int NOT NULL AUTO_INCREMENT,
-  `budget_date` date NOT NULL,
-  `monthly_budget` int NOT NULL,
-  `user_id` varchar(20) NOT NULL,
-  PRIMARY KEY (`budget_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `catbudget` (
+  `cat_budget_id` int NOT NULL AUTO_INCREMENT,
+  `cat_budget_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`cat_budget_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `budget`
+-- Dumping data for table `catbudget`
 --
 
-LOCK TABLES `budget` WRITE;
-/*!40000 ALTER TABLE `budget` DISABLE KEYS */;
-/*!40000 ALTER TABLE `budget` ENABLE KEYS */;
+LOCK TABLES `catbudget` WRITE;
+/*!40000 ALTER TABLE `catbudget` DISABLE KEYS */;
+INSERT INTO `catbudget` VALUES (1,'식비'),(2,'카페 / 간식'),(3,'생활 / 쇼핑'),(4,'교통 / 차량'),(5,'문화 / 예술'),(6,'통신비'),(7,'기타');
+/*!40000 ALTER TABLE `catbudget` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

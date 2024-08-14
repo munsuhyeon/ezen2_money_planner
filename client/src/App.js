@@ -8,7 +8,7 @@ import MonthStatistics from "./Ui/MonthStatistics.js";
 import WeekStatistics from "./Ui/WeekStatistics.js";
 import Header from "./Components/Header/Header.js";
 import SideNav from "./Components/SideNav/SideNav.js";
-import BudgetModification from "./Components/BudgetModification/BudgetModification.js";
+import BudgetModification from "./Components/BudgetModificationModal/BudgetModificationModal.js";
 import BudgetPage from "./Components/BudgetPage/BudgetPage.js";
 import Login from "../src/Components/Login/Login.jsx";
 import Signup from "../src/Components/Login/Signup.jsx";
@@ -190,8 +190,8 @@ function App() {
                   </Layout>
                 }
               />
-                           <Route path="/user/kakao" element={<KakaoLogin />} />
-                           <Route path="/user" element={<KakaoToken />} />
+              <Route path="/user/kakao" element={<KakaoLogin />} />
+              <Route path="/user" element={<KakaoToken />} />
             </Routes>
           </BrowserRouter>
         </UserIdContext.Provider>
