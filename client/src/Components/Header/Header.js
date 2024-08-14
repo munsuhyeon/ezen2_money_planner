@@ -6,9 +6,35 @@ import { faBell } from "@fortawesome/free-regular-svg-icons";
 import ScrollEvent from "../../Hooks/Main/ScrollEvent";
 import { startOfMonth, endOfMonth } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { call } from "../../Components/service/ApiService";
+
+// 특정 사용자의 특정 연도와 월에 대한 월별 예산을 가져오는 함수
+const fetchMonthlyBudget = async (userId, year, month) => {
+  try {
+    // 서버에 월별 예산 데이터를 요청
+    const response = await call(`/budget/${userId}/${year}/${month}`, "GET");
+    // 응답이 있으면 반환, 없으면 기본값으로 반환
+    return response || { monthlyBudget: 0, budgetId: null };
+  } catch (error) {
+    // 요청 중 오류가 발생하면 오류 메시지를 콘솔에 출력하고 기본값 반환
+    console.error(`월별 예산 데이터 요청 오류:`, error.message);
+    return { monthlyBudget: 0, budgetId: null };
+  }
+};
+
+// 최근 1개월의 예산 데이터를 가져오는 함수
+const fetchRecentOneMonthData = async (userId) => {
+  const now = new Date();
+  const date = new Date(now.getFullYear(), now.getMonth(), 1);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  return fetchMonthlyBudget(userId, year, month);
+};
 
 const Header = () => {
-  const { transactionList } = useContext(TransactionListContext);
+  const { transactionList, setTransactionList } = useContext(
+    TransactionListContext
+  );
   const { headerRef } = ScrollEvent();
   const [isNotificationVisible, setNotificationVisible] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -20,8 +46,9 @@ const Header = () => {
   const [username, setUsername] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [lastTransactionIds, setLastTransactionIds] = useState(new Set());
+  const [userBudget, setUserBudget] = useState(0); // 예산 데이터를 저장할 상태 변수
 
-  const userBudget = 50000;
+  const navigate = useNavigate();
 
   useEffect(() => {
     // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.
@@ -34,8 +61,7 @@ const Header = () => {
     }
   });
 
-  const navigate = useNavigate();
-
+  // 로그아웃 함수
   const reqLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem(`${userId}_lastTransactionIds`);
@@ -153,7 +179,14 @@ const Header = () => {
     const notificationsToAdd = [];
 
     // 예산을 초과한 경우 알림을 추가합니다.
-    if (totalExpenses > budget) {
+    if (budget <= 0) {
+      notificationsToAdd.push({
+        title: "예산 없음",
+        detail:
+          "<span class='highlight'>설정되어있는 예산이 없습니다. 예산을 설정해주세요.😺</span>",
+        triggerPercentage: 0,
+      });
+    } else if (totalExpenses > budget) {
       notificationsToAdd.push({
         title: "예산 초과",
         detail: "<span class='highlight'>설정하신 예산을 초과했어요. 🙀</span>",
@@ -239,39 +272,54 @@ const Header = () => {
 
   useEffect(() => {
     if (userId) {
-      const currentTransactionIds = new Set(
-        transactionList.map((txn) => txn.transactionId)
-      );
-      const isNewTransaction = [...currentTransactionIds].some(
-        (id) => !lastTransactionIds.has(id)
-      );
+      const fetchData = async () => {
+        try {
+          const budgetData = await fetchRecentOneMonthData(userId);
+          const mostRecentBudget = budgetData?.monthlyBudget || 0;
 
-      if (isNewTransaction) {
-        const newNotifications = checkBudget(userBudget, transactionList);
+          setUserBudget(mostRecentBudget);
 
-        const highestLevelNotification = newNotifications.reduce(
-          (prev, curr) => {
-            if (!prev) return curr;
-            return curr.triggerPercentage > prev.triggerPercentage
-              ? curr
-              : prev;
-          },
-          null
-        );
+          const currentTransactionIds = new Set(
+            transactionList.map((txn) => txn.transactionId)
+          );
+          const isNewTransaction = [...currentTransactionIds].some(
+            (id) => !lastTransactionIds.has(id)
+          );
 
-        const notificationsToAdd = highestLevelNotification
-          ? [highestLevelNotification]
-          : [];
-        addNotifications(notificationsToAdd);
-        setLastTransactionIds(currentTransactionIds);
-        // 트랜잭션 ID를 로컬 스토리지에 저장합니다.
-        localStorage.setItem(
-          `${userId}_lastTransactionIds`,
-          JSON.stringify([...currentTransactionIds])
-        );
-      }
+          if (isNewTransaction) {
+            const newNotifications = checkBudget(
+              mostRecentBudget,
+              transactionList
+            );
+
+            const highestLevelNotification = newNotifications.reduce(
+              (prev, curr) => {
+                if (!prev) return curr;
+                return curr.triggerPercentage > prev.triggerPercentage
+                  ? curr
+                  : prev;
+              },
+              null
+            );
+
+            const notificationsToAdd = highestLevelNotification
+              ? [highestLevelNotification]
+              : [];
+            addNotifications(notificationsToAdd);
+            setLastTransactionIds(currentTransactionIds);
+            localStorage.setItem(
+              `${userId}_lastTransactionIds`,
+              JSON.stringify([...currentTransactionIds])
+            );
+          }
+        } catch (error) {
+          console.error("Error fetching budget data", error);
+        }
+      };
+
+      fetchData();
     }
-  }, [transactionList, userId]);
+  }, [transactionList, userId, lastTransactionIds]);
 
   const handleDeleteNotification = (index) => {
     const updatedNotifications = notifications.filter((_, i) => i !== index);
@@ -284,35 +332,6 @@ const Header = () => {
       updatedNotifications.filter((notification) => !notification.read).length
     );
   };
-
-  // 로그인 여부 확인
-  // console.log(user)
-  useEffect(() => {
-    // 로컬스토리지의 로그인한 사용자정보를 변수 user 에 담는다.
-    const user = localStorage.getItem("user");
-    // user의 데이터가 있다면 loggedIn = true, 데이터가 없다면 loggedIn = false
-    if (user) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  });
-
-  // 로그아웃 함수
-  /*function userReqLogout() {
-    // 로컬스토리지에서 사용자 데이터를 제거함으로 로그아웃
-    localStorage.removeItem("user");
-    localStorage.removeItem("kakao_token");
-    alert("로그아웃 되었습니다.");
-    // 로그아웃후 로그인페이지로 이동
-    navigate("/login");
-  }*/
-
-  // 로그아웃 버튼에 들어갈 로그인페이지로 이동 함수
-
-  function loginPage() {
-    navigate("/login");
-  }
 
   return (
     <header ref={headerRef}>
