@@ -4,9 +4,9 @@ import "./BudgetPage.css";
 const EndSection = ({
   monthlyBudget = 0,
   month = new Date(),
-  categoryBudgetAmount = 0, // 추가된 props
+  categoryBudgetAmount = 0,
 }) => {
-  // month가 Date 객체인지 확인합니다.
+  // month가 Date 객체인지 확인하고 포맷팅
   const formattedMonth =
     month instanceof Date
       ? month.toLocaleDateString("ko-KR", { year: "numeric", month: "long" })

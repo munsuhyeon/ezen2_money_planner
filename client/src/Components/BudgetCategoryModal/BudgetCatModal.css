@@ -1,4 +1,4 @@
-.budget-cat-modal {
+.budgetcat {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,21 +7,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.7); /* 배경색의 투명도 */
-  z-index: 1000; /* 모달이 다른 요소들 위에 위치하도록 설정 */
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
 }
 
-.catmodal-content {
-  position: relative; /* X 버튼을 절대 위치로 배치할 수 있도록 설정 */
+.budgetcat-content {
+  position: relative;
   background: white;
   padding: 20px;
   border-radius: 5px;
-  width: 800px; /* 모달 너비를 조정 */
+  width: 800px;
   height: auto;
   overflow-y: auto;
 }
 
-.catmodal-content h2 {
+.budgetcat-content h2 {
   font-size: 35px;
   font-weight: bold;
   margin-top: 20px;
@@ -29,89 +29,87 @@
   text-align: center;
 }
 
-.category-table {
+.budgetcat-category-table {
   display: grid;
-  grid-template-columns: 2fr 1fr auto; /* 카테고리 이름, 금액, 수정 버튼 열 비율 설정 */
+  grid-template-columns: 2fr 1fr auto;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.category-table label,
-.category-table input {
+.budgetcat-category-table label,
+.budgetcat-category-table input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box; /* 박스 크기 계산 방식을 border-box로 설정하여 padding 및 border 포함 */
-  height: 40px; /* 레이블과 입력 필드의 높이를 동일하게 설정 */
-  line-height: 20px; /* 텍스트 줄 높이 설정 */
+  box-sizing: border-box;
+  height: 40px;
+  line-height: 20px;
 }
 
-.category-table label {
+.budgetcat-category-table label {
   font-weight: bold;
   display: flex;
-  align-items: center; /* 수직 가운데 정렬 */
+  align-items: center;
+  font-size: 20px;
 }
 
-.category-table input {
+.budgetcat-category-table input {
   width: 100%;
 }
 
-.amount-input {
-  width: 100%; /* 금액 입력 부분의 넓이 조정 */
+.budgetcat-amount-input {
+  width: 100%;
 }
 
-.edit-buttons {
-  display: flex;
-  justify-content: center; /* 중앙 정렬 */
-}
-
-.edit-buttons button {
-  background-color: #ffffff; /* 버튼의 배경색을 통일 */
-  color: rgb(0, 0, 0); /* 흰색 글자 */
-  font-weight: bold;
-  border: none; /* 기본 테두리 제거 */
-  border-radius: 5px; /* 모서리 둥글게 */
-  padding: 10px 15px; /* 패딩 추가 */
-  cursor: pointer; /* 커서 포인터로 변경 */
-  transition: background-color 0.3s; /* 배경색 변경에 애니메이션 추가 */
-}
-
-.edit-buttons .save-button {
-  background-color: #007bff; /* 저장 버튼의 배경색 */
-  color: rgb(246, 246, 246);
-}
-
-.edit-buttons .save-button:hover {
-  background-color: #77b1ee; /* 저장 버튼 호버 시 어두운 파란색 */
-}
-
-.edit-buttons .cancel-button {
-  background-color: #ff6b6b; /* 취소 버튼의 배경색 */
-  color: rgb(246, 246, 246);
-}
-
-.edit-buttons .cancel-button:hover {
-  background-color: #fd9696;
-}
-
-.button-group {
-  display: flex;
-  justify-content: flex-end; /* 버튼들을 오른쪽 정렬 */
-  gap: 10px; /* 버튼 사이의 간격 추가 */
-  margin-top: 30px;
-}
-
-.button-group .save-button {
-  background-color: #007bff; /* 저장 버튼의 배경색 */
-  color: white; /* 흰색 글자 */
+.budgetcat-category-input {
   font-weight: bold;
 }
-
-.button-group .save-button:hover {
-  background-color: #0056b3; /* 저장 버튼 호버 시 어두운 파란색 */
+.budgetcat-edit-buttons {
+  display: flex;
+  justify-content: center;
 }
 
-.close-modal {
+.budgetcat-edit-buttons button {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.budgetcat-edit-buttons .budgetcat-save-button {
+  background-color: #007bff;
+  color: rgb(246, 246, 246);
+  width: 100%;
+  font-weight: 700;
+  padding: 15px;
+}
+
+.budgetcat-edit-buttons .budgetcat-save-button:hover {
+  background-color: #0056b3;
+}
+
+.budgetcat-button-group .budgetcat-save-button {
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-weight: 700;
+  width: 100%;
+  padding: 15px;
+}
+
+.budgetcat-button-group .budgetcat-save-button:hover {
+  background-color: #2b85e6;
+}
+
+.budgetcat-close-modal {
   position: absolute;
   top: 10px;
   right: 10px;
