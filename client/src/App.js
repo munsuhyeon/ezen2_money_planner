@@ -22,6 +22,7 @@ export const CategoryContext = React.createContext();
 export const TransactionListContext = React.createContext();
 export const UserIdContext = React.createContext();
 function App() {
+  console.log(process.env.REACT_APP_backend_HOST)
   // DB에서 카테고리 종류 가져오기
   const [categoryList, setCategoryList] = useState([]);
   const getCategory = async () => {
