@@ -6,6 +6,7 @@ import EndSection from "./EndSection";
 import CustomDatePicker from "../BudgetDate/BudgetDate";
 import BudgetModal from "../BudgetModal/BudgetModal";
 import BudgetCatModal from "../BudgetCategoryModal/BudgetCatModal";
+import BudgetModification from "../BudgetModificationModal/BudgetModificationModal";
 import "./BudgetPage.css";
 import { formatMonth } from "../../Utils/Utils";
 
@@ -94,10 +95,11 @@ const BudgetPage = () => {
   const [budgetId, setBudgetId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCatModalOpen, setIsCatModalOpen] = useState(false);
+  const [isBudgetModificationOpen, setIsBudgetModificationOpen] =
+    useState(false);
   const [error, setError] = useState("");
   const [categoryData, setCategoryData] = useState([]);
 
-  // Fetch userId from localStorage when component mounts
   useEffect(() => {
     const storedUserId = localStorage.getItem("user");
     if (storedUserId) {
@@ -137,7 +139,6 @@ const BudgetPage = () => {
     try {
       await saveCategories(userId, newCategories);
       setCategories(newCategories);
-      // Directly update categoryData for immediate effect
       setCategoryData(newCategories);
       setIsCatModalOpen(false);
     } catch (error) {
@@ -158,6 +159,12 @@ const BudgetPage = () => {
       })
       .catch((error) => console.error("카테고리별 예산 가져오기 실패", error));
   };
+
+  // 카테고리 총 금액 계산
+  const totalCategoryBudgetAmount = categoryData.reduce(
+    (sum, cat) => sum + (cat.categoryBudgetAmount || 0),
+    0
+  );
 
   const barChartData = {
     labels: Array.isArray(categories) ? categories.map((cat) => cat.name) : [],
@@ -205,6 +212,31 @@ const BudgetPage = () => {
     },
   };
 
+  const handleBudgetSave = async (newBudget) => {
+    try {
+      // 예산 저장 API 호출
+      await call(
+        `/budget/${userId}/${month.getFullYear()}/${month.getMonth() + 1}`,
+        "PUT",
+        { budget: newBudget }
+      );
+      // 예산 업데이트 및 모달 닫기
+      setMonthlyBudget(newBudget.monthlyBudget);
+      setBudgetId(newBudget.budgetId);
+      fetchRecentThreeMonthsData(
+        userId,
+        month,
+        setMonthlyBudget,
+        setCategories,
+        setBudgetId
+      );
+      setIsBudgetModificationOpen(false); // 모달 닫기
+    } catch (error) {
+      console.error("예산 저장 오류:", error);
+      setError(`예산 저장 실패: ${error.message}`);
+    }
+  };
+
   return (
     <section id="budget_page">
       <div className="container_budget">
@@ -212,10 +244,17 @@ const BudgetPage = () => {
           <CustomDatePicker selectedDate={month} onChange={handleMonthChange} />
           <div className="buttons">
             <button
+              className="page-first-button"
+              onClick={() => setIsBudgetModificationOpen(true)}
+            >
+              예산 설정
+            </button>
+
+            <button
               className="page-edit-button"
               onClick={() => setIsModalOpen(true)}
             >
-              예산 설정
+              예산 수정
             </button>
             <button
               className="middle-button"
@@ -249,6 +288,7 @@ const BudgetPage = () => {
                     "rgba(75, 192, 192, 0.6)",
                     "rgba(153, 102, 255, 0.6)",
                     "rgba(255, 159, 64, 0.6)",
+                    "rgba(103, 217, 240, 0.6)",
                   ],
                 },
               ],
@@ -321,8 +361,11 @@ const BudgetPage = () => {
               },
             }}
           />
-
-          <EndSection monthlyBudget={monthlyBudget} month={month} />
+          <EndSection
+            monthlyBudget={monthlyBudget}
+            month={month}
+            categoryBudgetAmount={totalCategoryBudgetAmount} // 추가된 부분
+          />
         </div>
       </div>
 
@@ -330,7 +373,6 @@ const BudgetPage = () => {
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
-          // Refresh data after closing modal
           fetchRecentThreeMonthsData(
             userId,
             month,
@@ -343,7 +385,6 @@ const BudgetPage = () => {
         onSave={(newBudget) => {
           setMonthlyBudget(newBudget.monthlyBudget);
           setBudgetId(newBudget.budgetId);
-          // Fetch recent data after saving
           fetchRecentThreeMonthsData(
             userId,
             month,
@@ -359,14 +400,38 @@ const BudgetPage = () => {
         isOpen={isCatModalOpen}
         onClose={() => {
           setIsCatModalOpen(false);
-          // Refresh category data after closing modal
           getBudget_by_category();
         }}
         onSave={(newCategories) => {
           handleSaveCategories(newCategories);
         }}
         userId={userId}
-        budgetMonth={month} // month를 budgetMonth로 전달
+        budgetMonth={month}
+      />
+
+      <BudgetModification
+        isOpen={isBudgetModificationOpen}
+        onClose={() => setIsBudgetModificationOpen(false)}
+        onSave={() => {
+          fetchMonthlyData(
+            userId,
+            month.getFullYear(),
+            month.getMonth() + 1
+          ).then((data) => {
+            setMonthlyBudget(data.monthlyBudget);
+            setBudgetId(data.budgetId);
+            fetchRecentThreeMonthsData(
+              userId,
+              month,
+              setMonthlyBudget,
+              setCategories,
+              setBudgetId
+            );
+          });
+          setIsBudgetModificationOpen(false);
+        }}
+        userId={userId}
+        budgetMonth={month}
       />
     </section>
   );

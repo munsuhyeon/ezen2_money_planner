@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import "./BudgetPage.css";
+
 const RightSection = ({ categories, donutData, donutOptions }) => {
   // 도넛 차트 데이터 생성
   const chartData = donutData(categories);
+
   // 디버깅을 위한 콘솔 로그
   console.log("Categories data:", categories); // 월별 예산 데이터
-  //console.log("Chart data:", chartData);
-  //console.log("Donut options:", donutOptions);
 
   return (
     <div className="right-section">
@@ -23,18 +23,14 @@ const RightSection = ({ categories, donutData, donutOptions }) => {
         </div>
         <div className="budget-table-container">
           <table className="budget-table">
-            <thead>
-              <tr>
-                <th>카테고리</th>
-                <th>금액</th>
-              </tr>
-            </thead>
             <tbody>
               {categories.length > 0 ? (
                 categories.map((cat, index) => (
                   <tr key={index}>
                     <td>{cat.catBudgetName || "이름 없음"}</td>
-                    <td>{(cat.categoryBudgetAmount ?? 0).toLocaleString()}원</td>
+                    <td>
+                      {(cat.categoryBudgetAmount ?? 0).toLocaleString()}원
+                    </td>
                   </tr>
                 ))
               ) : (

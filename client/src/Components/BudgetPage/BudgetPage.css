@@ -13,14 +13,13 @@
   border-radius: 10px;
   margin: 50px auto;
   text-align: center;
-  /* margin-left: 250px; */
 }
 
 .content_budget {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  flex-wrap: nowrap; /* 한 줄에 고정 */
+  flex-wrap: nowrap;
 }
 .left-section,
 .right-section,
@@ -30,18 +29,18 @@
 }
 
 .left-section {
-  flex: 2; /* 비율에 따라 너비 조정 */
-  min-width: 554px; /* 최소 폭 설정 */
+  flex: 2;
+  min-width: 554px;
 }
 
 .right-section {
-  flex: 2; /* 비율에 따라 너비 조정 */
-  min-width: 700px; /* 최소 폭 설정 */
+  flex: 2;
+  min-width: 700px;
 }
 
 .end-section {
-  flex: 1; /* 남은 공간을 차지 */
-  min-width: 330px; /* 최소 폭 설정 */
+  flex: 1;
+  min-width: 330px;
 }
 
 .budget1,
@@ -97,7 +96,7 @@
 }
 
 .profile-image-left {
-  width: 171px;
+  width: 235px;
   height: auto;
   border-radius: 50%;
   margin-right: 65px;
@@ -167,7 +166,8 @@
 }
 
 .page-edit-button,
-.middle-button {
+.middle-button,
+.page-first-button {
   color: white;
   padding: 6px;
   font-size: 14px;
@@ -178,7 +178,8 @@
   font-weight: bold;
 }
 
-.confirm-button {
+.confirm-button,
+.middle-button .page-first-button {
   background-color: #603693;
 }
 
@@ -189,9 +190,14 @@
   background-color: #af9adf;
 }
 
+.page-first-button {
+  background-color: #603693;
+}
+
 .page-edit-button:hover,
 .middle-button:hover,
-.confirm-button:hover {
+.confirm-button:hover,
+.page-first-button:hover {
   background-color: #896ccb;
 }
 
@@ -259,29 +265,26 @@
   color: #ff3265;
 }
 
-/* budget_top */
 .budget_top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px; /* 여백 추가 */
+  margin-bottom: 20px;
   margin-right: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 #monthPicker {
-  margin-right: 20px; /* 오른쪽 여백 추가 */
-  padding: 10px; /* 패딩 추가 */
-  font-size: 1em; /* 폰트 크기 */
+  margin-right: 20px;
+  padding: 10px;
+  font-size: 1em;
   font-weight: bold;
 }
 
-/* 모바일 화면에서 적절히 배치되도록 조정 */
 @media (max-width: 768px) {
   .content {
     flex-direction: column;
     align-items: center;
-    flex-wrap: wrap; /* 작은 화면에서 줄 바꿈 */
   }
 
   .left-section,

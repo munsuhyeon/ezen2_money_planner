@@ -28,7 +28,7 @@ const BudgetCatModal = ({ isOpen, onClose, onSave, userId, budgetMonth }) => {
         console.log(date);
         try {
           const response = await call(
-            `/catbudget/user/test123`,
+            `/catbudget/user/${userId}`,
             "POST",
             requests
           );
@@ -42,7 +42,8 @@ const BudgetCatModal = ({ isOpen, onClose, onSave, userId, budgetMonth }) => {
               setCategories(res || []);
               setUpdateY(true);
             } catch (err) {
-              console.error("카테고리 종류 불러오기 오류:", error);
+              console.error("카테고리 종류 불러오기 오류:", err);
+              setError("카테고리 종류 불러오기 오류");
             }
           }
         } catch (error) {
@@ -58,7 +59,12 @@ const BudgetCatModal = ({ isOpen, onClose, onSave, userId, budgetMonth }) => {
   };
 
   const unformatAmount = (value) => {
-    return value ? value.replace(/,/g, "") : "0";
+    // value가 문자열일 때만 replace를 수행하도록 수정
+    if (typeof value === "string") {
+      return value.replace(/,/g, "");
+    }
+    // value가 문자열이 아닐 경우에는 빈 문자열로 처리
+    return "";
   };
 
   const handleAmountChange = (index, event) => {
@@ -94,43 +100,20 @@ const BudgetCatModal = ({ isOpen, onClose, onSave, userId, budgetMonth }) => {
     }));
     console.log("updateY:::::::", updateY);
     console.log("송신 데이터:", payload);
-    if (updateY) {
-      // true = 처음저장
-      await call(`/catbudget/cat-budget`, "POST", payload)
-        .then((res) => {
-          onClose();
-          // 새로고침
-        })
-        .catch((error) => {
-          console.error("카테고리 데이터 저장 오류  :", error);
-        });
-    } else {
-      // false=  수정
-      await call(`/catbudget/cat-budget`, "PUT", payload)
-        .then((res) => {
-          onClose();
-          // 새로고침
-        })
-        .catch((error) => {
-          console.error("카테고리 데이터 수정 오류  :", error);
-        });
-    }
-    /*
     try {
-      await Promise.all(
-        payload.map((category) =>
-          category.catBudgetSetId
-            ? call(`/catbudget/${category.catBudgetSetId}`, "PUT", category)
-            : call(`/catbudget/cat-budget`, "POST", category)
-        )
-      );
-      onSave(payload); // Save payload and close
+      if (updateY) {
+        // true = 처음저장
+        await call(`/catbudget/cat-budget`, "POST", payload);
+      } else {
+        // false = 수정
+        await call(`/catbudget/cat-budget`, "PUT", payload);
+      }
       onClose();
+      // 새로고침 또는 다른 후처리
     } catch (error) {
-      console.error("서버 응답 오류:", error);
-      const errorMessage = error.message || "데이터 저장 실패";
-      setError(`데이터 저장 실패: ${errorMessage}`);
-    }*/
+      console.error("카테고리 데이터 저장 오류  :", error);
+      setError(`데이터 저장 실패: ${error.message}`);
+    }
   };
 
   useEffect(() => {
@@ -142,25 +125,25 @@ const BudgetCatModal = ({ isOpen, onClose, onSave, userId, budgetMonth }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="budget-cat-modal">
-      <div className="catmodal-content">
-        <button className="close-modal" onClick={onClose}>
+    <div className="budgetcat">
+      <div className="budgetcat-content">
+        <button className="budgetcat-close-modal" onClick={onClose}>
           ×
         </button>
         <h2>카테고리 설정</h2>
-        {error && <p className="error-message">{error}</p>}
-        <div className="category-table">
+        {error && <p className="budgetcat-error-message">{error}</p>}
+        <div className="budgetcat-category-table">
           <label>카테고리 이름</label>
           <label>예산 금액</label>
         </div>
         {categories && categories.length > 0 ? (
           categories.map((cat, index) => (
-            <div key={index} className="category-table">
+            <div key={index} className="budgetcat-category-table">
               <input
                 type="text"
                 value={cat.catBudgetName || ""}
                 placeholder="카테고리 이름"
-                className="category-input"
+                className="budgetcat-category-input"
                 readOnly
               />
               <input
@@ -169,15 +152,19 @@ const BudgetCatModal = ({ isOpen, onClose, onSave, userId, budgetMonth }) => {
                 onChange={(event) => handleAmountChange(index, event)}
                 onBlur={() => handleAmountBlur(index)}
                 placeholder="금액"
-                className="amount-input"
+                className="budgetcat-amount-input"
               />
             </div>
           ))
         ) : (
           <p>카테고리 정보가 없습니다.</p>
         )}
-        <div className="button-group">
-          <button type="button" className="save-button" onClick={handleSubmit}>
+        <div className="budgetcat-button-group">
+          <button
+            type="button"
+            className="budgetcat-save-button"
+            onClick={handleSubmit}
+          >
             저장
           </button>
         </div>

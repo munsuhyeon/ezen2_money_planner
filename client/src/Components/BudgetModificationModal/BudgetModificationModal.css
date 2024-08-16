@@ -1,0 +1,110 @@
+/* BudgetModificationModal.css */
+
+.budgetMod_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  overflow: auto;
+}
+
+.budgetMod_container {
+  background: white;
+  border-radius: 8px;
+  padding: 70px;
+  width: 90%;
+  max-width: 600px;
+  min-width: 300px;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.budgetMod_modal_close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.budgetMod_modal_close svg {
+  width: 24px; /* SVG 아이콘의 크기 조정 */
+  height: 24px;
+}
+
+.budgetMod_image_container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.budgetMod_cat_image {
+  max-width: 250px;
+  height: auto;
+}
+
+.budgetMod_page_title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.budgetMod_logo_image {
+  max-width: 130px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.budgetMod_page_sub_title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 23px;
+  color: black;
+  font-weight: bold;
+}
+
+.budgetMod_input_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.budgetMod_budget_input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 18px;
+  text-align: center;
+  width: calc(100% - 60px);
+  box-sizing: border-box;
+}
+
+.budgetMod_budget_span {
+  margin-left: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.budgetMod_confirm_button {
+  background-color: #896ccb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  font-weight: bold;
+}
