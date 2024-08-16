@@ -146,10 +146,10 @@ const MainChart = () => {
                   사용하셨어요.
                 </p>
               ))}
-            <p className="Graph1-Info-Detail2">
+            {/* <p className="Graph1-Info-Detail2">
               지정하신 예산까지의 금액이 2,000원 밖에 <br />
               남지 않았어요.
-            </p>
+            </p> */}
           </div>
         </div>
       </section>
