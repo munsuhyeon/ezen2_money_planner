@@ -113,7 +113,7 @@ const WeekStatistics = () => {
     const endDateISO = formatDateToISO(endDate);
 
     const userId = userIdls;
-    const serverurl = `http://localhost:8080/weekchart?user_id=${userId}&start_date=${startDateISO}&end_date=${endDateISO}`;
+    const serverurl = `${process.env.REACT_APP_backend_HOST}/weekchart?user_id=${userId}&start_date=${startDateISO}&end_date=${endDateISO}`;
 
     axios
       .get(serverurl)
@@ -128,7 +128,7 @@ const WeekStatistics = () => {
 
   const sendDataToServer = (startDate, endDate) => {
     const userId = userIdls;
-    const url = "http://localhost:8080/weekchart";
+    const url = `${process.env.REACT_APP_backend_HOST}/weekchart`;
 
     const startDateISO = formatDateToISO(startDate);
     const endDateISO = formatDateToISO(endDate);

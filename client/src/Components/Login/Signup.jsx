@@ -11,12 +11,12 @@ function Signup() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [exist_id, setExist_id] = useState("");
-    // const Server_URL = "http://localhost:8080";
+    // const Server_URL = `${process.env.REACT_APP_backend_HOST}`;
     const navigate = useNavigate();
 
     const checkId = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/user/exists`, {
+            const response = await fetch(`${process.env.REACT_APP_backend_HOST}/user/exists`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', },
                 body: JSON.stringify({ userid: id })
@@ -71,7 +71,7 @@ function Signup() {
 
         if (exist_id == 1) {
             try {
-                const response = await fetch(`http://localhost:8080/user/signup`, {
+                const response = await fetch(`${process.env.REACT_APP_backend_HOST}/user/signup`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)

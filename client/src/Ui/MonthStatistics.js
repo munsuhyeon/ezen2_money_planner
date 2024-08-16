@@ -210,7 +210,7 @@ const MonthStatistics = () => {
     const endDateISO = formatDateToISO(endDate);
 
     const userId = userIdls;
-    const serverurl = `http://localhost:8080/monthchart?user_id=${userId}&start_date=${startDateISO}&end_date=${endDateISO}`;
+    const serverurl = `${process.env.REACT_APP_backend_HOST}/monthchart?user_id=${userId}&start_date=${startDateISO}&end_date=${endDateISO}`;
 
     axios
       .get(serverurl)
@@ -225,7 +225,7 @@ const MonthStatistics = () => {
 
   const sendDataToServer = (startDate, endDate) => {
     const userId = userIdls;
-    const url = "http://localhost:8080/monthchart";
+    const url = `${process.env.REACT_APP_backend_HOST}/monthchart`;
 
     const startDateISO = formatDateToISO(startDate);
     const endDateISO = formatDateToISO(endDate);

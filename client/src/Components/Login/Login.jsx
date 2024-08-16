@@ -21,7 +21,7 @@ function Login() {
   async function reqLogin() {
     console.log(loginData);
     try {
-      const response = await fetch("http://localhost:8080/user/login", {
+      const response = await fetch(`${process.env.REACT_APP_backend_HOST}/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),

@@ -44,7 +44,7 @@ const KakaoToken = () => {
                 // 카카오에서 받은 정보가 저장된 userInfo 에서 userid, username, email 을 
                 // 백엔드에 전송하여 데이터베이스에 저장
                 // logintype 는 데이터베이스에 알맞게 직접 키와 값을 설정함
-                await axios.post('http://localhost:8080/sns/kakao',
+                await axios.post(`${process.env.REACT_APP_backend_HOST}/sns/kakao`,
                     {
                         userid : userInfo.data.id,
                         username: userInfo.data.kakao_account.profile.nickname,
