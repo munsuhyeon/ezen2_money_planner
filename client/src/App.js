@@ -115,7 +115,7 @@ function App() {
           <BrowserRouter>
             <Header setTransactionList={setTransactionList} />
             <Routes>
-              <Route
+            <Route
                 path="/main"
                 element={
                   <Layout>
