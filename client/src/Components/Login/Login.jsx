@@ -19,7 +19,7 @@ function Login() {
   const loginData = { userid: inputId, password: inputPw };
 
   async function reqLogin() {
-    console.log(loginData);
+    //console.log(loginData);
     try {
       const response = await fetch(`${process.env.REACT_APP_backend_HOST}/user/login`, {
         method: "POST",
@@ -33,7 +33,7 @@ function Login() {
 
       // 로그인 성공
       const data = await response.json();
-      console.log(data); // 서버에서 받은 데이터를 콘솔에 출력
+      //console.log(data); // 서버에서 받은 데이터를 콘솔에 출력
       // 로컬 스토리지에 로그인 정보 저장
       const userData = {
         userid: data.userid,

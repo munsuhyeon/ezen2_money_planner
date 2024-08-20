@@ -34,7 +34,6 @@ const TransactionCalendar = () => {
   const [calendarDate, setCalendarDate] = useState(new Date());
 
   const handleDateClick = (date) => {
-    console.log("abcdefg");
     setSelectedDate(formatMonth(date));
     setCalendarDate(date);
     const transactionsArray = Object.values(filteredTransactionMap).flat(); // 객체의 값을 배열로 변환
@@ -107,7 +106,6 @@ const TransactionCalendar = () => {
       filteredTransactions = transactionList;
     }
     setFilteredTransactionMap(createTransactionMap(filteredTransactions));
-    console.log("filteredTransactions", filteredTransactions);
   }, [activeTab, transactionList]);
   useEffect(() => {
     if (categoryList && categoryList.length > 0) {

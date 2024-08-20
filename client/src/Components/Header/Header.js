@@ -85,7 +85,7 @@ const Header = () => {
   }
 
   useEffect(() => {
-    console.log("Header 컴포넌트 업데이트:", { userId, username, loggedIn });
+    //console.log("Header 컴포넌트 업데이트:", { userId, username, loggedIn });
   }, [userId, username, loggedIn]);
 
   useEffect(() => {

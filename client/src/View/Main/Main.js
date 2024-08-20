@@ -18,10 +18,8 @@ const Main = () => {
     if(storageData){
       const parsedData = JSON.parse(storageData);
       const userId = parsedData.userid;
-      console.log("로그인한 아이디::::::",userId);
       if(userId){
         const item = formatMonth(new Date());
-        console.log("유저 아이디:::::", userId)
         getTransactionList(item,userId);
       }
     }

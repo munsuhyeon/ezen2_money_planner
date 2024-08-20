@@ -41,7 +41,7 @@ const MonthStatistics = () => {
       const parsedData = JSON.parse(storageData);
       const userId = parsedData.userid;
       setUserIdls(userId);
-      console.log("로그인한 아이디:", userId);
+      //console.log("로그인한 아이디:", userId);
     }
   }, []);
 
@@ -59,7 +59,7 @@ const MonthStatistics = () => {
         const maxCategoryData = chartData.categoryData.reduce((prev, curr) =>
           prev.amount > curr.amount ? prev : curr
         );
-        console.log("최대 지출 카테고리:", maxCategoryData);
+        //console.log("최대 지출 카테고리:", maxCategoryData);
         setMaxCategory(maxCategoryData.categoryName);
         setMaxExpense(maxCategoryData.amount);
       }
@@ -68,7 +68,7 @@ const MonthStatistics = () => {
         const topDescriptionData = chartData.descriptionData.reduce(
           (prev, curr) => (prev.amount > curr.amount ? prev : curr)
         );
-        console.log("최대 지출 소비항목:", topDescriptionData);
+        //console.log("최대 지출 소비항목:", topDescriptionData);
         setTopDescription(topDescriptionData.description);
       }
 
@@ -76,7 +76,7 @@ const MonthStatistics = () => {
         const topPaymentTypeData = chartData.paymentTypeData.reduce(
           (prev, curr) => (prev.amount > curr.amount ? prev : curr)
         );
-        console.log("최대 지출 결제수단:", topPaymentTypeData);
+        //console.log("최대 지출 결제수단:", topPaymentTypeData);
         setTopPaymentTypeData(topPaymentTypeData.paymentType);
         setTopExpense(topPaymentTypeData.amount);
       }
@@ -215,7 +215,7 @@ const MonthStatistics = () => {
     axios
       .get(serverurl)
       .then((response) => {
-        console.log("데이터를 성공적으로 받았습니다:", response.data);
+        //console.log("데이터를 성공적으로 받았습니다:", response.data);
         setChartData(response.data);
       })
       .catch((error) => {
@@ -236,7 +236,7 @@ const MonthStatistics = () => {
       end_date: endDateISO,
     };
 
-    console.log("서버로 보내는 데이터:", data);
+    //console.log("서버로 보내는 데이터:", data);
 
     axios
       .post(url, data)

@@ -34,7 +34,7 @@ const WeekStatistics = () => {
       const parsedData = JSON.parse(storageData);
       const userId = parsedData.userid;
       setUserIdls(userId);
-      console.log("로그인한 아이디:", userId);
+      //console.log("로그인한 아이디:", userId);
     }
   }, []);
 
@@ -61,7 +61,7 @@ const WeekStatistics = () => {
         const maxCategoryData = chartData.categoryData.reduce((prev, curr) =>
           prev.amount > curr.amount ? prev : curr
         );
-        console.log("최대 지출 카테고리:", maxCategoryData);
+        //console.log("최대 지출 카테고리:", maxCategoryData);
         setMaxCategory(maxCategoryData.categoryName);
         setMaxExpense(maxCategoryData.amount);
       }
@@ -71,13 +71,13 @@ const WeekStatistics = () => {
           (sum, expense) => sum + expense.totalAmount,
           0
         );
-        console.log("주간 총 지출 금액:", total);
+        //console.log("주간 총 지출 금액:", total);
         setTotalWeekExpense(total);
 
         const maxDayData = chartData.dailyExpenseData.reduce((prev, curr) =>
           prev.totalAmount > curr.totalAmount ? prev : curr
         );
-        console.log("최대 지출 요일 및 금액:", maxDayData);
+        //console.log("최대 지출 요일 및 금액:", maxDayData);
         setMaxDayExpense({
           day: maxDayData.dayOfWeek,
           amount: maxDayData.totalAmount,
@@ -118,7 +118,7 @@ const WeekStatistics = () => {
     axios
       .get(serverurl)
       .then((response) => {
-        console.log("데이터를 성공적으로 받았습니다:", response.data);
+        //console.log("데이터를 성공적으로 받았습니다:", response.data);
         setChartData(response.data);
       })
       .catch((error) => {
@@ -139,7 +139,7 @@ const WeekStatistics = () => {
       end_date: endDateISO,
     };
 
-    console.log("서버로 보내는 데이터:", data);
+    //console.log("서버로 보내는 데이터:", data);
 
     axios
       .post(url, data)

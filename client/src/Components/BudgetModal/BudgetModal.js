@@ -101,12 +101,12 @@ const BudgetModal = ({
           response = await call(`/budget/${userId}`, "POST", budgetData);
         }
 
-        console.log("Response object:", response); // 디버깅용
+        //console.log("Response object:", response); // 디버깅용
         const savedBudget = response; // JSON으로 변환된 데이터
 
         if (onSave) onSave(savedBudget);
         onClose();
-        console.log("예산이 성공적으로 저장되었습니다.");
+        //console.log("예산이 성공적으로 저장되었습니다.");
       } catch (error) {
         console.error("예산 저장에 실패했습니다:", error.message);
         alert("예산 저장에 실패했습니다. 다시 시도해주세요.");

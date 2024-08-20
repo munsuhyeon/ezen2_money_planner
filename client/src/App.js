@@ -29,6 +29,7 @@ function App() {
     call("/category", "GET", null)
       .then((response) => {
         if (response) {
+          //console.log("카테고리 가져오기::   ", response.data)
           setCategoryList(response.data);
         } else {
           throw new Error("응답 구조가 잘못되었습니다");
@@ -43,6 +44,7 @@ function App() {
   const [userId, setUserId] = useState("");
   const [username, setUsername] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [storageData, setStorageData] = useState("");
 
   // DB에서 지출/수입 내역 가져오기(후에 사용자 id 반영해서 가져오기)
   const [transactionList, setTransactionList] = useState([]);
@@ -56,11 +58,10 @@ function App() {
       const userId = parsedData.userid;
       requestData = { ...item, userId };
     }
-    //console.log("여기인가?    ", userId)
     call("/transactions/list", "POST", requestData)
       .then((response) => {
         if (response) {
-          console.log(response.data);
+          //console.log(response.data);
           setTransactionList(response.data);
           setOriginalList(response.data);
         } else {
@@ -68,29 +69,42 @@ function App() {
         }
       })
       .catch((error) => {
-        console.log("지출/수입 내역 API Call 에러 :::  ", error);
+        console.error("지출/수입 내역 API Call 에러 :::  ", error);
       });
   };
+
   useEffect(() => {
     console.log("REACT_APP_backend_HOST   :::   ",process.env.REACT_APP_backend_HOST)
-    const storageData = localStorage.getItem("user");
-    if (storageData) {
-      const parsedData = JSON.parse(storageData);
-      const userId = parsedData.userid;
-      const username = parsedData.username;
-      setUserId(userId);
-      setUsername(username);
-      setLoggedIn(true);
-      console.log("로그인한 아이디::::::", userId);
-      if (userId) {
-        getCategory();
-        const date = formatMonth(new Date());
-        getTransactionList(date, userId);
-      }
-    } else {
+    const user = localStorage.getItem("user");
+    if(user){
+      setStorageData(user);
+    }else{
       setLoggedIn(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (storageData) {
+      try {
+        const parsedData = JSON.parse(storageData);
+        const userId = parsedData.userid;
+        const username = parsedData.username;
+        setUserId(userId);
+        setUsername(username);
+        setLoggedIn(true);
+      } catch (error) {
+        setLoggedIn(false);
+      }
+    }
+  },[storageData])
+
+  useEffect(() => {
+    getCategory();
+    if (userId) {
+      const date = formatMonth(new Date());
+      getTransactionList(date, userId); 
+      };
+  }, [userId]);
 
   return (
     <CategoryContext.Provider value={categoryList}>

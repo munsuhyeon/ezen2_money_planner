@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 function pop_up_tab(element) {
-    console.log(element)
+    //console.log(element)
     let buttons = document.querySelectorAll('.pop-up-tab');
     buttons.forEach(function(button) {
         button.classList.remove('active');

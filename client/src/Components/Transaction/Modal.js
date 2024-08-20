@@ -14,7 +14,6 @@ export const AddDataModal = ({
   booleanCalendar,
   calendarDate
 }) => {
-  console.log("selectedDate============",selectedDate)
   const { getTransactionList } = useContext(TransactionListContext);
   const closeModal = () => {
     setAddModalOpen(false);
@@ -64,10 +63,12 @@ export const AddDataModal = ({
     e.preventDefault();
 
     const categoryElement = categoryRef.current;
-    const selectedOption =
-      categoryRef.current.options[categoryElement.selectedIndex];
-    const selectedCategoryName =
-      selectedOption.getAttribute("data-category-name");
+    const selectedOption = categoryRef.current.options[categoryElement.selectedIndex];
+    const selectedCategoryName = selectedOption.getAttribute("data-category-name");
+
+    const storageData = localStorage.getItem("user");
+    const parsedData = JSON.parse(storageData);
+    const user = parsedData.userid;
 
     const formData = {
       amount: amountRef.current.value,
@@ -79,11 +80,11 @@ export const AddDataModal = ({
           ? installmentRef.current.value
           : "",
       description: descriptionRef.current.value,
-      userId: userId,
+      userId: user,
       categoryName: selectedCategoryName,
       transactionDate: `${dateRef.current.value}T${timeRef.current.value}:00`,
     };
-    console.log("formData :", formData);
+    //console.log("formData :", formData);
     if (amountRef.current.value === "") {
       alert("금액을 입력해주세요.");
       return;
@@ -93,9 +94,13 @@ export const AddDataModal = ({
     } else {
       call("/transactions", "POST", formData)
         .then((response) => {
-          console.log(response);
           setAddModalOpen(false);
-          getTransactionList(formatMonth(selectedDate),userId);
+          if(booleanCalendar === "T"){
+            getTransactionList(selectedDate,user);
+          }else{
+          getTransactionList(formatMonth(selectedDate),user);
+          }
+          
         })
         .catch((error) => console.error("저장 실패", error));
     }
@@ -269,7 +274,6 @@ export const SearchModal = ({setSearchModalOpen,expenseCategory,incomeCategory,a
       const assestFilterList = originalList.filter((list)=>list.paymentType === "cash")
       filterList = [...filterList, ...checkboxFilterList, ...assestFilterList];
     }else if(allSelectedCategoryIds.length !== 0 && allSelectedCategoryIds.includes(27)){
-      console.log("할부")
       const checkboxFilterList = originalList.filter((list) =>
         allSelectedCategoryIds.includes(list.categoryId)
       );
@@ -388,7 +392,7 @@ export const DataDetailModal = ({
       categoryName: categoryName,
       transactionDate: `${filterDate}T${filterTime}:00`,
     };
-    console.log("formData :", formData);
+    //console.log("formData :", formData);
     if (amount === "") {
       alert("금액을 입력해주세요.");
       return;
@@ -398,7 +402,6 @@ export const DataDetailModal = ({
     } else {
       call("/transactions", "PUT", formData)
         .then((response) => {
-          console.log(response);
           setDataDetailModalOpen(false);
           getTransactionList(formatMonth(new Date(formData.transactionDate)),userId);
         })
@@ -625,8 +628,6 @@ export const CalendarDetailModal = ({data,onClose,selectedDate,calendarDate}) =>
   const [expenseCategory, setExpenseCategory] = useState([]);
   const [incomeCategory, setIncomeCategory] = useState([]);
   const [assetsCategory, setAssetsCategory] = useState([]);
-  console.log("selectedDate::::",selectedDate)
-  console.log("calendarDate::::",calendarDate)
   useEffect(() => {
     if (categoryList && categoryList.length > 0) {
       const expense = categoryList.filter(
@@ -645,7 +646,6 @@ export const CalendarDetailModal = ({data,onClose,selectedDate,calendarDate}) =>
   }, [categoryList]);
   const deleteData = (id) => {
     const formDataArray = [{ transactionId: Number(id) }];
-    console.log(formDataArray)
     const date = formatMonth(calendarDate);
     const requestBody = {
       transactions: formDataArray,
@@ -653,7 +653,6 @@ export const CalendarDetailModal = ({data,onClose,selectedDate,calendarDate}) =>
       endDate:date.endDate,
       userId:userId,
     };
-    console.log(requestBody)
     call("/transactions","DELETE",requestBody)
     .then(() => {
         onClose();

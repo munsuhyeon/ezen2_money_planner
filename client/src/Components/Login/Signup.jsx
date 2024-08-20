@@ -30,7 +30,7 @@ function Signup() {
                 return;
             }
             const exists = await response.json();
-            console.log(exists);
+            //console.log(exists);
 
             if (!exists) {
                 alert("사용 가능한 ID 입니다.");
@@ -45,7 +45,7 @@ function Signup() {
     };
 
     async function reqSignUp() {
-        console.log(exist_id);
+        //console.log(exist_id);
 
         const formData = {
             userid: id,
@@ -79,7 +79,7 @@ function Signup() {
 
                 if (response.ok) {
                     const responseData = await response.json();
-                    console.log(responseData);
+                    //console.log(responseData);
                     alert('회원가입 성공');
                     navigate('/login')
 

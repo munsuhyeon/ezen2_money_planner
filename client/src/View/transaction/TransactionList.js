@@ -133,15 +133,14 @@ const TransactionList = ({ setTransactionList, originalList }) => {
     const keys = Object.keys(isChecked);
     const formDataArray = keys.map((key) => ({ transactionId: Number(key) }));
     const date = formatMonth(selectedDate);
-    console.log(formDataArray);
     const requestBody = {
       transactions: formDataArray,
       startDate: date.startDate,
       endDate: date.endDate,
       userId: userId,
     };
-    window.confirm("삭제하시겠습니까?");
-    call("/transactions", "DELETE", requestBody)
+    if(window.confirm("삭제하시겠습니까?")){
+      call("/transactions", "DELETE", requestBody)
       .then((response) => {
         //console.log(response)
         if (isAllChecked) {
@@ -151,7 +150,11 @@ const TransactionList = ({ setTransactionList, originalList }) => {
         getTransactionList(item, userId);
       })
       .catch((error) => console.error("삭제 실패", error));
+    }else{
+      return;
+    }
   };
+
   const detailData = (id) => {
     const filterItem = transactionList.filter(
       (list) => id === list.transactionId
@@ -176,7 +179,11 @@ const TransactionList = ({ setTransactionList, originalList }) => {
   };
   const downloadExcel = async () => {
     const date = formatMonth(selectedDate);
-    console.log(date);
+    //console.log(date);
+    //console.log("유저아이디========",userId);
+    const storageData = localStorage.getItem("user");
+    const parsedData = JSON.parse(storageData);
+    const user = parsedData.userid;
     const baseUrl = process.env.REACT_APP_backend_HOST;
     const api = "/transactions/excel";
     const url = `${baseUrl}${api}`;
@@ -186,7 +193,7 @@ const TransactionList = ({ setTransactionList, originalList }) => {
     const requestBody = {
       startDate: date.startDate,
       endDate: date.endDate,
-      userId: userId,
+      userId: user,
     };
     let options = {
       headers: headers,

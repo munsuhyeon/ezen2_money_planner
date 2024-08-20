@@ -18,14 +18,14 @@ const BudgetCatModal = ({ isOpen, onClose, onSave, userId, budgetMonth }) => {
   useEffect(() => {
     if (isOpen) {
       const fetchCategories = async () => {
-        console.log("budgetMonth:::    ", budgetMonth);
+        //console.log("budgetMonth:::    ", budgetMonth);
         const date = formatMonth(budgetMonth); // 오늘날짜를 기준으로 1일과 마지막날 가져오기
         const requests = {
           userId: userId,
           startDate: date.startDate,
           endDate: date.endDate,
         };
-        console.log(date);
+        //console.log(date);
         try {
           const response = await call(
             `/catbudget/user/${userId}`,
@@ -38,7 +38,7 @@ const BudgetCatModal = ({ isOpen, onClose, onSave, userId, budgetMonth }) => {
           } else {
             try {
               const res = await call(`/catbudget`, "GET", null);
-              console.log("카테고리 종류:::  ", res);
+              //console.log("카테고리 종류:::  ", res);
               setCategories(res || []);
               setUpdateY(true);
             } catch (err) {
@@ -98,8 +98,8 @@ const BudgetCatModal = ({ isOpen, onClose, onSave, userId, budgetMonth }) => {
       userId,
       categoryBudgetMonth: formattedMonth,
     }));
-    console.log("updateY:::::::", updateY);
-    console.log("송신 데이터:", payload);
+    //console.log("updateY:::::::", updateY);
+    //console.log("송신 데이터:", payload);
     try {
       if (updateY) {
         // true = 처음저장
