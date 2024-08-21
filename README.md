@@ -48,20 +48,20 @@ https://accountbook-11967.web.app
 ## 화면 구성
 | 메인페이지(로그인 전)  |  메인페이지(로그인)   |
 | :-------------------------------------------: | :------------: |
-|  <img width="329" src="https://github.com/user-attachments/assets/028358ed-a5e0-4d2a-a659-c12a7ff1c403"/> |  <img width="329" src="https://github.com/user-attachments/assets/19265ade-56fe-403d-86ab-4a728d999168"/>| 
+|  <img width="500" src="https://github.com/user-attachments/assets/028358ed-a5e0-4d2a-a659-c12a7ff1c403"/> |  <img width="500" src="https://github.com/user-attachments/assets/19265ade-56fe-403d-86ab-4a728d999168"/>| 
 
 | 로그인 페이지  |  회원가입 페이지   |
 | :-------------------------------------------: | :------------: |
-|  <img width="329" src="https://github.com/user-attachments/assets/10bfde8a-94b4-4406-b3b9-32f462828c6f"/> |  <img width="329" src="https://github.com/user-attachments/assets/f43d5034-3d50-40d5-8747-c8a26823de09"/>|
+|  <img width="500" src="https://github.com/user-attachments/assets/10bfde8a-94b4-4406-b3b9-32f462828c6f"/> |  <img width="500" src="https://github.com/user-attachments/assets/f43d5034-3d50-40d5-8747-c8a26823de09"/>|
 
 | 수입/지출 리스트 페이지  |  수입/지출 달력 페이지   |
 | :-------------------------------------------: | :------------: |
-|  <img width="329" src="https://github.com/user-attachments/assets/9108b946-e91b-4980-b35b-934272e225cf"/> |  <img width="329" src="https://github.com/user-attachments/assets/eb48f64c-6806-4caa-80f6-2ad1d4671ce7"/>|
+|  <img width="500" src="https://github.com/user-attachments/assets/9108b946-e91b-4980-b35b-934272e225cf"/> |  <img width="500" src="https://github.com/user-attachments/assets/eb48f64c-6806-4caa-80f6-2ad1d4671ce7"/>|
 
 | 주간보고서 페이지  |  월간보고서 페이지   |
 | :-------------------------------------------: | :------------: |
-|  <img width="329" src="https://github.com/user-attachments/assets/1b176b95-468e-4404-9085-fef03d6e97d6"/> |  <img width="329" src="https://github.com/user-attachments/assets/04b1f4c3-237d-473a-af87-01c6f5943bf6"/>|
+|  <img width="500" src="https://github.com/user-attachments/assets/1b176b95-468e-4404-9085-fef03d6e97d6"/> |  <img width="500" src="https://github.com/user-attachments/assets/04b1f4c3-237d-473a-af87-01c6f5943bf6"/>|
 
-|예산 설정 페이지|
+| 예산 설정 페이지 |
 | :-------------------------------------------: | 
-|<img width="329" src="https://github.com/user-attachments/assets/599dab8f-fe7f-4d25-bca4-d562e6ccd4a5"/>|
+|<img width="500" src="https://github.com/user-attachments/assets/599dab8f-fe7f-4d25-bca4-d562e6ccd4a5"/>|
